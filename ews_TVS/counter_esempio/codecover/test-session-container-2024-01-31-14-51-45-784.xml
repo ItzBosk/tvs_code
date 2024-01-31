@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1706709105609" TestSessionContainerId="2c4bf66b-657e-4ff9-8c61-d9f6db1e29f8" version="1.0">
+<SrcFileList>
+<SrcFile Content="package counter_esempio;&#13;&#10;&#13;&#10;public class Counter {&#13;&#10;&#9;&#13;&#10;&#9;private int value;&#13;&#10;&#9;&#13;&#10;&#9;public Counter() {&#13;&#10;&#9;&#9;value = 0;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;public int dec() {&#13;&#10;&#9;&#9;return 0;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;public int inc() {&#13;&#10;&#9;&#9;if (value == 100 || value == 2)&#13;&#10;&#9;&#9;&#9;return ++value;&#13;&#10;&#9;&#9;else&#13;&#10;&#9;&#9;&#9;return ++value;&#13;&#10;&#9;}&#13;&#10;}&#13;&#10;" Filename="Counter.java" Intrnl_Id="1"/>
+</SrcFileList>
+<CritList>
+<CritListEntry Name="org.codecover.model.utils.criteria.LoopCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.ConditionCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.BranchCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.StatementCoverage" PluginName="org.codecover"/>
+</CritList>
+<BoolOpList>
+<BoolOp Arity="2" Intrnl_Id="2" Name="conditional or (||)">
+<BoolAssgnmntBoolMapList>
+<MapEntry BoolAssgnmnt="00" Value="false"/>
+<MapEntry BoolAssgnmnt="01" Value="true"/>
+<MapEntry BoolAssgnmnt="12" Value="true"/>
+</BoolAssgnmntBoolMapList>
+</BoolOp>
+</BoolOpList>
+<HierarchyLvlTypeList>
+<HierarchyLvlType EnglishName="package" IntrnlName="package" Intrnl_Id="3"/>
+<HierarchyLvlType EnglishName="method" IntrnlName="method" Intrnl_Id="4"/>
+<HierarchyLvlType EnglishName="class" IntrnlName="class" Intrnl_Id="5"/>
+<HierarchyLvlType EnglishName="default package" IntrnlName="default package" Intrnl_Id="6"/>
+</HierarchyLvlTypeList>
+<MASTRoot>
+<HierarchyLvl HierarchyLvlId="6" HierarchyLvlTypeId="6" Intrnl_Id="7" Name="default package">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="5" HierarchyLvlTypeId="3" Intrnl_Id="8" Name="counter_esempio">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="4" HierarchyLvlTypeId="5" Intrnl_Id="9" Name="Counter">
+<Header>
+<Loc EndOffset="48" SrcFileId="1" StartOffset="28"/>
+</Header>
+<LocList>
+<Loc EndOffset="271" SrcFileId="1" StartOffset="28"/>
+</LocList>
+<HierarchyLvl HierarchyLvlId="1" HierarchyLvlTypeId="4" Intrnl_Id="10" Name="Counter">
+<Header>
+<Loc EndOffset="96" SrcFileId="1" StartOffset="80"/>
+</Header>
+<LocList>
+<Loc EndOffset="116" SrcFileId="1" StartOffset="80"/>
+</LocList>
+<StmntSeq Intrnl_Id="11">
+<LocList>
+<Loc EndOffset="112" SrcFileId="1" StartOffset="102"/>
+</LocList>
+<BasicStmnt CovItemId="S1" CovItemPrefix="counter_esempio.Counter.java" Intrnl_Id="12">
+<LocList>
+<Loc EndOffset="112" SrcFileId="1" StartOffset="102"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="2" HierarchyLvlTypeId="4" Intrnl_Id="13" Name="dec">
+<Header>
+<Loc EndOffset="138" SrcFileId="1" StartOffset="122"/>
+</Header>
+<LocList>
+<Loc EndOffset="157" SrcFileId="1" StartOffset="122"/>
+</LocList>
+<StmntSeq Intrnl_Id="14">
+<LocList>
+<Loc EndOffset="153" SrcFileId="1" StartOffset="144"/>
+</LocList>
+<BasicStmnt CovItemId="S2" CovItemPrefix="counter_esempio.Counter.java" Intrnl_Id="15">
+<LocList>
+<Loc EndOffset="153" SrcFileId="1" StartOffset="144"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="3" HierarchyLvlTypeId="4" Intrnl_Id="16" Name="inc">
+<Header>
+<Loc EndOffset="179" SrcFileId="1" StartOffset="163"/>
+</Header>
+<LocList>
+<Loc EndOffset="268" SrcFileId="1" StartOffset="163"/>
+</LocList>
+<StmntSeq Intrnl_Id="17">
+<LocList>
+<Loc EndOffset="264" SrcFileId="1" StartOffset="185"/>
+</LocList>
+<CondStmnt CovItemId="S3" CovItemPrefix="counter_esempio.Counter.java" Intrnl_Id="18">
+<Branch CovItemId="B1" CovItemPrefix="counter_esempio.Counter.java" Implct="false" Intrnl_Id="19">
+<Cond/>
+<LocList>
+<Loc EndOffset="236" SrcFileId="1" StartOffset="221"/>
+</LocList>
+<StmntSeq Intrnl_Id="20">
+<LocList>
+<Loc EndOffset="236" SrcFileId="1" StartOffset="221"/>
+</LocList>
+<BasicStmnt CovItemId="S4" CovItemPrefix="counter_esempio.Counter.java" Intrnl_Id="21">
+<LocList>
+<Loc EndOffset="236" SrcFileId="1" StartOffset="221"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B2" CovItemPrefix="counter_esempio.Counter.java" Implct="false" Intrnl_Id="22">
+<Cond>
+<Loc EndOffset="244" SrcFileId="1" StartOffset="240"/>
+</Cond>
+<LocList>
+<Loc EndOffset="264" SrcFileId="1" StartOffset="249"/>
+</LocList>
+<StmntSeq Intrnl_Id="23">
+<LocList>
+<Loc EndOffset="264" SrcFileId="1" StartOffset="249"/>
+</LocList>
+<BasicStmnt CovItemId="S5" CovItemPrefix="counter_esempio.Counter.java" Intrnl_Id="24">
+<LocList>
+<Loc EndOffset="264" SrcFileId="1" StartOffset="249"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="187" SrcFileId="1" StartOffset="185"/>
+<LocList>
+<Loc EndOffset="264" SrcFileId="1" StartOffset="185"/>
+</LocList>
+<RootTerm CovItemId="C1" CovItemPrefix="counter_esempio.Counter.java" Intrnl_Id="25">
+<OpTerm BooleanOpId="2" Intrnl_Id="26">
+<BasicBoolTerm Intrnl_Id="27">
+<LocList>
+<Loc EndOffset="201" SrcFileId="1" StartOffset="189"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="28">
+<LocList>
+<Loc EndOffset="215" SrcFileId="1" StartOffset="205"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="204" SrcFileId="1" StartOffset="202"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</MASTRoot>
+</TestSessionContainer>
