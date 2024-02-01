@@ -1,6 +1,7 @@
 
 public class Account {
-
+	
+	// proprietà che voglio sia sempre vera dentro la classe
 	//@ public invariant balance >= minBalance;
 	
 	public static final int minBalance = 1000;
