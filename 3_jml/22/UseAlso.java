@@ -9,21 +9,17 @@ public class UseAlso {
 	 */
 	// A => B e C => D
 	int foo(int x) {
-		return x +1;
+		return x + 1;
 	}
 	
-	
-	
-	
-	private void foo2() {
+	public void foo2() {
 		int i = 0;
-		//@ loop_invariant 0<= i && 	i <= 10;
-		while(i < 10 ) {
-			i ++;
+		//@ loop_invariant 0 <= i && i <= 10;
+		while (i < 10) {
+			i++;
 		}
-		// sono sicuro che invariant è vero e condizione while è falsa;
-		//@ assert 0 <= i && i <=10 && i >= 10; 
+		// sono sicuro che invariant è vero, e condizione while è falsa
+		//@ assert 0 <= i && i <= 10 && i >= 10; 
 		// i == 10
 	}
-	
 }

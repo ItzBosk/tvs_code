@@ -9,7 +9,7 @@ class UsoAssert{
 
 	public int min(int a[]) {
 		// pre
-		assert a != null && a.length >0 : "violazione precondition";
+		assert a != null && a.length > 0 : "violazione precondition";
 		// algoritmo
 		int result = 0;
 		// ...
@@ -20,12 +20,15 @@ class UsoAssert{
 		return result;
 	}
 	
-	boolean baaa() {return true;}
+	boolean baaa() {
+		return true;
+	}
 	
 	void hhh() {
 		int y = 0;
-		assert baaa(); // ATTENTI
-		assert ++y >= 1; // pericoloso 
+		
+		// ATTENZIONE: ho due comportamenti diversi se attivo o meno gli assert
+		assert baaa(); 		// se metodo non puro l'assert cambia lo stato degli oggetti
+		assert ++y >= 1; 	// modifica stato variabili
 	}
-	
 }

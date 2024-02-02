@@ -19,6 +19,7 @@ public class Account {
 //	//@ ensures balance == sum + balance; 	non sarebbe corretto
 	//@ ensures balance == sum + \old(balance);
 	public void deposit(int sum) {
+		System.out.println("deposit");
 		balance += sum;
 	}
 	
@@ -27,12 +28,14 @@ public class Account {
 	//@ ensures \result == balance;					// restuisce il nuovo balance
 	public int withdraw(int sum) {
 		balance -= sum;
+		System.out.println("withdraw");
 		return balance;
 	}
 
 	public static void main(String[] args) {
 		Account c1 = new Account(2000);
 		c1.deposit(1000);
-		c1.withdraw(3000);
+		c1.withdraw(3000);	// errore
+		c1.withdraw(50);	// ok
 	}
 }
