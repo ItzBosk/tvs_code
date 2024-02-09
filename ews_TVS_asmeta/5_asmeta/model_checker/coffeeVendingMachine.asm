@@ -24,41 +24,40 @@ import CTLlibrary
 import LTLlibrary
 
 signature:
-	enum domain CoinType = {HALF | ONE}
+	enum domain CoinType = {HALF | ONE}		// 50cent | 1€ 
 	enum domain Product = {COFFEE | TEA | MILK}
 	domain QuantityDomain subsetof Integer	
-	domain CoinDomain subsetof Integer 
-	controlled available: Product -> QuantityDomain
-	controlled coins: CoinDomain
-	monitored insertedCoin: CoinType
+	domain CoinDomain subsetof Integer 	
+	controlled available : Product -> QuantityDomain	// disponibilità prodotto
+	controlled coins : CoinDomain		// tot monete nella macchinetta
+	monitored insertedCoin : CoinType	// 50cent o 1€
 
 definitions:
-	domain QuantityDomain = {0 : 500}
-	domain CoinDomain = {0 : 6000}
-
+	domain QuantityDomain = {0 : 10}
+	domain CoinDomain = {0 : 25}		// numero monete nella macchinetta
+	
+	// quando viene richiesto un prodotto lo decrementa e prende la moneta
 	rule r_serveProduct($p in Product) =
 		par
 			available($p) := available($p) - 1
 			coins := coins + 1
 		endpar
 
-// proprietà temporali
-// se MILK non è disponoibile non lo sarà più in futuro
+/* ------------------------------ proprietà temporali ------------------------------ */
+ 
+// 1) se MILK non è disponoibile non lo sarà più in futuro
 	LTLSPEC g(available(MILK) = 0 implies g(available(MILK) = 0))
 //  e COFFEE e TEA???    
-    LTLSPEC (forall $p in Product with  g(available($p) = 0 implies g(available($p) = 0)))
+    LTLSPEC (forall $p in Product with g(available($p) = 0 implies g(available($p) = 0)))
 
-
-// ci sono sempre almeno k unità di prodotto (MILK) 
+// 2) ci sono sempre almeno k unità di prodotto (MILK) 
 // k = 5?
-	LTLSPEC g(available(MILK) >= 5) // FALSA
-
-
+	LTLSPEC g(available(MILK) >= 5) // FALSA, dipende è random 
 
     LTLSPEC g(available(MILK) >= 0)
     
-//  esiste uno stato in cui il latte e il te' sono terminati e ci sono ancora 9 caffe' 
-	CTLSPEC ef(available(MILK)=0 and available(TEA)=0 and available(COFFEE)=9)
+//  esiste uno stato in cui il latte e il tè sono terminati e ci sono ancora 9 caffè
+	CTLSPEC ef(available(MILK) = 0 and available(TEA) = 0 and available(COFFEE) = 9)
 
 	main rule r_Main =
 		if(coins < 25) then
