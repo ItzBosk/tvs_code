@@ -12,8 +12,8 @@ signature:
 	
 	// domini strutturati
 	domain Age subsetof Integer
-	domain MyDomain subsetof Seq(Integer)
-	domain CoppiaIntString subsetof Prod(Integer,String)
+	domain MyDomain subsetof Seq(Integer)	// lista di interi subset di Integer
+	domain CoppiaIntString subsetof Prod(Integer, String)
 	
 	abstract domain Studente
 	abstract domain Corso
@@ -22,10 +22,10 @@ signature:
 	
 	controlled voto: Prod(Studente, Corso) -> Natural
 	
+	// funzioni statiche
 	static maxG: Prod(Integer, Integer) -> Integer
-	
 	static doppioQuadrato: Integer -> Integer
-
+		
 definitions:
 
 	domain Age = {0 : 300} 
@@ -36,8 +36,9 @@ definitions:
 		else 
 			$y 
 		endif
-	 
-	function doppioQuadrato($x in Integer) = //$x *$x + $x *$x 
+	
+	// 2 * (input^2)
+	function doppioQuadrato($x in Integer) = 	// $x *$x + $x *$x 
 		let ($q = $x * $x) in $q + $q endlet
 
 
