@@ -35,6 +35,7 @@ signature:
 definitions:
 	domain QuantityDomain = {0 : 10}
 	domain CoinDomain = {0 : 25}		// numero monete nella macchinetta
+//	domain CoinDomain = {0 : 6000}		// con grandi numeri fa fatica
 	
 	// quando viene richiesto un prodotto lo decrementa e prende la moneta
 	rule r_serveProduct($p in Product) =
@@ -47,17 +48,26 @@ definitions:
  
 // 1) se MILK non è disponoibile non lo sarà più in futuro
 	LTLSPEC g(available(MILK) = 0 implies g(available(MILK) = 0))
-//  e COFFEE e TEA???    
-    LTLSPEC (forall $p in Product with g(available($p) = 0 implies g(available($p) = 0)))
+	
+//  e COFFEE e TEA?
+	// -> più generico (vale anche per MILK), in automatico la spezza e valuta per ogni Product
+    LTLSPEC (forall $p in Product with g(available($p) = 0 
+    	implies g(available($p) = 0)))
 
 // 2) ci sono sempre almeno k unità di prodotto (MILK) 
-// k = 5?
-	LTLSPEC g(available(MILK) >= 5) // FALSA, dipende è random 
+// 	sk = 5?
+//	LTLSPEC g(available(MILK) >= 5) // FALSA, dipende è random 
 
     LTLSPEC g(available(MILK) >= 0)
     
-//  esiste uno stato in cui il latte e il tè sono terminati e ci sono ancora 9 caffè
-	CTLSPEC ef(available(MILK) = 0 and available(TEA) = 0 and available(COFFEE) = 9)
+//  esiste uno stato in cui il latte e il tè sono terminati, e ci sono ancora 9 caffè
+	CTLSPEC ef(available(MILK) = 0
+		and available(TEA) = 0
+		and available(COFFEE) = 9)	// essendo random anche qua dipende, non vale sempre
+
+//	CTLSPEC not ef(available(MILK) = 0
+//			and available(TEA) = 0
+//			and available(COFFEE) = 9)	// falsa, cioè vera ma con traccia dimostrativas
 
 	main rule r_Main =
 		if(coins < 25) then

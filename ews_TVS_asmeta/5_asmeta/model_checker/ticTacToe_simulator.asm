@@ -3,17 +3,24 @@ asm ticTacToe_simulator
 import StandardLibrary
 import CTLlibrary
 
+// gioco del tris
+// se utente mette crote il pc mette cerchio
+// utente e pc si alternano a giocare
+// se utente mette la croce in una cella occupata la mossa non deve essere eseguita, e la macchina chiede nuovamente la mossa all'utente
+// le mosse del pc sono scelte a caso fra le possibili mosse corrette
+// la prima mossa è dell'utente
+
 signature:
 	domain Coord subsetof Integer
 	enum domain Sign = {CROSS | NOUGHT}
 	enum domain Status = {TURN_USER | TURN_PC}
 
-	controlled board: Prod(Coord, Coord) -> Sign
-	controlled status: Status
-	monitored userChoiceR: Coord //scelta coordinata R dell'utente
-	monitored userChoiceC: Coord //scelta coordinata C dell'utente
-	derived winner: Sign -> Boolean
-	derived endOfGame: Boolean
+	controlled board : Prod(Coord, Coord) -> Sign
+	controlled status : Status
+	monitored userChoiceR : Coord 	// scelta coordinata R dell'utente
+	monitored userChoiceC : Coord 	// scelta coordinata C dell'utente
+	derived winner : Sign -> Boolean
+	derived endOfGame : Boolean
 	
 
 definitions:
@@ -46,9 +53,9 @@ definitions:
 				status := TURN_USER
 			endpar
 
-// la persona può vincere	
-//	CTLSPEC  ef(winner(CROSS))	
-	CTLSPEC  not ef(winner(CROSS))	
+	// la persona può vincere	
+//	CTLSPEC ef(winner(CROSS))	
+	CTLSPEC not ef(winner(CROSS))	
 	
 	main rule r_Main =
 		if(not(endOfGame)) then
@@ -61,3 +68,4 @@ definitions:
 
 default init s0:
 	function status = TURN_USER
+	

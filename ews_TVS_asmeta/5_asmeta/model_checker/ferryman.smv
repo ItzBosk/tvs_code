@@ -1,0 +1,43 @@
+--file C:\Users\kevin\Documents\GitHub\tvs_code\ews_TVS_asmeta\5_asmeta\model_checker\ferryman.smv
+-- options: flatten? true
+MODULE main
+	VAR
+		carry: {ACTORS_UNDEF, CABBAGE, FERRYMAN, GOAT, WOLF}; --monitored
+		position_CABBAGE: {LEFT, RIGHT, SIDE_UNDEF}; --controlled
+		position_FERRYMAN: {LEFT, RIGHT, SIDE_UNDEF}; --controlled
+		position_GOAT: {LEFT, RIGHT, SIDE_UNDEF}; --controlled
+		position_WOLF: {LEFT, RIGHT, SIDE_UNDEF}; --controlled
+	DEFINE
+	CONSTANTS ACTORS_UNDEF, CABBAGE, FERRYMAN, GOAT, WOLF, SIDE_UNDEF, LEFT, RIGHT;
+	ASSIGN
+		init(position_CABBAGE) := LEFT;
+		init(position_FERRYMAN) := LEFT;
+		init(position_GOAT) := LEFT;
+		init(position_WOLF) := LEFT;
+		next(position_CABBAGE) :=
+			case
+				((((((position_FERRYMAN = RIGHT) & ((position_FERRYMAN = RIGHT) & (carry = FERRYMAN))) & (carry = CABBAGE)) | (((position_WOLF = RIGHT) & ((carry = WOLF) & (position_FERRYMAN = RIGHT))) & (carry = CABBAGE))) | ((((position_FERRYMAN = RIGHT) & (carry = GOAT)) & (position_GOAT = RIGHT)) & (carry = CABBAGE))) | ((carry = CABBAGE) & (((position_FERRYMAN = RIGHT) & (carry = CABBAGE)) & (position_CABBAGE = RIGHT)))): LEFT;
+				((((((position_WOLF = LEFT) & ((position_FERRYMAN = LEFT) & (carry = WOLF))) & (carry = CABBAGE)) | ((((position_FERRYMAN = LEFT) & (carry = GOAT)) & (position_GOAT = LEFT)) & (carry = CABBAGE))) | (((position_CABBAGE = LEFT) & ((position_FERRYMAN = LEFT) & (carry = CABBAGE))) & (carry = CABBAGE))) | (((position_FERRYMAN = LEFT) & ((position_FERRYMAN = LEFT) & (carry = FERRYMAN))) & (carry = CABBAGE))): RIGHT;
+				TRUE: position_CABBAGE;
+			esac;
+		next(position_FERRYMAN) :=
+			case
+				((position_FERRYMAN = RIGHT) | (((((position_FERRYMAN = RIGHT) & ((position_FERRYMAN = RIGHT) & (carry = FERRYMAN))) & (carry = FERRYMAN)) | (((((position_FERRYMAN = RIGHT) & (carry = GOAT)) & (position_GOAT = RIGHT)) & (carry = FERRYMAN)) | ((((position_FERRYMAN = RIGHT) & (carry = CABBAGE)) & (position_CABBAGE = RIGHT)) & (carry = FERRYMAN)))) | (((position_WOLF = RIGHT) & ((carry = WOLF) & (position_FERRYMAN = RIGHT))) & (carry = FERRYMAN)))): LEFT;
+				((position_FERRYMAN = LEFT) | (((((position_FERRYMAN = LEFT) & (carry = GOAT)) & (position_GOAT = LEFT)) & (carry = FERRYMAN)) | (((((position_WOLF = LEFT) & ((position_FERRYMAN = LEFT) & (carry = WOLF))) & (carry = FERRYMAN)) | (((position_CABBAGE = LEFT) & ((position_FERRYMAN = LEFT) & (carry = CABBAGE))) & (carry = FERRYMAN))) | (((position_FERRYMAN = LEFT) & ((position_FERRYMAN = LEFT) & (carry = FERRYMAN))) & (carry = FERRYMAN))))): RIGHT;
+				TRUE: position_FERRYMAN;
+			esac;
+		next(position_GOAT) :=
+			case
+				(((((((position_FERRYMAN = RIGHT) & (carry = GOAT)) & (position_GOAT = RIGHT)) & (carry = GOAT)) | (((position_FERRYMAN = RIGHT) & ((position_FERRYMAN = RIGHT) & (carry = FERRYMAN))) & (carry = GOAT))) | ((((position_FERRYMAN = RIGHT) & (carry = CABBAGE)) & (position_CABBAGE = RIGHT)) & (carry = GOAT))) | (((position_WOLF = RIGHT) & ((carry = WOLF) & (position_FERRYMAN = RIGHT))) & (carry = GOAT))): LEFT;
+				((((position_CABBAGE = LEFT) & ((position_FERRYMAN = LEFT) & (carry = CABBAGE))) & (carry = GOAT)) | ((((((position_FERRYMAN = LEFT) & (carry = GOAT)) & (position_GOAT = LEFT)) & (carry = GOAT)) | (((position_WOLF = LEFT) & ((position_FERRYMAN = LEFT) & (carry = WOLF))) & (carry = GOAT))) | (((position_FERRYMAN = LEFT) & ((position_FERRYMAN = LEFT) & (carry = FERRYMAN))) & (carry = GOAT)))): RIGHT;
+				TRUE: position_GOAT;
+			esac;
+		next(position_WOLF) :=
+			case
+				(((carry = WOLF) & (((position_FERRYMAN = RIGHT) & (carry = GOAT)) & (position_GOAT = RIGHT))) | ((((position_FERRYMAN = RIGHT) & ((position_FERRYMAN = RIGHT) & (carry = FERRYMAN))) & (carry = WOLF)) | (((carry = WOLF) & ((position_WOLF = RIGHT) & ((carry = WOLF) & (position_FERRYMAN = RIGHT)))) | ((carry = WOLF) & (((position_FERRYMAN = RIGHT) & (carry = CABBAGE)) & (position_CABBAGE = RIGHT)))))): LEFT;
+				((((((position_CABBAGE = LEFT) & ((position_FERRYMAN = LEFT) & (carry = CABBAGE))) & (carry = WOLF)) | ((((position_FERRYMAN = LEFT) & (carry = GOAT)) & (position_GOAT = LEFT)) & (carry = WOLF))) | (((position_WOLF = LEFT) & ((position_FERRYMAN = LEFT) & (carry = WOLF))) & (carry = WOLF))) | (((position_FERRYMAN = LEFT) & ((position_FERRYMAN = LEFT) & (carry = FERRYMAN))) & (carry = WOLF))): RIGHT;
+				TRUE: position_WOLF;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := EF(((position_CABBAGE = RIGHT) & (position_WOLF = RIGHT) & (position_FERRYMAN = RIGHT) & (position_GOAT = RIGHT)));
+CTLSPEC NAME ctl1 := E[!(((position_GOAT = position_WOLF) & (position_FERRYMAN != position_GOAT)) | ((position_GOAT = position_CABBAGE) & (position_FERRYMAN != position_GOAT))) U ((position_CABBAGE = RIGHT) & (position_WOLF = RIGHT) & (position_FERRYMAN = RIGHT) & (position_GOAT = RIGHT))];
