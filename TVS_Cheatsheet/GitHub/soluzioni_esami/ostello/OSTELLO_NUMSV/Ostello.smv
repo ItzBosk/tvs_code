@@ -1,0 +1,85 @@
+MODULE main
+VAR
+  lettiStanza1: array 0..1 of boolean;
+  lettiStanza2: array 0..1 of boolean;
+  stanze: array 0..1 of boolean;
+  occupa: array 0..3 of boolean;
+  libera: array 0..3 of boolean;
+  
+ASSIGN
+--tutti i letti liberi e le stanze libere
+  init(lettiStanza1[0]) := TRUE;
+  init(lettiStanza1[1]) := TRUE;
+  init(lettiStanza2[0]) := TRUE;
+  init(lettiStanza2[1]) := TRUE;
+  init(stanze[0]) := TRUE;
+  init(stanze[1]) := TRUE;
+        
+  --occupa un letto
+  next(lettiStanza1[0]) := 
+    case 
+      lettiStanza1[0] & occupa[0] : FALSE;
+      !lettiStanza1[0] & occupa[0] : FALSE;
+      lettiStanza1[0] & libera[0] : TRUE;
+      !lettiStanza1[0] & libera[0] : TRUE;
+      TRUE : lettiStanza1[0];
+    esac;
+    
+   next(lettiStanza1[1]) := 
+     case 
+      lettiStanza1[1] & occupa[1] : FALSE;
+      !lettiStanza1[1] & occupa[1] : FALSE;
+      lettiStanza1[1] & libera[1] : TRUE;
+      !lettiStanza1[1] & libera[1] : TRUE;
+      TRUE : lettiStanza1[1];
+    esac;
+    
+    next(lettiStanza2[0]) := 
+    case 
+      lettiStanza2[0] & occupa[2] : FALSE;
+      !lettiStanza2[0] & occupa[2] : FALSE;
+      lettiStanza2[0] & libera[2] : TRUE;
+      !lettiStanza2[0] & libera[2] : TRUE;
+      TRUE : lettiStanza2[0];
+    esac;
+    
+     next(lettiStanza2[1]) := 
+    case 
+      lettiStanza2[1] & occupa[3] : FALSE;
+      !lettiStanza2[1] & occupa[3] : FALSE;
+      lettiStanza2[1] & libera[3] : TRUE;
+      !lettiStanza2[1] & libera[3] : TRUE;
+      TRUE : lettiStanza2[1];
+    esac;
+        
+    --Verifico stanze libere o meno
+  next(stanze[0]) := 
+    case 
+    --se uno dei 2 letti o entrambi sono liberi allora la stanza è libera
+      next(lettiStanza1[0]) | next(lettiStanza1[1]) : TRUE;
+      !next(lettiStanza1[0]) & !next(lettiStanza1[1]) : FALSE;
+      TRUE : stanze[0];
+    esac;
+    
+    next(stanze[1]) := 
+    case 
+      next(lettiStanza2[0]) | next(lettiStanza1[1]) : TRUE;
+      !next(lettiStanza2[0]) & !next(lettiStanza2[1]) : FALSE;
+      TRUE : stanze[1];
+    esac;     
+ 
+        
+SPEC
+--una stanza non può mai essere occupata
+  AG (!lettiStanza1[0] & !lettiStanza1[0] & !lettiStanza2[0] & !lettiStanza2[1])
+--un letto non può mai venire occupato se è già occupato
+CTLSPEC AG (!lettiStanza1[0] & occupa[0]-> !EF(!lettiStanza1[0] & occupa[0]))
+CTLSPEC AG (!lettiStanza1[0] & occupa[1]-> !EF(!lettiStanza1[0] & occupa[1]))
+CTLSPEC AG (!lettiStanza2[0] & occupa[2]-> !EF(!lettiStanza2[0] & occupa[2]))
+CTLSPEC AG (!lettiStanza2[0] & occupa[3]-> !EF(!lettiStanza2[0] & occupa[3]))
+-- un letto una volta occupato non può diventare libero
+CTLSPEC AG (!lettiStanza1[0] -> !EF(lettiStanza1[0]))
+CTLSPEC AG (!lettiStanza1[1] -> !EF(lettiStanza1[1]))
+CTLSPEC AG (!lettiStanza2[0] -> !EF(lettiStanza2[0]))
+CTLSPEC AG (!lettiStanza2[1] -> !EF(lettiStanza2[1]))
+-- angar

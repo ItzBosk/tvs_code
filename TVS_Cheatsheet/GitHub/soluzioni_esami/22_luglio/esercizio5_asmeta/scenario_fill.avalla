@@ -1,0 +1,44 @@
+//// starting scenario
+// riempi tutti i cilindri
+scenario scenario_fill
+load silos.asm
+// inizialmente tutti hanno un solo quintale di grano
+check quantitaGrano(1) = 1;
+check quantitaGrano(2) = 1;
+check quantitaGrano(3) = 1;
+
+begin riempioTutti
+	// riempio il primo
+	set action := GRU;
+	set riempiSilos := 1;
+	step until  quantitaGrano(1) = 10;
+	 
+	check quantitaGrano(1) = 10;
+	check quantitaGrano(2) = 1;
+	check quantitaGrano(3) = 1;
+	
+	// riempio il secondo
+	set riempiSilos := 2;
+	step until  quantitaGrano(2) = 10;
+	 
+	check quantitaGrano(1) = 10;
+	check quantitaGrano(2) = 10;
+	check quantitaGrano(3) = 1;
+	
+	// riempio il terzo
+	set riempiSilos := 3;
+	step until  quantitaGrano(3) = 10;
+	 
+	check quantitaGrano(1) = 10;
+	check quantitaGrano(2) = 10;
+	check quantitaGrano(3) = 10;
+end
+// adesso non posso riepirlo uteriorlmente
+set riempiSilos := 3;
+set action := GRU;
+step
+check quantitaGrano(1) = 10;
+check quantitaGrano(2) = 10;
+check quantitaGrano(3) = 10;
+
+

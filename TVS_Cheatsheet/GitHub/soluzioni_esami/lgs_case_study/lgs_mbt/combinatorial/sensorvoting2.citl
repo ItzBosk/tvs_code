@@ -1,0 +1,13 @@
+Model sensorvoting1
+
+Parameters:
+	Numbers s1 {0 9 10};
+	Numbers s2 {0 9 10};
+	Numbers s3 {0 9 10};
+	Boolean valid; // the sensor is valid
+end
+
+Constraints:
+// valid is true in the first step only if at least two are equal
+# valid == true <=> (s1 == s2 or s2 == s3 or s1 == s3)#
+end

@@ -1,5 +1,0 @@
-asm temp
-
-signature:
-
-definitions:

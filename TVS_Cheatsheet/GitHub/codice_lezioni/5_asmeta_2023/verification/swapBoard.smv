@@ -1,0 +1,143 @@
+--file G:\.shortcut-targets-by-id\1LodlyCyMzQcaYN5eYeB-QDnlV6fsMZNS\asmetaGSSI\codiceAsmetaCorsoGSSI\verification\swapBoard.smv
+-- options: flatten? false
+MODULE main
+	VAR
+		board_1_1: {-2147483647, 2, 3, 4, 5, 6}; --controlled
+		board_1_2: {-2147483647, 2, 3, 4, 5, 6}; --controlled
+		board_1_3: {-2147483647, 2, 3, 4, 5, 6}; --controlled
+		board_2_1: {-2147483647, 2, 3, 4, 5, 6}; --controlled
+		board_2_2: {-2147483647, 2, 3, 4, 5, 6}; --controlled
+		board_2_3: {-2147483647, 2, 3, 4, 5, 6}; --controlled
+		board_3_1: {-2147483647, 2, 3, 4, 5, 6}; --controlled
+		board_3_2: {-2147483647, 2, 3, 4, 5, 6}; --controlled
+		board_3_3: {-2147483647, 2, 3, 4, 5, 6}; --controlled
+		swap: {CELL, ROW}; --monitored
+		--declaration of choose variables
+		var_$c1_0: 1..3;
+		var_$c2_0: 1..3;
+		var_$r1_0: 1..3;
+		var_$r2_0: 1..3;
+	CONSTANTS SWAPDOMAIN_UNDEF, CELL, ROW;
+	ASSIGN
+		init(board_1_1) := 2;
+		init(board_1_2) := 3;
+		init(board_1_3) := 4;
+		init(board_2_1) := 3;
+		init(board_2_2) := 4;
+		init(board_2_3) := 5;
+		init(board_3_1) := 4;
+		init(board_3_2) := 5;
+		init(board_3_3) := 6;
+		next(board_1_1) :=
+			case
+				(((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c1_0 = 1) & (swap = CELL))) & board_3_3 in {-2147483647, 2, 3, 4, 5, 6}: board_3_3;
+				(((var_$r2_0 = 1) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (var_$c2_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 1) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL))) & board_2_1 in {-2147483647, 2, 3, 4, 5, 6}: board_2_1;
+				(!(swap = CELL) | (((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c1_0 = 1) & (var_$c2_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c1_0 = 1) & (var_$c2_0 = 1) & (swap = CELL)))) & board_3_1 in {-2147483647, 2, 3, 4, 5, 6}: board_3_1;
+				(((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (swap = CELL))) & board_3_2 in {-2147483647, 2, 3, 4, 5, 6}: board_3_2;
+				(((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r2_0 = 1) & (var_$r1_0 = 1) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3))) & board_1_3 in {-2147483647, 2, 3, 4, 5, 6}: board_1_3;
+				(((var_$r2_0 = 1) & (var_$r1_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL))) & board_2_3 in {-2147483647, 2, 3, 4, 5, 6}: board_2_3;
+				(((var_$r2_0 = 1) & (var_$r1_0 = 1) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r2_0 = 1) & (var_$r1_0 = 1) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2))) & board_1_2 in {-2147483647, 2, 3, 4, 5, 6}: board_1_2;
+				(((var_$r2_0 = 1) & (var_$r1_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 1) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL))) & board_2_2 in {-2147483647, 2, 3, 4, 5, 6}: board_2_2;
+				TRUE: board_1_1;
+			esac;
+		next(board_1_2) :=
+			case
+				(((var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 1) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2))) & board_2_1 in {-2147483647, 2, 3, 4, 5, 6}: board_2_1;
+				(((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (swap = CELL))) & board_3_1 in {-2147483647, 2, 3, 4, 5, 6}: board_3_1;
+				(((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 3) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_3_3 in {-2147483647, 2, 3, 4, 5, 6}: board_3_3;
+				(((var_$r2_0 = 1) & (var_$r1_0 = 1) & (var_$c2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 1) & (swap = CELL) & (var_$c1_0 = 2))) & board_1_3 in {-2147483647, 2, 3, 4, 5, 6}: board_1_3;
+				(((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_2_3 in {-2147483647, 2, 3, 4, 5, 6}: board_2_3;
+				(!(swap = CELL) | (((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)))) & board_3_2 in {-2147483647, 2, 3, 4, 5, 6}: board_3_2;
+				(((var_$r2_0 = 1) & (var_$r1_0 = 1) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r2_0 = 1) & (var_$r1_0 = 1) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2))) & board_1_1 in {-2147483647, 2, 3, 4, 5, 6}: board_1_1;
+				(((var_$r1_0 = 1) & (var_$c2_0 = 2) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 2))) & board_2_2 in {-2147483647, 2, 3, 4, 5, 6}: board_2_2;
+				TRUE: board_1_2;
+			esac;
+		next(board_1_3) :=
+			case
+				(((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_2_3 in {-2147483647, 2, 3, 4, 5, 6}: board_2_3;
+				(((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 1) & (var_$c2_0 = 2) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_2_2 in {-2147483647, 2, 3, 4, 5, 6}: board_2_2;
+				(!(swap = CELL) | (((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 3) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 3) & (swap = CELL) & (var_$c1_0 = 3)))) & board_3_3 in {-2147483647, 2, 3, 4, 5, 6}: board_3_3;
+				(((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 1) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3))) & board_2_1 in {-2147483647, 2, 3, 4, 5, 6}: board_2_1;
+				(((var_$r2_0 = 1) & (var_$r1_0 = 1) & (var_$c2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 1) & (swap = CELL) & (var_$c1_0 = 2))) & board_1_2 in {-2147483647, 2, 3, 4, 5, 6}: board_1_2;
+				(((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r2_0 = 1) & (var_$r1_0 = 1) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3))) & board_1_1 in {-2147483647, 2, 3, 4, 5, 6}: board_1_1;
+				(((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 3) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_3_2 in {-2147483647, 2, 3, 4, 5, 6}: board_3_2;
+				(((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$c1_0 = 1) & (swap = CELL))) & board_3_1 in {-2147483647, 2, 3, 4, 5, 6}: board_3_1;
+				TRUE: board_1_3;
+			esac;
+		next(board_2_1) :=
+			case
+				(((var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 1) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2))) & board_1_2 in {-2147483647, 2, 3, 4, 5, 6}: board_1_2;
+				(((var_$r1_0 = 3) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (swap = CELL))) & board_3_3 in {-2147483647, 2, 3, 4, 5, 6}: board_3_3;
+				(((var_$r2_0 = 1) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (var_$c2_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 1) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL))) & board_1_1 in {-2147483647, 2, 3, 4, 5, 6}: board_1_1;
+				(((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 1) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3))) & board_1_3 in {-2147483647, 2, 3, 4, 5, 6}: board_1_3;
+				(((var_$r1_0 = 2) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL))) & board_2_2 in {-2147483647, 2, 3, 4, 5, 6}: board_2_2;
+				(((var_$c2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL)) | ((var_$r1_0 = 2) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3))) & board_2_3 in {-2147483647, 2, 3, 4, 5, 6}: board_2_3;
+				(((var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 3) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2))) & board_3_2 in {-2147483647, 2, 3, 4, 5, 6}: board_3_2;
+				(((var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (var_$c2_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 3) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL))) & board_3_1 in {-2147483647, 2, 3, 4, 5, 6}: board_3_1;
+				TRUE: board_2_1;
+			esac;
+		next(board_2_2) :=
+			case
+				(((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 1) & (var_$c2_0 = 2) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_1_3 in {-2147483647, 2, 3, 4, 5, 6}: board_1_3;
+				(((var_$c2_0 = 3) & (var_$r2_0 = 3) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$c2_0 = 2) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_3_3 in {-2147483647, 2, 3, 4, 5, 6}: board_3_3;
+				(((var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$c2_0 = 2) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2))) & board_3_2 in {-2147483647, 2, 3, 4, 5, 6}: board_3_2;
+				(((var_$r1_0 = 2) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL))) & board_2_1 in {-2147483647, 2, 3, 4, 5, 6}: board_2_1;
+				(((var_$r2_0 = 1) & (var_$r1_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 1) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL))) & board_1_1 in {-2147483647, 2, 3, 4, 5, 6}: board_1_1;
+				(((var_$r1_0 = 3) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL)) | ((var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2))) & board_3_1 in {-2147483647, 2, 3, 4, 5, 6}: board_3_1;
+				(((var_$r1_0 = 1) & (var_$c2_0 = 2) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 2))) & board_1_2 in {-2147483647, 2, 3, 4, 5, 6}: board_1_2;
+				(((var_$c2_0 = 3) & (var_$r1_0 = 2) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_2_3 in {-2147483647, 2, 3, 4, 5, 6}: board_2_3;
+				TRUE: board_2_2;
+			esac;
+		next(board_2_3) :=
+			case
+				(((var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2))) & board_3_2 in {-2147483647, 2, 3, 4, 5, 6}: board_3_2;
+				(((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL)) | ((var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3))) & board_3_1 in {-2147483647, 2, 3, 4, 5, 6}: board_3_1;
+				(((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_1_3 in {-2147483647, 2, 3, 4, 5, 6}: board_1_3;
+				(((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_1_2 in {-2147483647, 2, 3, 4, 5, 6}: board_1_2;
+				(((var_$r2_0 = 1) & (var_$r1_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL))) & board_1_1 in {-2147483647, 2, 3, 4, 5, 6}: board_1_1;
+				(((var_$c2_0 = 3) & (var_$r2_0 = 3) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_3_3 in {-2147483647, 2, 3, 4, 5, 6}: board_3_3;
+				(((var_$c2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL)) | ((var_$r1_0 = 2) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3))) & board_2_1 in {-2147483647, 2, 3, 4, 5, 6}: board_2_1;
+				(((var_$c2_0 = 3) & (var_$r1_0 = 2) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_2_2 in {-2147483647, 2, 3, 4, 5, 6}: board_2_2;
+				TRUE: board_2_3;
+			esac;
+		next(board_3_1) :=
+			case
+				(((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$r2_0 = 3) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 3) & (var_$r2_0 = 3) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3))) & board_3_3 in {-2147483647, 2, 3, 4, 5, 6}: board_3_3;
+				(((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL)) | ((var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3))) & board_2_3 in {-2147483647, 2, 3, 4, 5, 6}: board_2_3;
+				(((var_$r1_0 = 3) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 3) & (var_$r2_0 = 3) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2))) & board_3_2 in {-2147483647, 2, 3, 4, 5, 6}: board_3_2;
+				(!(swap = CELL) | (((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c1_0 = 1) & (var_$c2_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c1_0 = 1) & (var_$c2_0 = 1) & (swap = CELL)))) & board_1_1 in {-2147483647, 2, 3, 4, 5, 6}: board_1_1;
+				(((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (swap = CELL))) & board_1_2 in {-2147483647, 2, 3, 4, 5, 6}: board_1_2;
+				(((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$c1_0 = 1) & (swap = CELL))) & board_1_3 in {-2147483647, 2, 3, 4, 5, 6}: board_1_3;
+				(((var_$r1_0 = 3) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (swap = CELL)) | ((var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2))) & board_2_2 in {-2147483647, 2, 3, 4, 5, 6}: board_2_2;
+				(((var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (var_$c2_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 3) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL))) & board_2_1 in {-2147483647, 2, 3, 4, 5, 6}: board_2_1;
+				TRUE: board_3_1;
+			esac;
+		next(board_3_2) :=
+			case
+				(((var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2))) & board_2_3 in {-2147483647, 2, 3, 4, 5, 6}: board_2_3;
+				(((var_$r1_0 = 3) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 3) & (var_$r2_0 = 3) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2))) & board_3_1 in {-2147483647, 2, 3, 4, 5, 6}: board_3_1;
+				(((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (swap = CELL))) & board_1_1 in {-2147483647, 2, 3, 4, 5, 6}: board_1_1;
+				(((var_$r1_0 = 3) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$r2_0 = 3) & (swap = CELL) & (var_$c1_0 = 2))) & board_3_3 in {-2147483647, 2, 3, 4, 5, 6}: board_3_3;
+				(!(swap = CELL) | (((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)))) & board_1_2 in {-2147483647, 2, 3, 4, 5, 6}: board_1_2;
+				(((var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$c2_0 = 2) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 2))) & board_2_2 in {-2147483647, 2, 3, 4, 5, 6}: board_2_2;
+				(((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 3) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_1_3 in {-2147483647, 2, 3, 4, 5, 6}: board_1_3;
+				(((var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 3) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 2))) & board_2_1 in {-2147483647, 2, 3, 4, 5, 6}: board_2_1;
+				TRUE: board_3_2;
+			esac;
+		next(board_3_3) :=
+			case
+				(((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$r2_0 = 3) & (var_$c1_0 = 1) & (swap = CELL)) | ((var_$r1_0 = 3) & (var_$r2_0 = 3) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3))) & board_3_1 in {-2147483647, 2, 3, 4, 5, 6}: board_3_1;
+				(((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c1_0 = 1) & (swap = CELL))) & board_1_1 in {-2147483647, 2, 3, 4, 5, 6}: board_1_1;
+				(((var_$r1_0 = 3) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (swap = CELL))) & board_2_1 in {-2147483647, 2, 3, 4, 5, 6}: board_2_1;
+				(!(swap = CELL) | (((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 3) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 3) & (swap = CELL) & (var_$c1_0 = 3)))) & board_1_3 in {-2147483647, 2, 3, 4, 5, 6}: board_1_3;
+				(((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 3) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_1_2 in {-2147483647, 2, 3, 4, 5, 6}: board_1_2;
+				(((var_$c2_0 = 3) & (var_$r2_0 = 3) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$c2_0 = 2) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_2_2 in {-2147483647, 2, 3, 4, 5, 6}: board_2_2;
+				(((var_$r1_0 = 3) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$r2_0 = 3) & (swap = CELL) & (var_$c1_0 = 2))) & board_3_2 in {-2147483647, 2, 3, 4, 5, 6}: board_3_2;
+				(((var_$c2_0 = 3) & (var_$r2_0 = 3) & (var_$r1_0 = 2) & (swap = CELL) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$r2_0 = 2) & (swap = CELL) & (var_$c1_0 = 3))) & board_2_3 in {-2147483647, 2, 3, 4, 5, 6}: board_2_3;
+				TRUE: board_3_3;
+			esac;
+	INVAR	(((var_$r2_0 = 1) & (var_$r1_0 = 2) & (var_$c2_0 = 1) & (var_$c1_0 = 2)) | ((var_$r2_0 = 1) & (var_$r1_0 = 1) & (var_$c2_0 = 1) & (var_$c1_0 = 3)) | ((var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$r2_0 = 2) & (var_$c1_0 = 3)) | ((var_$r1_0 = 1) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (var_$c2_0 = 1)) | ((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c1_0 = 1) & (var_$c2_0 = 1)) | ((var_$r1_0 = 1) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$c1_0 = 1)) | ((var_$r1_0 = 3) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$c1_0 = 1)) | ((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 1) & (var_$c1_0 = 2)) | ((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 2) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$c1_0 = 3)) | ((var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$c1_0 = 1)) | ((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$c1_0 = 1)) | ((var_$r2_0 = 1) & (var_$r1_0 = 1) & (var_$c2_0 = 2) & (var_$c1_0 = 1)) | ((var_$r2_0 = 1) & (var_$r1_0 = 1) & (var_$c2_0 = 2) & (var_$c1_0 = 3)) | ((var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$r2_0 = 2) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$c2_0 = 2) & (var_$r2_0 = 2) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$c1_0 = 3)) | ((var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c2_0 = 1) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$r2_0 = 3) & (var_$c1_0 = 2)) | ((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$c1_0 = 2)) | ((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c1_0 = 1)) | ((var_$r1_0 = 1) & (var_$c2_0 = 2) & (var_$r2_0 = 2) & (var_$c1_0 = 2)) | ((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 2)) | ((var_$r1_0 = 2) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (var_$c1_0 = 2)) | ((var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 3)) | ((var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$c1_0 = 1)) | ((var_$c2_0 = 3) & (var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 1)) | ((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$c1_0 = 1)) | ((var_$r1_0 = 3) & (var_$r2_0 = 3) & (var_$c2_0 = 1) & (var_$c1_0 = 3)) | ((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (var_$r2_0 = 2)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 1) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$c1_0 = 1) & (var_$r2_0 = 2)) | ((var_$r2_0 = 1) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (var_$c2_0 = 1)) | ((var_$r2_0 = 1) & (var_$r1_0 = 2) & (var_$c2_0 = 1) & (var_$c1_0 = 3)) | ((var_$r2_0 = 1) & (var_$r1_0 = 1) & (var_$c2_0 = 1) & (var_$c1_0 = 2)) | ((var_$r1_0 = 1) & (var_$c2_0 = 2) & (var_$c1_0 = 1) & (var_$r2_0 = 2)) | ((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 1) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$c1_0 = 2)) | ((var_$r1_0 = 1) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (var_$c1_0 = 2)) | ((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$c1_0 = 2)) | ((var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$c2_0 = 2) & (var_$r2_0 = 2) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 2) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r1_0 = 2) & (var_$r2_0 = 2) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$r2_0 = 2) & (var_$c1_0 = 2)) | ((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c1_0 = 2)) | ((var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (var_$c2_0 = 1)) | ((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$r2_0 = 3) & (var_$c1_0 = 1)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$c1_0 = 3)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$c1_0 = 1)) | ((var_$r1_0 = 1) & (var_$c2_0 = 2) & (var_$r2_0 = 2) & (var_$c1_0 = 3)) | ((var_$r2_0 = 1) & (var_$c2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 1)) | ((var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c2_0 = 1) & (var_$c1_0 = 2)) | ((var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (var_$r2_0 = 2)) | ((var_$r2_0 = 1) & (var_$c2_0 = 2) & (var_$r1_0 = 2) & (var_$c1_0 = 2)) | ((var_$r1_0 = 2) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (var_$c1_0 = 3)) | ((var_$c2_0 = 3) & (var_$r2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c1_0 = 1) & (var_$c2_0 = 1)) | ((var_$r1_0 = 3) & (var_$c2_0 = 3) & (var_$c1_0 = 1) & (var_$r2_0 = 2)) | ((var_$r1_0 = 3) & (var_$r2_0 = 2) & (var_$c2_0 = 1) & (var_$c1_0 = 3)) | ((var_$r1_0 = 1) & (var_$r2_0 = 3) & (var_$c2_0 = 2) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$r2_0 = 3) & (var_$c2_0 = 1) & (var_$c1_0 = 2)) | ((var_$c2_0 = 3) & (var_$r1_0 = 2) & (var_$c1_0 = 1) & (var_$r2_0 = 2)) | ((var_$r1_0 = 3) & (var_$r2_0 = 1) & (var_$c2_0 = 1) & (var_$c1_0 = 2)) | ((var_$r1_0 = 3) & (var_$c1_0 = 1) & (var_$r2_0 = 2) & (var_$c2_0 = 1)));
+--CTL properties
+CTLSPEC NAME ctl0 := EF((((board_1_2 = 5) & (board_1_1 = 5)) & (board_1_3 = 4)));
+CTLSPEC NAME ctl1 := AG((((((((((board_1_1 + board_1_2) + board_1_3) + board_2_1) + board_2_2) + board_2_3) + board_3_1) + board_3_2) + board_3_3) = 36));
+CTLSPEC NAME ctl2 := AG(EF((swap = CELL)));

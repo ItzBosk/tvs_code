@@ -1,0 +1,14 @@
+MODULE main
+VAR
+  bottone : boolean;
+  output : 0..100;
+ASSIGN
+  init(output) := 0;
+  next(output) := case
+    ! bottone : 0;
+    TRUE: {10,15,20};
+   esac; 
+LTLSPEC
+  X(X output != 20)
+--SPEC
+--  AG (proc1.state = entering -> AF proc1.state = critical)

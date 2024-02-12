@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<project name="GARGANTINI_PD_KEY">
+   <package name="(default package)" path="/GARGANTINI_PD_KEY/src">
+      <type name="PariODispari" path="/GARGANTINI_PD_KEY/src/PariODispari.java">
+         <method displayName="PariODispari()" name="PariODispari" declaringType="PariODispari" declaringFilePath="/GARGANTINI_PD_KEY/src/PariODispari.java" parameterTypes="">
+            <contract name="PariODispari[PariODispari::PariODispari()].JML operation contract.0" modality="DIAMOND" proofFilePath="/GARGANTINI_PD_KEY/proofs/PariODispari.java/PariODispari[PariODispari__PariODispari()]_JML_operation_contract_0.proof" metaFilePath="/GARGANTINI_PD_KEY/proofs/PariODispari.java/PariODispari[PariODispari__PariODispari()]_JML_operation_contract_0.proofmeta"/>
+         </method>
+         <method displayName="tira(int, int)" name="tira" declaringType="PariODispari" declaringFilePath="/GARGANTINI_PD_KEY/src/PariODispari.java" parameterTypes="int;int">
+            <contract name="PariODispari[PariODispari::tira(int,int)].JML operation contract.0" modality="DIAMOND" proofFilePath="/GARGANTINI_PD_KEY/proofs/PariODispari.java/PariODispari[PariODispari__tira(int,int)]_JML_operation_contract_0.proof" metaFilePath="/GARGANTINI_PD_KEY/proofs/PariODispari.java/PariODispari[PariODispari__tira(int,int)]_JML_operation_contract_0.proofmeta"/>
+         </method>
+         <method displayName="finito()" name="finito" declaringType="PariODispari" declaringFilePath="/GARGANTINI_PD_KEY/src/PariODispari.java" parameterTypes="">
+            <contract name="PariODispari[PariODispari::finito()].JML operation contract.0" modality="DIAMOND" proofFilePath="/GARGANTINI_PD_KEY/proofs/PariODispari.java/PariODispari[PariODispari__finito()]_JML_operation_contract_0.proof" metaFilePath="/GARGANTINI_PD_KEY/proofs/PariODispari.java/PariODispari[PariODispari__finito()]_JML_operation_contract_0.proofmeta"/>
+         </method>
+      </type>
+   </package>
+</project>

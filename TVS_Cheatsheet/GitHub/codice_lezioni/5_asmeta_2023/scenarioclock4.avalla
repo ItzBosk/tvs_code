@@ -1,0 +1,29 @@
+
+// scenario con il suo nome
+scenario scenario1
+// la asm che deve caricare
+load orologio.asm
+
+
+check secondi = 0;
+check minuti = 0;
+
+
+step 
+check secondi = 1;
+check minuti = 0;
+
+// voglio arrivare a 2 ore e 59 minuti e 59 secondi
+exec ore:=2;
+exec minuti:=58;
+exec secondi:=59;
+
+//exec par 
+//	 	ore:=2
+//   		minuti:=59
+//   	 endpar;
+
+step
+check ore = 3;
+check secondi = 0;
+check minuti = 0;

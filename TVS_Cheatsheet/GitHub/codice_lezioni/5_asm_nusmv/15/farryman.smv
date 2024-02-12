@@ -1,0 +1,71 @@
+
+MODULE main
+VAR
+	wolf : {L, R};
+	goat : {L, R};
+	cabbage : {L, R};
+	ferryman : {L, R};
+	-- cosa ha trasportato
+	carry : {w, g, c, 0};
+ASSIGN
+	init (wolf) := L;
+	init (goat) := L;
+	init (cabbage) := L;
+	init (ferryman) := L;
+	init (carry) := 0;
+	-- ferryman 
+	next (ferryman) :=
+		case
+			ferryman = L : R;
+			TRUE : L;
+		esac;
+		-- 
+	next (carry) :=
+	-- può trasportare il wolf
+
+		case
+			ferryman = wolf : {w, 0};
+			TRUE : 0;
+		esac union
+		-- può trasportare cabbage
+
+		case
+			ferryman = cabbage : {c, 0};
+			TRUE : 0;
+		esac union
+		case
+			ferryman = goat : {g, 0};
+			TRUE : 0;
+		esac;
+		-- posizione dei diversi oggetti
+	next (wolf) :=
+		case
+			next (carry) = w : next (ferryman);
+			TRUE : wolf;
+		esac;
+	next (goat) :=
+		case
+			next (carry) = g : next (ferryman);
+			TRUE : goat;
+		esac;
+	next (cabbage) :=
+		case
+			next (carry) = c : next (ferryman);
+			TRUE : cabbage;
+		esac;
+
+		-- cerco scenario di soluzione al puzzle
+LTLSPEC 
+! (((goat = wolf | goat = cabbage) -> goat = ferryman) 
+	  U (goat = R &  wolf = R & cabbage = R));
+	  
+--- proprietà vere:
+-- in futuro sono tutti a R
+LTLSPEC
+F (goat = R &  wolf = R & cabbage = R);
+
+CTLSPEC
+E[((goat = wolf | goat = cabbage) -> goat = ferryman) 
+	  U (goat = R &  wolf = R & cabbage = R)];
+	  
+

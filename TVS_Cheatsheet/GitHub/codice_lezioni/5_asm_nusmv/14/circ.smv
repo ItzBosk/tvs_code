@@ -1,0 +1,17 @@
+MODULE main
+
+VAR
+a : boolean;
+b : boolean;
+c : boolean;
+d : boolean;
+
+ASSIGN
+	init(a) := TRUE;
+	next(a) := ! a;
+	next(b) := next(a);
+	next(c) := next(b) | d;
+	next(d) := next(c);
+
+LTLSPEC
+	F( ! a);

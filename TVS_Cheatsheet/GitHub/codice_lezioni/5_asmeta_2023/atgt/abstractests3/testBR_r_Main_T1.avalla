@@ -1,0 +1,13 @@
+scenario testBR_r_Main_T1
+
+load ./..\lampada.asm
+
+//// test name test@BR_r_Main_T1
+//// generated for (test goal): BR_r_Main_T1: (lampada = OFF) and poweron
+check lampada = OFF;
+set button := false;
+set poweron := false;
+step
+set poweron := true;
+set button := false;
+step

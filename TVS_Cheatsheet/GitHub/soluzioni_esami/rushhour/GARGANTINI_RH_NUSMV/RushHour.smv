@@ -1,0 +1,108 @@
+MODULE main
+VAR
+  dir : { UP, RIGHT, DOWN, LEFT};
+  moveCar : 1..3;
+  -- creo le tre macchine (potrei usare i process)
+  car1 : car(1,car2,car3,moveCar,dir);
+  car2 : car(2,car1,car3,moveCar,dir);
+  car3 : car(3,car1,car2,moveCar,dir);
+  
+ASSIGN
+  init(car1.row) := 3;
+  init(car1.col) := 3;
+  init(car2.row) := 2;
+  init(car2.col) := 6;
+  init(car3.row) := 3;
+  init(car3.col) := 6;
+
+--FAIRNESS moveCar = 1;
+--FAIRNESS moveCar = 2;
+--FAIRNESS moveCar = 3;
+--FAIRNESS dir = UP;
+--FAIRNESS dir = RIGHT;
+--FAIRNESS dir = DOWN;
+--FAIRNESS dir = LEFT;
+
+
+
+--PROPRIETA'
+--se la macchina 2 (o 3) è a sinistra della 1 non posso spostare la 1 a sinistra
+CTLSPEC AG( ((car2.col=car1.col - 1)|(car3.col=car1.col - 1))) -> !EX(car1.col=car1.col - 1);
+-- SAFETY
+-- non è mai possibile avere 2 macchine nello stesso posto
+-- car1 e car2
+CTLSPEC !EF(car1.row=car2.row & car1.col=car2.col);
+-- car1 e car3
+CTLSPEC !EF(car1.row=car3.row & car1.col=car3.col);
+-- car3 e car2
+CTLSPEC !EF(car2.row=car3.row & car2.col=car3.col);
+-- LIVENESS:
+--  la macchine 3 può scendere
+CTLSPEC EF(car3.row=4 & car3.col=6);
+--  la macchine rossa può uscire
+CTLSPEC EF (car1.row=3 & car1.col=6);
+-- proprietà false per vedere come faccio uscire la macchina rossa:
+CTLSPEC AG ! (car1.row=3 & car1.col=6);
+
+
+
+-- MODULO single car
+-- carNum : il numero di questa car
+-- c1 e c2 sono le altre due macchine
+-- moveCar: la macchine che si deve muovere
+-- dir la direzione in cui deve andare
+MODULE car(carNum,c1,c2,moveCar,dir) 
+VAR
+  row : 1..6;
+  col : 1..6;
+ASSIGN
+  next(row) := 
+  	case
+  		-- se voglio muovere questa macchina in su
+  		moveCar=carNum & row>1 & dir=UP:case
+  				-- la macchine 1 è sopra				
+  				 c1.row =(row - 1) & c1.col = col : row;
+  				 -- l macchina 2 è sopra 
+  				 c2.row = (row - 1)& c2.col = col : row;
+  				 -- puoi muoverti
+  				 TRUE : row - 1;
+  				 esac;
+  		-- se voglio muovere questa macchina in giù
+  		moveCar=carNum & row<6 & dir=DOWN: case
+  				-- la macchine 1 è in row +1				
+  				 c1.row =(row + 1) & c1.col = col : row;
+  				 -- l macchina 2 è in posizione +1 
+  				 c2.row = (row + 1)& c2.col = col : row;
+  				 -- puoi muoverti
+  				 TRUE : row + 1;
+  				 esac;
+  		-- altrimenti stai ferma
+  		TRUE: row;
+  	esac;
+  next(col) :=
+  	case
+  		moveCar=carNum & col>1 & dir=LEFT:
+  			case
+  				-- la macchine 1 è a sx				
+  				 c1.row = row & c1.col = col -1 : col;
+  				 -- l macchina 2 è in posizione +1 
+  				 c2.row = row & c2.col = col -1 : col;
+  				 -- puoi muoverti
+  				 TRUE : col - 1;
+  				 esac; 
+  		moveCar=carNum & col<6 & dir=RIGHT: case
+  		  				-- la macchine 1 è a dx				
+  				 c1.row = row & c1.col = col +1 : col;
+  				 -- l macchina 2 è in posizione +1 
+  				 c2.row = row & c2.col = col +1 : col;
+  				 -- puoi muoverti
+  				 TRUE : col + 1;
+  				 esac; 
+  		TRUE: col;
+  	esac;
+
+--è sempre possibile spostare la macchina a destra
+CTLSPEC AG EF( (moveCar=carNum & dir=RIGHT) -> EX(col= col + 1));
+--è sempre possibile spostare la macchina SU
+CTLSPEC AG EF( (moveCar=carNum & dir=UP) -> EX(row= row - 1));
+

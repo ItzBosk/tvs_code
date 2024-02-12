@@ -1,0 +1,13 @@
+scenario scen1
+
+load test.asm
+//controlled = check
+//monitored = set
+check disponibile(CIPOLLE) = 10;
+set soldo := DIECI;
+step
+
+check disponibile(CIPOLLE) = 9;
+check erogato = CIPOLLE;
+set soldo := CINQUANTA;
+step

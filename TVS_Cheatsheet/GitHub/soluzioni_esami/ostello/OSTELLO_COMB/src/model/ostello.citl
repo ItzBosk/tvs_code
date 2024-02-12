@@ -1,0 +1,26 @@
+Model Ostello
+
+Types:
+	EnumerativeType STATO { OCCUPATA LIBERA };
+end
+Parameters:
+	Boolean stanza1;
+    Boolean stanza2;
+    Boolean stanza3;
+    Boolean letto1S1;
+    Boolean letto2S1;
+    Boolean letto3S1;
+    Boolean letto1S2;
+    Boolean letto2S2;
+    Boolean letto3S2;
+    Boolean letto1S3;
+    Boolean letto2S3;
+    Boolean letto3S3;
+end 
+Constraints: 
+	# letto1S1==false and letto2S1==false and letto3S1==false  <=> stanza1==false # 
+	# letto1S2==false and letto2S2==false and letto3S2==false  <=> stanza2==false #	
+	# letto1S3==false and letto2S3==false and letto3S3==false  <=> stanza3==false #	
+
+end 
+

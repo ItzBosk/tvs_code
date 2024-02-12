@@ -1,0 +1,18 @@
+--file C:\Users\angel\Dropbox\code\didattica\tvsw\corso_unibg_tvsw\codice_lezioni\5_asmeta_2023\atgt\lampada.smv
+-- options: flatten? false
+MODULE main
+	VAR
+		button: boolean; --monitored
+		lampada: {OFF, ON, STANDBY, STATOLAMPADA_UNDEF}; --controlled
+		poweron: boolean; --monitored
+	CONSTANTS STATOLAMPADA_UNDEF, OFF, ON, STANDBY;
+	ASSIGN
+		init(lampada) := OFF;
+		next(lampada) :=
+			case
+				(button & (lampada = STANDBY)): ON;
+				((poweron & (lampada = OFF)) | ((lampada = ON) & button)): STANDBY;
+				TRUE: lampada;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG(!((lampada = ON) & button));

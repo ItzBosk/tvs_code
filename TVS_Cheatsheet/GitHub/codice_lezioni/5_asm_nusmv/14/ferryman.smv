@@ -1,0 +1,63 @@
+
+MODULE main
+VAR
+	ferryman : {l, r};
+	goat : {l, r};
+	cabbage : {l, r};
+	wolf : {l, r};
+	carry : {g, c, w, 0};
+ASSIGN
+	init (ferryman) := l;
+	init (goat) := l;
+	init (cabbage) := l;
+	init (wolf) := l;
+	init (carry) := 0;
+	-- obbligato ad attraversare
+	next (ferryman) :=
+		case
+			ferryman = l : r;
+			ferryman = r : l;
+		esac;
+	-- cosa ha trasportato
+	next (carry) :=
+		case
+			(ferryman = cabbage) : c;
+			TRUE : 0;
+		esac union
+		case
+			(ferryman = goat) : g;
+			TRUE : 0;
+		esac union
+		case
+			(ferryman = wolf) : w;
+			TRUE : 0;
+		esac union 0;
+		
+	next (goat) :=
+		case
+			next (carry) = g : next (ferryman);
+			TRUE : goat;
+		esac;
+	next (cabbage) :=
+		case
+			next (carry) = c : next (ferryman);
+			TRUE : cabbage;
+		esac;
+	next (wolf) :=
+		case
+			next (carry) = w : next (ferryman);
+			TRUE : wolf;
+		esac;
+-- se il goat è con il cabbage o il wolf, c'è anche il ferryman
+-- fino a quando non sono di à 
+LTLSPEC 
+!(((goat = cabbage | goat = wolf) -> goat = ferryman) U (cabbage = r &
+goat = r & wolf = r & ferryman = r))
+-- possono andare di là ???
+--LTLSPEC F (cabbage = r & goat = r & wolf = r & ferryman = r)
+-- non basta LTL
+-- CTL 
+CTLSPEC EF (cabbage = r & goat = r & wolf = r & ferryman = r)
+CTLSPEC E [ ((goat = cabbage | goat = wolf) -> goat = ferryman) U (cabbage = r & goat = r & wolf = r & ferryman = r) ]
+   
+   

@@ -1,0 +1,44 @@
+-- modello ground
+MODULE main
+	VAR
+		doors: {CLOSED, CLOSING, DOORSTATUS_UNDEF, OPEN, OPENING}; --controlled
+		gears: {EXTENDED, EXTENDING, GEARSTATUS_UNDEF, RETRACTED, RETRACTING}; --controlled
+		handle: {DOWN, UP}; --monitored
+	CONSTANTS HANDLESTATUS_UNDEF, DOWN, UP, GEARSTATUS_UNDEF, EXTENDED, EXTENDING, RETRACTED, RETRACTING, DOORSTATUS_UNDEF, CLOSED, CLOSING, OPEN, OPENING;
+	ASSIGN
+		init(doors) := CLOSED;
+		init(gears) := EXTENDED;
+		next(doors) :=
+			case
+				(((((handle = UP) & !((gears != RETRACTED)) & (doors = OPENING)) | ((!((gears != EXTENDED)) & (doors = OPEN) & !((handle = UP))) | (!((gears != EXTENDED)) & !((handle = UP)) & (doors = OPENING)))) | ((handle = UP) & !((gears != RETRACTED)) & (doors = OPEN)))): CLOSING;
+				((((handle = UP) & (doors = OPENING) & (gears != RETRACTED)) | ((gears != EXTENDED) & !((handle = UP)) & (doors = OPENING)))): OPEN;
+				((((handle = UP) & (doors = CLOSED) & (gears != RETRACTED)) | (((handle = UP) & (doors = CLOSING) & (gears != RETRACTED)) | ((gears != EXTENDED) & (doors = CLOSED) & !((handle = UP)))))): OPENING;
+				((((handle = UP) & !((gears != RETRACTED)) & (doors = CLOSING)) | (!((gears != EXTENDED)) & (doors = CLOSING) & !((handle = UP))))): CLOSED;
+				TRUE: doors;
+			esac;
+		next(gears) :=
+			case
+				((((doors = OPEN) & (gears != EXTENDED) & !((handle = UP)) & (gears = RETRACTED)) | ((doors = OPEN) & (gears != EXTENDED) & !((handle = UP)) & (gears = RETRACTING)))): EXTENDING;
+				(((handle = UP) & (doors = OPEN) & (gears = RETRACTING) & (gears != RETRACTED))): RETRACTED;
+				((((handle = UP) & (gears = EXTENDED) & (doors = OPEN) & (gears != RETRACTED)) | ((handle = UP) & (gears = EXTENDING) & (doors = OPEN) & (gears != RETRACTED)))): RETRACTING;
+				(((gears = EXTENDING) & (doors = OPEN) & (gears != EXTENDED) & !((handle = UP)))): EXTENDED;
+				TRUE: gears;
+			esac;
+--CTL properties
+CTLSPEC AG(((AG((handle = DOWN)) & ((gears = EXTENDED) & (doors = CLOSED))) -> AG(((gears = EXTENDED) & (doors = CLOSED)))));
+CTLSPEC AG(((((doors = CLOSED) & (gears = RETRACTED)) & AG((handle = UP))) -> AG(((doors = CLOSED) & (gears = RETRACTED)))));
+CTLSPEC AG((((gears = EXTENDING) & (handle = DOWN)) -> AX((gears = EXTENDED))));
+CTLSPEC AG((((handle = UP) & (gears = EXTENDING)) -> AX((gears = RETRACTING))));
+CTLSPEC AG((((handle = UP) & (gears = RETRACTING)) -> AX((gears = RETRACTED))));
+CTLSPEC AG((((gears = RETRACTING) & (handle = DOWN)) -> AX((gears = EXTENDING))));
+CTLSPEC AG(((((doors = CLOSING) & (gears = EXTENDED)) & (handle = DOWN)) -> AX((doors = CLOSED))));
+CTLSPEC AG((((handle = UP) & ((doors = CLOSING) & (gears = EXTENDED))) -> AX((doors = OPENING))));
+CTLSPEC AG(((((doors = OPENING) & (gears = RETRACTED)) & (handle = DOWN)) -> AX((doors = OPEN))));
+CTLSPEC AG((((handle = UP) & ((doors = OPENING) & (gears = RETRACTED))) -> AX((doors = CLOSING))));
+CTLSPEC AG((AG((handle = DOWN)) -> AF(((gears = EXTENDED) & (doors = CLOSED)))));
+CTLSPEC AG((AG((handle = UP)) -> AF(((doors = CLOSED) & (gears = RETRACTED)))));
+CTLSPEC AG((AG((handle = DOWN)) -> AX(AG((gears != RETRACTING)))));
+CTLSPEC AG((AG((handle = UP)) -> AX(AG((gears != EXTENDING)))));
+--AsmetaL invariants
+CTLSPEC	AG((((gears = EXTENDING) | (gears = RETRACTING)) -> (doors = OPEN)));
+CTLSPEC	AG(((doors = CLOSED) -> ((gears = EXTENDED) | (gears = RETRACTED))));

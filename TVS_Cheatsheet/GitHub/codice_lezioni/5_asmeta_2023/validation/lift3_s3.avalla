@@ -1,0 +1,25 @@
+scenario lift3_s2
+load lift3.asm
+invariant neverDown: dir(lift1) != DOWN;
+
+set hasToDeliverAt(lift1, 0) := false;
+set hasToDeliverAt(lift1, 1) := false;
+set hasToDeliverAt(lift1, 2) := false;
+set hasToDeliverAt(lift1, 3) := false;
+set hasToDeliverAt(lift1, 4) := false;
+set existsCallFromTo(0, UP)   := true;
+set existsCallFromTo(0, DOWN) := false;
+set existsCallFromTo(1, UP)   := true;
+set existsCallFromTo(1, DOWN) := true;
+set existsCallFromTo(2, UP)   := true;
+set existsCallFromTo(2, DOWN) := true;
+set existsCallFromTo(3, UP)   := true;
+set existsCallFromTo(3, DOWN) := true;
+set existsCallFromTo(4, UP)   := false;
+set existsCallFromTo(4, DOWN) := true;
+
+//the lift goes up to floor 4, then goes down
+step until ctlState(lift1) = HALTING and floor(lift1) = 4;
+// check that the UP-external requests have been satisfied, while the DOWN-requests are still pending
+check (forall $i in Floor with existsCallFromTo($i, DOWN) = true);
+check (forall $j in Floor with existsCallFromTo($j, UP) = false);

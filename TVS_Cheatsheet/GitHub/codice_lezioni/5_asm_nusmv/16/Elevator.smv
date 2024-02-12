@@ -1,0 +1,71 @@
+
+MODULE main
+VAR
+	cabin : 0 .. 3;
+	request : array 0 .. 3 of boolean;
+	dir : {UP, DOWN};
+ASSIGN
+	init (cabin) := 0;
+	init (dir) := UP;
+	init (request[0]) := FALSE;
+	init (request[1]) := FALSE;
+	init (request[2]) := FALSE;
+	init (request[3]) := FALSE;
+	-- cabin
+	next (cabin) :=
+		case
+			dir = UP & cabin < 3 : cabin + 1;
+			dir = DOWN & cabin > 0 : cabin - 1;
+			TRUE : cabin; -- altrimenti sta ferma
+		esac;
+		-- cambia direzione solo agli estremi
+	next (dir) :=
+		case
+			dir = UP & cabin = 3 : DOWN;
+			dir = DOWN & cabin = 0 : UP;
+			TRUE : dir;
+		esac;
+	next (request[0]) :=
+		case
+			next (cabin) = 0 & request[0] : FALSE;
+			next (cabin) != 0 & request[0] : TRUE;
+			TRUE : {TRUE, FALSE};
+		esac;
+	next (request[1]) :=
+		case
+			next (cabin) = 1 & request[1] : FALSE;
+			next (cabin) != 1 & request[1] : TRUE;
+			TRUE : {TRUE, FALSE};
+		esac;
+	next (request[2]) :=
+		case
+			next (cabin) = 2 & request[2] : FALSE;
+			next (cabin) != 2 & request[2] : TRUE;
+			TRUE : {TRUE, FALSE};
+		esac;
+	next (request[3]) :=
+		case
+			next (cabin) = 3 & request[3] : FALSE;
+			next (cabin) != 3 & request[3] : TRUE;
+			TRUE : {TRUE, FALSE};
+		esac;
+		--LTLSPEC
+	--
+	-- prima o poi raggiunge il piano 3
+LTLSPEC F (cabin = 3)
+-- non sta sempre a piano 2
+LTLSPEC ! G (cabin = 1)
+-- una proprietà false
+-- non raggiunge mai il piano 3
+LTLSPEC !F (cabin = 3)
+-- se [sempre] è al piano 1 dopo è o allo 0 o al 2 (non salta piani)
+LTLSPEC G( cabin = 1 -> X(cabin = 0 | cabin = 2)) 
+
+-- prima o poi la richiesta viene sempre soddisfatta
+CTLSPEC
+AG (request[0] -> AF ! request[0])
+
+--  X(X output != 20)
+--SPEC
+--  AG (proc1.state = entering -> AF proc1.state = critical)
+

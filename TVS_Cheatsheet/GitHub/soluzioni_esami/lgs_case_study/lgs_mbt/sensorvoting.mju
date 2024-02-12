@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project>
+    <algorithm>2</algorithm>
+    <walkLength>10</walkLength>
+    <generateGraph>false</generateGraph>
+    <verbosity>true</verbosity>
+    <failureVerbosity>false</failureVerbosity>
+    <algorithmName>Lookahead Walk</algorithmName>
+    <coverageOption>true</coverageOption>
+    <coverageOption>true</coverageOption>
+    <coverageOption>false</coverageOption>
+    <coverageOption>false</coverageOption>
+    <coverageOption>false</coverageOption>
+    <resetProbability>0.05</resetProbability>
+    <className>lgs.sensorvoting.SensorVotingIntOnlineTest</className>
+    <packageLocation>file:.\lgs.jar</packageLocation>
+</project>

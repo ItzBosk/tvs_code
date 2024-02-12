@@ -1,0 +1,78 @@
+
+MODULE main
+VAR
+	token : boolean; -- indica se inserisco un token (evento)
+	pulsante : {te, annulla, none}; -- bottoniera
+
+	-- stato della macchina (controlata)
+	stato : {pronto, deliverte, inserito, errore};
+ASSIGN
+-- stato iniziale
+	init (stato) := pronto;
+
+	-- come evolve
+	next (stato) :=
+		case
+		-- se è pronta iserisco il token , 
+			stato = pronto & token :
+				case
+				-- e premo te
+					pulsante = te : deliverte;
+					-- non premo te 
+					TRUE : inserito;
+				esac;
+				-- se scelgo te dopo che ho inserito
+			stato = inserito & pulsante = te : deliverte;
+			-- se inserisco due toek, vado in errore
+			stato = inserito & token : errore;
+			-- la macchina se ha finito di fare il te, torna pronta, 
+			-- oppire s enon ha finito rimane in deliverte
+			stato = deliverte : {deliverte, pronto};
+			-- se ho inserito un token e annullo, torno a pronto
+			stato = inserito & pulsante = annulla : pronto;
+			-- altrimenti non fare nulla
+			TRUE : stato;
+		esac;
+
+-- se ho inserito il token, prima o poi mi verrà dato il te
+-- questa è false perchè posso premere annulla
+LTLSPEC G(token -> F(stato = deliverte));
+-- la stessa in CTL
+CTLSPEC  AG(token ->AF(stato= deliverte));
+
+-- se inserisco il token la macchina può rilasciare il te prima o poi
+CTLSPEC  AG(token ->EF(stato= deliverte));
+CTLSPEC  AG(stato= inserito ->EF(stato= deliverte));
+-- puo sempre ottenere il te
+CTLSPEC  AG(EF(stato= deliverte));
+-- tutte queste non sono vere perchè se vado in errore, non
+-- riesco più ad avere il te
+
+-- se inserisco il token quando è pronta, posso prendere il te
+CTLSPEC  AG((stato = pronto & token) ->EF(stato= deliverte));
+
+-- propreità con next state (coppie di stati: attuale e next)
+-- se inserisco il token e sono pronto, vado in inserito o deliverte
+LTLSPEC G( stato = pronto & token -> X(stato = inserito | stato = deliverte ))
+		
+-- se la macchina è pronta, inserisco il token e poi premo te, la macchina prepara il te
+-- sue triple di stati
+LTLSPEC G((stato = pronto & token & pulsante != te & X(pulsante = te)) -> X(X(stato = deliverte)));
+
+-- la macchina sta in pronto fino a quando l'utente non inserisce un token
+-- uso di until
+-- la macchian di muove da pronto solo e inserisco il token
+LTLSPEC G(stato = pronto -> (stato = pronto U token));-- falso per strong until
+-- per il weak until
+LTLSPEC G(stato = pronto -> (G ! token | stato = pronto U token));
+LTLSPEC G(stato = pronto & F  token -> stato = pronto U token);
+
+-- non è possibile raggiungere lo stato in cui viene preparato il te
+-- senza che il pusante te sia stato premuto prima
+LTLSPEC G( X(stato = deliverte) -> pulsante = te); -- falsa
+-- oppure ero nello stato deliver te
+LTLSPEC G( X(stato = deliverte) -> pulsante = te | stato = deliverte); 
+-- oppure ecplicto che arrivo in quello stato
+LTLSPEC G((stato != deliverte & X(stato = deliverte)) -> pulsante = te); 
+
+

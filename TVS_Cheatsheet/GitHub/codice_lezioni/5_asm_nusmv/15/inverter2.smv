@@ -1,0 +1,17 @@
+
+MODULE main
+VAR
+	inv3 : process Inverter (inv1.output);
+	inv2 : process Inverter (inv3.output);
+	inv1 : process Inverter (inv2.output);
+LTLSPEC F (inv1.output = TRUE)
+
+MODULE Inverter (input)
+VAR
+	output : boolean;
+ASSIGN
+	init (output) := FALSE;
+	next (output) := ! input;
+-- assumi che il processo non sia sempre inattivo
+FAIRNESS
+	running;    

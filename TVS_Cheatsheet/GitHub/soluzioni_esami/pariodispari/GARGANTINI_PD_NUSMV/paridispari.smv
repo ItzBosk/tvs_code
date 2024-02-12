@@ -1,0 +1,20 @@
+MODULE main
+VAR
+	budgetPC: 0..10;
+	budgetUtente : 0..10;
+	utente: 1..5; -- tira utente
+	pc: 1..5; -- tira il PC
+DEFINE
+	finito := budgetPC = 10 | budgetPC = 0;
+ASSIGN
+	init(budgetPC):= 5;
+	init(budgetUtente):= 5;
+	-- incrementato budget PC se somma dispari
+	next(budgetPC):=
+	case
+		finito : budgetPC; 
+		(utente + pc) mod 2 = 1: budgetPC + 1;
+		TRUE: budgetPC -1;
+	esac;			
+	
+	

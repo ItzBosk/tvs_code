@@ -1,0 +1,20 @@
+--file D:\AgHome\Dropbox\code\didattica\tvsw\unibg_tvsw\codice_lezioni\6_atgt\lampada.smv
+-- options: flatten? false
+MODULE main
+	VAR
+		lampStatus: {LAMPSTATUS_UNDEF, OFF, ON, STANDBY}; --controlled
+		poweroff: boolean; --monitored
+		poweron: boolean; --monitored
+		pushbutton: boolean; --monitored
+	CONSTANTS LAMPSTATUS_UNDEF, OFF, ON, STANDBY;
+	ASSIGN
+		init(lampStatus) := OFF;
+		next(lampStatus) :=
+			case
+				(((poweron & (lampStatus = OFF)) & !(poweroff)) | ((pushbutton & (lampStatus = ON)) & !(poweroff))): STANDBY;
+				(poweroff): OFF;
+				(!(poweroff) & (pushbutton & (lampStatus = STANDBY))): ON;
+				TRUE: lampStatus;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG(!((poweron = TRUE) & (poweroff = TRUE)));

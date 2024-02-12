@@ -1,0 +1,31 @@
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+!modeljunit*.jar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+*.docx
+test-session-container*.xml
+*.proof
+bin/
+*.odt
+*.proofmeta
+*.log
+.lastChanges
+*.log
+*.log
+*.log
+soluzioni_esami/rushhour/GARGANTINI_RH_KEY/proofs/.log
+*.db
+soluzioni_esami/22_giugno_2/GARGANTINI_SILOS_ASMETA/silosALLEGRI.asm
+soluzioni_esami/22_giugno_2/GARGANTINI_SILOS_ASMETA/silosALLEGRI.smv
+soluzioni_esami/22_giugno_2/GARGANTINI_SILOS_KEY/.settings/org.eclipse.jdt.core.prefs
+soluzioni_esami/22_luglio/~WRL2881.tmp

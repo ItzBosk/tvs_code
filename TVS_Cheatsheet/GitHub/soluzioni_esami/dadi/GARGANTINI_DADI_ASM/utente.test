@@ -1,0 +1,6 @@
+scenario test
+load dadi.asm
+check euro(PC) = 3;
+set userChoice := 5;
+step
+//check euro(PC) = 10;

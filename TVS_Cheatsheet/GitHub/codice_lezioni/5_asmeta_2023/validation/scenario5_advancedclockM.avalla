@@ -1,0 +1,17 @@
+scenario advancedClock1
+
+load AdvancedClockMon.asm
+
+check hours = 0 and minutes = 0 and seconds = 0;
+
+set signal := false;
+
+step
+
+check hours = 0 and minutes = 0 and seconds = 0;
+
+set signal := true;
+
+step
+
+check hours = 0 and minutes = 0 and seconds = 1;

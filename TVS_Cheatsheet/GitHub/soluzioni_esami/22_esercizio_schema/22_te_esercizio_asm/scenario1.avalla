@@ -1,0 +1,41 @@
+/* Tema Esame: Schema - Esercizio 5 (scenario Avalla) */
+
+scenario scenario1
+
+load semaforo.asm
+
+// controllo che all'inizio i semafori siano entrambi ROSSI
+check coloreSem(SEM1) = ROSSO;
+check coloreSem(SEM2) = ROSSO;
+
+// chiedo di cambiare il colore del SEM1
+set segnale := SEM1;
+step
+
+// mi assicuro che sia cambiato solo il semaforo 1
+check coloreSem(SEM1) = VERDE;
+check coloreSem(SEM2) = ROSSO;
+
+// chiedo di cambiare il colore del SEM2 e mi assicuro
+// che il colore di SEM2 non cambi
+set segnale := SEM2;
+step
+
+check coloreSem(SEM1) = VERDE;
+check coloreSem(SEM2) = ROSSO;
+
+// concludo il ciclo del SEM1 passando prima a giallo
+// poi a rosso
+
+// SEM 1 da verde -> a giallo
+set segnale := SEM1;
+step
+check coloreSem(SEM1) = GIALLO;
+check coloreSem(SEM2) = ROSSO;
+
+// SEM 1 da giallo -> a rosso
+set segnale := SEM1;
+step
+check coloreSem(SEM1) = ROSSO;
+check coloreSem(SEM2) = ROSSO;
+

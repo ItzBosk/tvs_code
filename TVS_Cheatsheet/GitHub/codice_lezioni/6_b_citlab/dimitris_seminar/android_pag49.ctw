@@ -1,0 +1,11 @@
+Model internet
+
+Parameters:
+	OS: { XP OS_X RHL };
+	Browser: { IE Firefox };
+	Protocol: { IPv4 IPv6 };
+	CPU: { Intel AMD };
+	DBMS: { MySQL Sybase Oracle };
+
+Constraints:
+	# OS != XP => Browser == Firefox # 

@@ -1,0 +1,11 @@
+scenario testRG_r_Main_F1
+
+load ./..\AdvancedClock.asm
+
+//// test name test@RG_r_Main_F1
+//// generated for (test goal): RG_r_Main_F1: not((signal and (seconds = 9)) and (minutes = 9))
+check seconds = 0;
+check minutes = 0;
+check hours = 0;
+set signal := false;
+step

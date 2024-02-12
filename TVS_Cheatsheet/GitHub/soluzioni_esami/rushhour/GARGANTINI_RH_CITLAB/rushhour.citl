@@ -1,0 +1,23 @@
+Model rushour
+
+Parameters:
+// tre auto con righe e colonne
+	Range row1 [ 0 .. 2 ];
+	Range col1 [ 0 .. 2 ];
+	// seconda auto
+	Range row2 [ 0 .. 2 ];
+	Range col2 [ 0 .. 2 ];
+	// terza auto
+	Range row3 [ 0 .. 2 ];
+	Range col3 [ 0 .. 2 ];
+	// car 1 at exit
+	Boolean car1atexit;
+end
+Constraints:
+// le macchine sono in posizione divera (non si possono sovrapporre)
+	# ! ( row1==row2 and col1==col2) #
+	# ! ( row1==row3 and col1==col3) #
+	# ! ( row2==row3 and col2==col3) #
+	// car1 at exit
+	# car1atexit <=> ( row1==2 and col1==2) #
+end

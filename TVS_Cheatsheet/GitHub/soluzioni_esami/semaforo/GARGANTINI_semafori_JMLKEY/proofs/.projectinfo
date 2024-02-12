@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<project name="GARGANTINI_semafori_JMLKEY">
+   <package name="(default package)" path="/GARGANTINI_semafori_JMLKEY/src">
+      <type name="Semaforo" path="/GARGANTINI_semafori_JMLKEY/src/Semaforo.java">
+         <method displayName="Semaforo()" name="Semaforo" declaringType="Semaforo" declaringFilePath="/GARGANTINI_semafori_JMLKEY/src/Semaforo.java" parameterTypes="">
+            <contract name="Semaforo[Semaforo::Semaforo()].JML operation contract.0" modality="DIAMOND" proofFilePath="/GARGANTINI_semafori_JMLKEY/proofs/Semaforo.java/Semaforo[Semaforo__Semaforo()]_JML_operation_contract_0.proof" metaFilePath="/GARGANTINI_semafori_JMLKEY/proofs/Semaforo.java/Semaforo[Semaforo__Semaforo()]_JML_operation_contract_0.proofmeta"/>
+         </method>
+         <method displayName="changecolor(int, int)" name="changecolor" declaringType="Semaforo" declaringFilePath="/GARGANTINI_semafori_JMLKEY/src/Semaforo.java" parameterTypes="int;int">
+         </method>
+         <method displayName="toString()" name="toString" declaringType="Semaforo" declaringFilePath="/GARGANTINI_semafori_JMLKEY/src/Semaforo.java" parameterTypes="">
+         </method>
+      </type>
+   </package>
+</project>

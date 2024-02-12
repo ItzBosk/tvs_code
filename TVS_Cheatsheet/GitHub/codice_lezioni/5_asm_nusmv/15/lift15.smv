@@ -1,0 +1,55 @@
+
+MODULE main
+VAR
+	cabin : 0 .. 3;
+	dir : {up, down};
+	req : array 0 .. 3 of boolean;
+ASSIGN
+	init (cabin) := 0;
+	init (dir) := up;
+	next (cabin) :=
+		case
+			dir = up & cabin < 3 : cabin + 1;
+			cabin > 0 : cabin - 1;
+			TRUE : cabin; -- mai vero
+		esac;
+	next (dir) :=
+		case
+			next (cabin) = 3 : down;
+			next (cabin) = 0 : up;
+			TRUE : dir;
+		esac;
+	next (req[0]) :=
+		case
+			next (cabin) = 0 : FALSE;
+			req[0] : TRUE;
+			TRUE : {TRUE, FALSE};
+		esac;
+	next (req[1]) :=
+		case
+			next (cabin) = 1 : FALSE;
+			req[1] : TRUE;
+			TRUE : {TRUE, FALSE};
+		esac;
+	next (req[2]) :=
+		case
+			next (cabin) = 2 : FALSE;
+			req[2] : TRUE;
+			TRUE : {TRUE, FALSE};
+		esac;
+	next (req[3]) :=
+		case
+			next (cabin) = 3 : FALSE;
+			req[3] : TRUE;
+			TRUE : {TRUE, FALSE};
+		esac;
+		-- cabin sempre < di 4		
+LTLSPEC G (cabin < 4)
+-- sempre prima o poi la cabin arriva su
+LTLSPEC G F (cabin = 3)
+-- se cabin è 0 nello stato succ è 1
+LTLSPEC G (cabin = 0 -> X (cabin = 1))
+-- se ho una richesta e arriva l'ascensore, si spegne
+LTLSPEC G (req[0] & X (cabin = 0) -> X (! req[0]))
+-- se richiedo verrà soddifatto
+LTLSPEC G (req[0] -> F (! req[0])) 

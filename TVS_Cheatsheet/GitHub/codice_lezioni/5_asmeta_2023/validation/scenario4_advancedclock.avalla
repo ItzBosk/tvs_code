@@ -1,0 +1,20 @@
+// using exec
+
+scenario advancedClock4
+
+load AdvancedClock.asm
+
+//exec a rule to set the time to 02:01:59
+exec
+	par
+		hours := 2
+		minutes := 1
+		seconds := 59
+	endpar;
+
+//passo di macchina
+step
+
+//controllo che siano le 02:02:00
+check hours = 2 and minutes = 2 and seconds = 0; 
+

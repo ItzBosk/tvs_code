@@ -1,0 +1,64 @@
+
+MODULE main
+VAR
+	wolf : {L, R};
+	goat : {L, R};
+	cabbage : {L, R};
+	ferryman : {L, R};
+	carry : {w, g, c, 0};
+ASSIGN
+	init (wolf) := L;
+	init (goat) := L;
+	init (cabbage) := L;
+	init (ferryman) := L;
+	-- next state
+	-- richiedo che cambi riva
+	next (ferryman) :=
+		case
+			ferryman = L : R;
+			--ferryman = R : L;
+			TRUE: L;
+		esac;
+	-- w, c, g
+	next(wolf):=
+		case
+			next(carry) = w : next(ferryman);
+			TRUE: wolf;
+		esac;		
+	next(goat):=
+		case
+			next(carry) = g : next(ferryman);
+			TRUE: goat;
+		esac;		
+	next(cabbage):=
+		case
+			next(carry) = c : next(ferryman);
+			TRUE: cabbage;
+		esac;
+	-- carry 
+	next(carry):= 
+	case
+	 wolf = ferryman & goat = ferryman & cabbage = ferryman : {w,g,c,0};
+	 goat = ferryman & cabbage = ferryman : {g,c,0};
+	 wolf = ferryman & cabbage = ferryman : {w,c,0};
+	 wolf = ferryman & goat = ferryman : {w,g,0};
+	 wolf = ferryman :{w,0};
+	 goat = ferryman :{g,0};
+	 cabbage = ferryman : {c,0};
+	 TRUE: 0;
+	 esac;
+
+-- esiste uno stato futuro in cui sono tutti sulla riva destra
+CTLSPEC
+EF(ferryman = R & wolf = R & goat = R & cabbage =R)
+-- FALSA: non succede mai la condizione di tutti nella riva R
+CTLSPEC
+! EF(ferryman = R & wolf = R & goat = R & cabbage =R)
+-- è vero che tutti in R senza conflitti? 
+CTLSPEC
+E[((wolf=goat | goat=cabbage) -> goat = ferryman)
+	U (ferryman = R & wolf = R & goat = R & cabbage =R)]
+	  
+	
+			
+	

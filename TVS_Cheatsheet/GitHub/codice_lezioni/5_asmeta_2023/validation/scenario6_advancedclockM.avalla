@@ -1,0 +1,12 @@
+// using step until
+scenario advancedClock2
+
+load AdvancedClockMon.asm
+
+check hours = 0 and minutes = 0 and seconds = 0;
+
+
+set signal := true;
+step until hours = 1;
+
+check hours = 1 and minutes = 0 and seconds = 0;

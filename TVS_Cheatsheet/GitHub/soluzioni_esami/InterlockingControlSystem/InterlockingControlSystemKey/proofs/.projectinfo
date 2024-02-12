@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<project name="InterlockingControlSystemKey">
+   <package name="ics" path="/InterlockingControlSystemKey/src/ics">
+      <type name="Track" path="/InterlockingControlSystemKey/src/ics/Track.java">
+         <method displayName="Track()" name="Track" declaringType="ics.Track" declaringFilePath="/InterlockingControlSystemKey/src/ics/Track.java" parameterTypes="">
+            <contract name="ics.Track[ics.Track::Track()].JML normal_behavior operation contract.0" modality="DIAMOND" proofFilePath="/InterlockingControlSystemKey/proofs/ics/Track.java/ics_Track[ics_Track__Track()]_JML_normal_behavior_operation_contract_0.proof" metaFilePath="/InterlockingControlSystemKey/proofs/ics/Track.java/ics_Track[ics_Track__Track()]_JML_normal_behavior_operation_contract_0.proofmeta"/>
+         </method>
+         <method displayName="setTracks(ics.Track, ics.Track)" name="setTracks" declaringType="ics.Track" declaringFilePath="/InterlockingControlSystemKey/src/ics/Track.java" parameterTypes="ics.Track;ics.Track">
+         </method>
+         <method displayName="getNextTrack()" name="getNextTrack" declaringType="ics.Track" declaringFilePath="/InterlockingControlSystemKey/src/ics/Track.java" parameterTypes="">
+         </method>
+         <method displayName="setInitStateBusy()" name="setInitStateBusy" declaringType="ics.Track" declaringFilePath="/InterlockingControlSystemKey/src/ics/Track.java" parameterTypes="">
+            <contract name="ics.Track[ics.Track::setInitStateBusy()].JML operation contract.0" modality="DIAMOND" proofFilePath="/InterlockingControlSystemKey/proofs/ics/Track.java/ics_Track[ics_Track__setInitStateBusy()]_JML_operation_contract_0.proof" metaFilePath="/InterlockingControlSystemKey/proofs/ics/Track.java/ics_Track[ics_Track__setInitStateBusy()]_JML_operation_contract_0.proofmeta"/>
+         </method>
+         <method displayName="isBusy()" name="isBusy" declaringType="ics.Track" declaringFilePath="/InterlockingControlSystemKey/src/ics/Track.java" parameterTypes="">
+         </method>
+         <method displayName="goToNext()" name="goToNext" declaringType="ics.Track" declaringFilePath="/InterlockingControlSystemKey/src/ics/Track.java" parameterTypes="">
+            <contract name="ics.Track[ics.Track::goToNext()].JML normal_behavior operation contract.0" modality="DIAMOND" proofFilePath="/InterlockingControlSystemKey/proofs/ics/Track.java/ics_Track[ics_Track__goToNext()]_JML_normal_behavior_operation_contract_0.proof" metaFilePath="/InterlockingControlSystemKey/proofs/ics/Track.java/ics_Track[ics_Track__goToNext()]_JML_normal_behavior_operation_contract_0.proofmeta"/>
+         </method>
+      </type>
+   </package>
+</project>

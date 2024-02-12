@@ -1,0 +1,7 @@
+Model sensorvoting1
+
+Parameters:
+	Numbers s1 {0 9 10};
+	Numbers s2 {0 9 10};
+	Numbers s3 {0 9 10};
+end

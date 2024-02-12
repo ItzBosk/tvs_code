@@ -1,0 +1,87 @@
+-- modello più semplice
+MODULE main
+VAR
+	doors : {CLOSED, OPEN }; 
+	gears : {EXTENDED,RETRACTED}; 
+	handle : {DOWN, UP}; 
+ASSIGN
+	init (doors) := CLOSED;
+	init (gears) := EXTENDED;
+	-- doors
+	next (doors) :=
+		case
+			handle = UP : -- retracting sequence
+				case
+					gears = RETRACTED : -- if already retracted, close dooors
+						case -- close doors
+							doors = OPEN : CLOSED;
+							doors = CLOSED : CLOSED; -- oppure TRUE: doors
+						esac;
+					gears != RETRACTED:
+					-- if not retracted open doors if necessary
+						case
+							doors = CLOSED : OPEN;
+							doors = OPEN : OPEN;
+						esac;
+				esac;
+			TRUE : -- handle = DOWN
+			-- extending sequence
+				case
+					gears = EXTENDED :
+					-- if already extened close doors
+
+						case -- close doors
+							doors = OPEN : CLOSED;
+							doors = CLOSED : CLOSED;
+						esac;
+					TRUE :
+					-- not extended, open doors if necessary
+
+						case
+							doors = CLOSED : OPEN;
+							doors = OPEN : OPEN;
+						esac;
+				esac;
+		esac;
+		-- gears		
+	next (gears) :=
+		case
+			handle = UP & gears != RETRACTED & doors = OPEN: -- retracting sequence
+				case -- retract gears
+					gears = EXTENDED : RETRACTED;
+					gears = RETRACTED : RETRACTED;
+				esac;
+			handle = DOWN & gears != EXTENDED & doors = OPEN:
+				case -- retract gears
+					gears = RETRACTED : EXTENDED;
+					gears = EXTENDED : EXTENDED;
+				esac;
+			TRUE : gears;
+		esac;
+--CTL properties
+-- se l'utente preme down e tiene premuto, prima o poi 
+-- il carrello sarà esteso e la porte chiuse
+CTLSPEC AG(AG(handle=DOWN) -> AF(AG( doors = CLOSED & gears = EXTENDED)));
+-- se il comando è UP e il gears è retracted, non verrà mai esteso
+LTLSPEC G( (gears = RETRACTED & handle = UP) -> (gears = RETRACTED U handle = DOWN));
+
+CTLSPEC AG(((AG((handle = DOWN)) & ((gears = EXTENDED) & (doors = CLOSED))) -> AG(((gears = EXTENDED) & (doors = CLOSED)))));
+CTLSPEC AG(((((doors = CLOSED) & (gears = RETRACTED)) & AG((handle = UP))) -> AG(((doors = CLOSED) & (gears = RETRACTED)))));
+CTLSPEC AG((((gears = EXTENDED) & (handle = DOWN)) -> AX((gears = EXTENDED))));
+CTLSPEC AG((((handle = UP) & (gears = EXTENDED)) -> AX((gears = RETRACTED))));
+CTLSPEC AG((((handle = UP) & (gears = RETRACTED)) -> AX((gears = RETRACTED))));
+CTLSPEC AG((((gears = RETRACTED) & (handle = DOWN)) -> AX((gears = EXTENDED))));
+CTLSPEC AG(((((doors = CLOSED) & (gears = EXTENDED)) & (handle = DOWN)) -> AX((doors = CLOSED))));
+CTLSPEC AG((((handle = UP) & ((doors = CLOSED) & (gears = EXTENDED))) -> AX((doors = EXTENDED))));
+--CTLSPEC AG(((((doors = OPENING) & (gears = RETRACTED)) & (handle = DOWN)) -> AX((doors = OPEN))));
+CTLSPEC AG((((handle = UP) & ((doors = EXTENDED) & (gears = RETRACTED))) -> AX((doors = CLOSED))));
+CTLSPEC AG((AG((handle = DOWN)) -> AF(((gears = EXTENDED) & (doors = CLOSED)))));
+CTLSPEC AG((AG((handle = UP)) -> AF(((doors = CLOSED) & (gears = RETRACTED)))));
+
+CTLSPEC AG((AG((handle = DOWN)) -> AX(AG((gears != RETRACTED)))));
+
+CTLSPEC AG((AG((handle = UP)) -> AX(AG((gears != EXTENDED)))));
+--AsmetaL invariants
+CTLSPEC	AG(((doors = CLOSED) -> ((gears = EXTENDED) | (gears = RETRACTED))));
+		
+		

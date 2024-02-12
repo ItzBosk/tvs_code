@@ -1,0 +1,15 @@
+// scenarios with blocks
+scenario advancedClock1
+
+load AdvancedClockMon.asm
+
+//in this block the scenario brings the clock to 10 nminutes 
+begin ten_minutes
+	check hours = 0 and minutes = 0 and seconds = 0;
+	set signal := true;
+	step until minutes = 10;
+	
+end
+check hours = 0;
+check minutes = 10;
+check seconds = 0;

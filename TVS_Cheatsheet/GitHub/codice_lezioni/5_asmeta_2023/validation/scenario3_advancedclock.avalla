@@ -1,0 +1,14 @@
+// using invariants
+
+scenario advancedClock2
+
+load AdvancedClock.asm
+
+invariant inv_gen: seconds < 60;
+invariant inv_scen: minutes <= 1;
+
+check hours = 0 and minutes = 0 and seconds = 0;
+
+step until minutes = 1;
+
+check hours = 0 and minutes = 1 and seconds = 0;

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<project name="lgs_key">
+   <package name="(default package)" path="/lgs_key/src">
+      <type name="SensorVotingJML" path="/lgs_key/src/SensorVotingJML.java">
+         <method displayName="SensorVotingJML()" name="SensorVotingJML" declaringType="SensorVotingJML" declaringFilePath="/lgs_key/src/SensorVotingJML.java" parameterTypes="">
+            <contract name="SensorVotingJML[SensorVotingJML::SensorVotingJML()].JML operation contract.0" modality="DIAMOND" proofFilePath="/lgs_key/proofs/SensorVotingJML.java/SensorVotingJML[SensorVotingJML__SensorVotingJML()]_JML_operation_contract_0.proof" metaFilePath="/lgs_key/proofs/SensorVotingJML.java/SensorVotingJML[SensorVotingJML__SensorVotingJML()]_JML_operation_contract_0.proofmeta"/>
+         </method>
+         <method displayName="computeSensorValue(boolean, boolean, boolean)" name="computeSensorValue" declaringType="SensorVotingJML" declaringFilePath="/lgs_key/src/SensorVotingJML.java" parameterTypes="boolean;boolean;boolean">
+            <contract name="SensorVotingJML[SensorVotingJML::computeSensorValue(boolean,boolean,boolean)].JML operation contract.0" modality="DIAMOND" proofFilePath="/lgs_key/proofs/SensorVotingJML.java/SensorVotingJML[SensorVotingJML__computeSensorValue(boolean,boolean,boolean)]_JML_operation_contract_0.proof" metaFilePath="/lgs_key/proofs/SensorVotingJML.java/SensorVotingJML[SensorVotingJML__computeSensorValue(boolean,boolean,boolean)]_JML_operation_contract_0.proofmeta"/>
+         </method>
+         <method displayName="getValue()" name="getValue" declaringType="SensorVotingJML" declaringFilePath="/lgs_key/src/SensorVotingJML.java" parameterTypes="">
+            <contract name="SensorVotingJML[SensorVotingJML::getValue()].JML operation contract.0" modality="DIAMOND" proofFilePath="/lgs_key/proofs/SensorVotingJML.java/SensorVotingJML[SensorVotingJML__getValue()]_JML_operation_contract_0.proof" metaFilePath="/lgs_key/proofs/SensorVotingJML.java/SensorVotingJML[SensorVotingJML__getValue()]_JML_operation_contract_0.proofmeta"/>
+         </method>
+         <method displayName="isValid()" name="isValid" declaringType="SensorVotingJML" declaringFilePath="/lgs_key/src/SensorVotingJML.java" parameterTypes="">
+         </method>
+      </type>
+   </package>
+</project>

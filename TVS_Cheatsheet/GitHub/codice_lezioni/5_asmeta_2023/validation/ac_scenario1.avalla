@@ -1,0 +1,12 @@
+scenario scenario1
+
+load AdvancedClock.asm
+
+check minutes = 0;
+check seconds = 0 and hours = 0;
+
+step 
+
+check minutes = 0;
+check seconds = 1;
+check hours = 0;

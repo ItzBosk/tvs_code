@@ -1,0 +1,18 @@
+MODULE main
+
+VAR
+ altezza : 0 .. 1000;
+ input : 0..5;
+  
+ASSIGN
+-- stato iniziale
+init(altezza) := 0;
+init(input):= 0;
+-- stato successivo
+next(input):= {1,2,3,4,5};
+
+next(altezza) := case
+   altezza < 1000 : altezza + 1;
+   TRUE: 0;
+   esac;
+

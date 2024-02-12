@@ -1,0 +1,75 @@
+
+MODULE main
+VAR
+-- le tre macchine
+	car1 : car (1,autodaspostare,direzione,car2,car3); -- macchina rossa
+	car2 : car (2,autodaspostare,direzione,car1,car3);
+	car3 : car (3,autodaspostare,direzione,car1,car2);
+	-- comandi (rappresentano gli input)
+	autodaspostare : 1 .. 3;
+	direzione : {UP, DX, DOWN, SX};
+DEFINE
+	redCarAtExit := car1.row = 2 & car1.col = 5;
+ASSIGN
+-- metto le auto
+	init (car1.row) := 2;
+	init (car1.col) := 2;
+	init (car2.row) := 1;
+	init (car2.col) := 5;
+	init (car3.row) := 2;
+	init (car3.col) := 5;
+
+	-- l'auto rossa può uscire
+CTLSPEC EF (redCarAtExit);
+-- pe ravwere comportamento
+CTLSPEC ! EF (redCarAtExit);
+
+-- nauto: numero identificatifo della macchina
+-- autodaspostare: l'auto da spostare
+-- c1 e c2 sono le altre du emacchine
+MODULE car (nauto,autodaspostare,dir,c1,c2)
+VAR
+	row : 0 .. 5;
+	col : 0 .. 5;
+ASSIGN
+-- sposta l'auto
+	next (row) :=
+		case
+		-- non è da spostare
+			nauto != autodaspostare : row;
+			dir = UP & row > 0: case
+				-- posizione già uccupata da c1
+			 	c1.row = row -1 & c1.col = col: row;
+				-- posizione già uccupata da c2
+			 	c2.row = row -1 & c2.col = col: row;
+			 	TRUE:  row -1;
+			esac;
+			dir = DOWN & row < 5: case
+				-- posizione già uccupata da c1
+			 	c1.row = row +1 & c1.col = col: row;
+				-- posizione già uccupata da c2
+			 	c2.row = row +1 & c2.col = col: row;
+			 	TRUE: row +1;
+			 	esac;
+			TRUE: row;
+		esac;
+	next (col) :=
+		case
+		-- non è da spostare
+			nauto != autodaspostare : col;
+			dir = SX & col > 0: case
+				-- posizione già uccupata da c1
+			 	c1.row = row  & c1.col = col -1: col;
+				-- posizione già uccupata da c2
+			 	c2.row = row & c2.col = col -1: col;
+			 	TRUE: col -1;
+			 	esac;
+			dir = DX & col < 5: case
+				-- posizione già uccupata da c1
+			 	c1.row = row  & c1.col = col +1: col;
+				-- posizione già uccupata da c2
+			 	c2.row = row & c2.col = col +1: col;
+			 	TRUE: col +1;
+			 	esac;			 	
+			TRUE : col;
+		esac;

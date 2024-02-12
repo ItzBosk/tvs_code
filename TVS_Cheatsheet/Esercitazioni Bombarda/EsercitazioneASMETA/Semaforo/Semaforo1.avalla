@@ -1,0 +1,34 @@
+scenario Semaforo1
+
+load Semaforo.asm
+
+// Controllo lo stato iniziale
+check statoSemaforo = ROSSO;
+set timerPassed := false;
+set richiestaPassaggio := false;
+
+step
+
+// Controllo che sia rimasto rosso
+check statoSemaforo = ROSSO;
+set richiestaPassaggio := true;
+set timerPassed := false;
+
+step
+
+// controllo il passaggio sul verde
+check statoSemaforo = VERDE;
+set timerPassed := false;
+set richiestaPassaggio := false;
+
+step
+
+check statoSemaforo = VERDE;
+// Arriva lo scattare del timer
+set timerPassed := true;
+set richiestaPassaggio := false;
+
+step
+
+// controllo il passaggio sul giallo
+check statoSemaforo = GIALLO;

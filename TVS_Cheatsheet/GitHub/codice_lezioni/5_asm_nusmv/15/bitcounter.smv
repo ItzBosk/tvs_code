@@ -1,0 +1,37 @@
+MODULE main
+
+VAR
+    input: boolean;
+	bit0: bit_counter(input); 
+	bit1: bit_counter(bit0.carry_out); 
+	bit2: bit_counter(bit1.carry_out);
+
+--LTLSPEC 
+--G((!bit0.value & !bit1.value  & !bit2.value & input)
+--	 -> X(bit0.value & !bit1.value  & !bit2.value)
+--)
+-- controllo che una proprietà sia falsa
+-- non succede mai che tutti tre i bit sono veri
+-- DEVE essere falsa
+-- la lascio falsa e verifico che il il comportamento che
+-- l afalsifica è corretto
+LTLSPEC G(!(bit0.value & bit1.value  & bit2.value))
+
+
+MODULE bit_counter (carry_in)
+VAR
+	value : boolean;
+	carry_out : boolean;
+ASSIGN
+	init (value) := FALSE;
+	init (carry_out) := FALSE;
+	next (value) :=
+		case
+			! carry_in : value;
+			TRUE : ! value;
+		esac;
+	-- out se value è vero ed è da incremntare
+	next(carry_out) := value & carry_in;
+	
+	
+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<project name="22_settembre">
+   <package name="(default package)" path="/22_settembre/src">
+      <type name="Telecamere" path="/22_settembre/src/Telecamere.java">
+         <method displayName="Telecamere(int)" name="Telecamere" declaringType="Telecamere" declaringFilePath="/22_settembre/src/Telecamere.java" parameterTypes="int">
+            <contract name="Telecamere[Telecamere::Telecamere(int)].JML operation contract.0" modality="BOX" proofFilePath="/22_settembre/proofs/Telecamere.java/Telecamere[Telecamere__Telecamere(int)]_JML_operation_contract_0.proof" metaFilePath="/22_settembre/proofs/Telecamere.java/Telecamere[Telecamere__Telecamere(int)]_JML_operation_contract_0.proofmeta"/>
+         </method>
+         <method displayName="accendi(int)" name="accendi" declaringType="Telecamere" declaringFilePath="/22_settembre/src/Telecamere.java" parameterTypes="int">
+            <contract name="Telecamere[Telecamere::accendi(int)].JML operation contract.0" modality="DIAMOND" proofFilePath="/22_settembre/proofs/Telecamere.java/Telecamere[Telecamere__accendi(int)]_JML_operation_contract_0.proof" metaFilePath="/22_settembre/proofs/Telecamere.java/Telecamere[Telecamere__accendi(int)]_JML_operation_contract_0.proofmeta"/>
+         </method>
+         <method displayName="spegni(int)" name="spegni" declaringType="Telecamere" declaringFilePath="/22_settembre/src/Telecamere.java" parameterTypes="int">
+            <contract name="Telecamere[Telecamere::spegni(int)].JML operation contract.0" modality="DIAMOND" proofFilePath="/22_settembre/proofs/Telecamere.java/Telecamere[Telecamere__spegni(int)]_JML_operation_contract_0.proof" metaFilePath="/22_settembre/proofs/Telecamere.java/Telecamere[Telecamere__spegni(int)]_JML_operation_contract_0.proofmeta"/>
+         </method>
+      </type>
+   </package>
+</project>

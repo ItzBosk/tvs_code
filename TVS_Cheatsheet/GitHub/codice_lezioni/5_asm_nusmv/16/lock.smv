@@ -1,0 +1,33 @@
+
+MODULE main
+VAR
+lock1: boolean;
+lock2: boolean;
+lock3: boolean;
+
+m1 : process singlelock(7,FALSE,lock1);
+m2 : process singlelock(4,lock1,lock2);
+m3 : process singlelock(6,lock2,lock3);
+
+--ASSIGN
+-- init(lock1):= false
+
+-- il lucchetto si può aprire
+CTLSPEC  EF (! lock3)
+
+
+MODULE singlelock (key, previousLock, lock)
+VAR
+	digit : 0 .. 9;
+	comando : {UP, DOWN, NONE};
+ASSIGN
+	init (digit) := 0;
+	next (digit) :=
+		case
+			comando = NONE : digit;
+			comando = UP & digit <9: digit + 1;
+			comando = DOWN & digit >0: digit - 1;
+			TRUE : digit;
+		esac; 
+		
+	lock := previousLock | digit != key;

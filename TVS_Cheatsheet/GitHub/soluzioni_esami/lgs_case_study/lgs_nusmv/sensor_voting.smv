@@ -1,0 +1,28 @@
+MODULE main
+VAR
+	valid1 : boolean;
+	valid2 : boolean;
+	valid3 : boolean;
+	c1 : boolean;
+	c2 : boolean;
+	c3 : boolean;
+DEFINE
+	valid := valid1 & valid2 & valid3; -- sbagliato
+ASSIGN
+	next (valid1) :=
+		case
+			valid1 :
+				case
+					(valid2 & c1 = c2) | (valid3 & c1 = c3) : TRUE;
+					-- altrimenti diventa falso
+ 					TRUE : FALSE;
+				esac;
+			TRUE : valid1;
+		esac;
+		-- idem gli altri 
+LTLSPEC
+-- se 
+G((valid1 & c1!=c2 & c1!= c3) -> X(!valid1)) 
+		
+		
+		

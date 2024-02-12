@@ -1,0 +1,11 @@
+scenario testBR_r_Main_F3
+
+load ./..\AdvancedClock.asm
+
+//// test name test@BR_r_Main_F3
+//// generated for (test goal): BR_r_Main_F3: not signal
+check seconds = 0;
+check minutes = 0;
+check hours = 0;
+set signal := false;
+step
