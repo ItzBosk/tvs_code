@@ -1,0 +1,36 @@
+
+scenario Scenario2
+
+/* Forno inizialmente spento.
+ * Il forno viene acceso e l'utente prova ad aprire la porta.
+ * Controllare che la porta si apra ma che il forno si spenga.
+ */
+
+load Forno.asm
+
+// check che il forno sia spento
+check statoForno = SPENTO;
+set accendi := false;
+set spegni := false;
+set comandoApertura := false;
+
+step	// non necessario ma così siamo sicuri che la ASM parte
+
+// accendo il forno
+set accendi := true;
+set spegni := false;
+set comandoApertura := false;
+
+step
+
+// controllo che si sia acceso, poi apro la porta
+check statoForno = ACCESO;
+set comandoApertura := true;
+set accendi := false;
+set spegni := false;
+
+step
+
+// controllo porta aperta e forno spento
+check statoForno = SPENTO;
+check statoPorta = APERTA;

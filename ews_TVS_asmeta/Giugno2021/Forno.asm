@@ -48,7 +48,10 @@ definitions:
 	CTLSPEC ef(statoForno = ACCESO)
 	
 	// la porta può essere aperta dopo che il forno viene acceso
+	CTLSPEC eg(statoForno = ACCESO implies ef(statoPorta = APERTA))
 	
+	// quando accceso, la porta rimane chiusa fino a quando rimane acceso (usa until)
+	CTLSPEC ag(statoForno = ACCESO implies a(statoPorta = CHIUSA, statoForno = ACCESO))
 	
 	// -------------------------- Main rule--------------------------
 	main rule r_Main =

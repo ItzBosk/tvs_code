@@ -1,7 +1,10 @@
 
 asm Forno
 
-import StandardLibrary
+import StandardLibrary 
+import LTLlibrary
+import CTLlibrary
+
 
 signature:
 	// -------------------------- Domains -------------------------- 
@@ -33,7 +36,17 @@ definitions:
 		statoForno := SPENTO
 
 	// -------------------------- Invariants --------------------------
-
+	
+	// -------------------------- LTL --------------------------
+	
+	// -------------------------- CTL --------------------------
+	
+	// se forno acceso la porta è sempre chiusa
+	CTLSPEC ag(statoForno = ACCESO implies statoPorta = CHIUSA)
+	
+	// prima o poi si può accendere in qualsiasi momento in futuro
+	CTLSPEC ef(statoForno = ACCESO)
+	
 	// -------------------------- Main rule--------------------------
 	main rule r_Main =
 		par
@@ -50,7 +63,8 @@ definitions:
 			
 			// gestine stato porta
 			if statoForno = SPENTO then
-				if comandoApertura then
+				// posso aprire solo se nel frattempo non lo sto anche accendendo
+				if comandoApertura and not accendi then
 					// posso aprire la porta perché il forno è spento
 					statoPorta := APERTA
 				else
