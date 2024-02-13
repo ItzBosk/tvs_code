@@ -1,4 +1,11 @@
 
+/* il forno può essere: 
+ * in stanby (chiuso e spento)
+ * con la porta aperta, ma spento
+ * oppure acceso, ma la porta deve essere chiusa.
+ * Se forno acceso, e la porta viene aperta, il forno si spegne
+ */
+
 asm Forno
 
 import StandardLibrary 

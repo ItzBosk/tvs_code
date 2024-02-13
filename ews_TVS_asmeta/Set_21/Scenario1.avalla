@@ -1,0 +1,25 @@
+scenario Scenario1
+
+load Semaforo.asm
+
+check statoSemaforo = ROSSO;
+set richiesta := false;
+set timerPassed := false;
+
+step
+
+check statoSemaforo = ROSSO;
+set richiesta := true;
+set timerPassed := false;
+
+step
+
+check statoSemaforo = VERDE;
+set richiesta := false;
+set timerPassed := true;
+
+step
+
+check statoSemaforo = GIALLO;
+
+step

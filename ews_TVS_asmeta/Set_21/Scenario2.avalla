@@ -1,0 +1,19 @@
+scenario Scenario2
+
+load Semaforo.asm
+
+check statoSemaforo = ROSSO;
+set richiesta := true;
+
+step
+
+check statoSemaforo = VERDE;
+exec statoSemaforo = ROSSO;		// forzo cambiamento variabile controllata
+set richiesta := false;
+set timerPassed := false;
+
+step
+
+check statoSemaforo = ROSSO;
+
+step

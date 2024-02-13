@@ -8,10 +8,12 @@ import CTLlibrary
 
 signature:
 	// -------------------------- Domains -------------------------- 
+
 	enum domain Stato = {ACCESO | SPENTO}
 	enum domain StatoPorta = {APERTA| CHIUSA}
 	
 	// -------------------------- Functions --------------------------
+
 	// controllate
 	controlled statoForno : Stato
 	controlled statoPorta : StatoPorta
@@ -19,7 +21,6 @@ signature:
 	// monitorate
 	monitored comandoApertura : Boolean		// aperto = true, chiuso = false
 	monitored accendi : Boolean
-	monitored spegni : Boolean
 	
 definitions:
 	// -------------------------- Domain definitions --------------------------
@@ -29,6 +30,7 @@ definitions:
 	// solo funzioni derivate
 
 	// -------------------------- Rule definitions --------------------------
+
 	rule r_accendi =
 		statoForno := ACCESO
 	
@@ -47,8 +49,29 @@ definitions:
 	// prima o poi si può accendere in qualsiasi momento in futuro
 	CTLSPEC ef(statoForno = ACCESO)
 	
+	// la porta può essere aperta dopo che il forno viene acceso
+	CTLSPEC eg(statoForno = ACCESO implies ef(statoPorta = APERTA))
+	
+	// quando accceso, la porta rimane chiusa fino a quando rimane acceso (usa until)
+	CTLSPEC ag(statoForno = ACCESO implies a(statoPorta = CHIUSA, statoForno = ACCESO))
+
+	// non può mai passare a verde direttamente da rosso
+	CTLSPEC ag(statoSemaforo = ROSSO implies ax(statoSemaforo != VERDE))
+	// falsa, se riciesta deve succedere
+	
+	// se rosso resta sempre rosso, a meno che ci sia una riciesta
+	CTLSPEC ag(statoSemaforo = ROSSO implies aw(statoSemaforo = ROSSO, richiesta = true))
+	// aw() perché la richiesta potrebbe non avvenire mai
+	
+	// se c'è una richiesta, allora prima o poi diventa verde
+	CTLSPEC ag((statoSemaforo = ROSSO and richiesta = true) implies af(statoSemaforo = VERDE))
+
+	// in quasiasi istante, prima o poi potrebbe diventare verde
+	CTLSPEC ag(ef(statoSemaforo = VERDE))
+	
 	// -------------------------- Main rule--------------------------
-	main rule r_Main =
+
+	main rule r_main =
 		par
 			// gestine stato forno
 			if statoForno = SPENTO and statoPorta = CHIUSA and accendi then

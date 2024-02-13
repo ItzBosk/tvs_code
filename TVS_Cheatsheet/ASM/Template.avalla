@@ -13,14 +13,22 @@ set accendi := false;
 set spegni := false;
 set comandoApertura := false;
 
-step	// non necessario ma così siamo sicuri che la ASM parte
+step
 
 // apro la porta
 set comandoApertura := true;	// setto la monitorata
+// setto tutto ciò che non mi serve a false per sicurezza
 set accendi := false;
 set spegni := false;
 
-step	// siccome l'utente non fa tutto nello stesso stato, faccio uno step
+step
+
+check statoSemaforo = VERDE;
+exec statoSemaforo = ROSSO;		// forzo cambiamento variabile controllata
+set richiesta := false;
+set timerPassed := false;
+
+step 
 
 // check porta aperta e poi la chiudo
 check statoPorta = APERTA;
