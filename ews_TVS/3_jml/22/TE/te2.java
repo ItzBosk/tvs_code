@@ -1,4 +1,4 @@
-package te;
+package TE;
 
 public class te2 {
 	
