@@ -1,0 +1,13 @@
+scenario testpair_1_1_3_2
+
+load ./..\lampada.asm
+
+//// test name test@pair_1_1_3_2
+//// generated for (test goal): pushbutton=false - poweroff=true
+check lampStatus = OFF;
+set poweron := false;
+set pushbutton := false;
+set poweroff := false;
+step
+set poweroff := true;
+step

@@ -35,7 +35,7 @@ public class Account {
 	public static void main(String[] args) {
 		Account c1 = new Account(2000);
 		c1.deposit(1000);
-		c1.withdraw(3000);	// errore
+//		c1.withdraw(3000);	// errore
 		c1.withdraw(50);	// ok
 	}
 }

@@ -1,0 +1,20 @@
+--file C:\Users\kevin\Documents\GitHub\tvs_code\ews_TVS_asmeta\6_atgt_lampada\lampada.smv
+-- options: flatten? false
+MODULE main
+	VAR
+		powerOFF: boolean; --monitored
+		powerON: boolean; --monitored
+		pushButton: boolean; --monitored
+		statoLampada: {OFF, ON, STANDBY, STATO_UNDEF}; --controlled
+	CONSTANTS STATO_UNDEF, OFF, ON, STANDBY;
+	ASSIGN
+		init(statoLampada) := OFF;
+		next(statoLampada) :=
+			case
+				(((statoLampada = STANDBY) & pushButton) & !(powerOFF)): ON;
+				(powerOFF): OFF;
+				((!(powerOFF) & (pushButton & (statoLampada = ON))) | (!(powerOFF) & (powerON & (statoLampada = OFF)))): STANDBY;
+				TRUE: statoLampada;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG(!(powerOFF & (statoLampada != OFF)));

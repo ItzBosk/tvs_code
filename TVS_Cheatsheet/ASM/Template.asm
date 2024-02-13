@@ -9,8 +9,8 @@ import CTLlibrary
 signature:
 	// -------------------------- Domains -------------------------- 
 
-	enum domain Stato = {ACCESO | SPENTO}
-	enum domain StatoPorta = {APERTA| CHIUSA}
+	enum domain Stato = {ACCESO, SPENTO}
+	enum domain StatoPorta = {APERTA, CHIUSA}
 	
 	// -------------------------- Functions --------------------------
 
