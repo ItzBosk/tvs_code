@@ -1,0 +1,29 @@
+
+si usano solo oggetti public, se qualcosa deve essere private si usa spec_public per renderlo public solo per JML
+//@ public invariant numGiocatori >= 0;
+private /*@ spec_public @*/ int peso;
+
+//@ requires n > 0;
+
+//@ ensures eta < 18 < ==> \result;
+
+//@ ensures (\forall int i; i > 0 && i < numGiocatori; creditoGiocatori[i] >= 0);
+
+loop invariant = condizione che deve essere vera in ogni iterazione del loop
+//@ diverges true; 	// assicura che il loop finisca
+public void foo() {
+	int i = 0;
+	//@ loop_invariant 0 <= i && i <= 10;
+	while (i < 10) {
+		i++;
+	}
+}
+
+come andare a capo
+/*@ requires x > 0; 
+  @ ensures \result > 0; 
+  also
+  requires x < 0; 
+  ensures \result <= 0; 
+@*/
+
