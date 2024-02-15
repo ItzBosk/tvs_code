@@ -1,0 +1,72 @@
+scenario Scenario1
+
+load Dado.asm
+
+check gioca = true;
+check credito(GTRE) = 3;
+check credito(GUNO) = 3;
+check credito(GDUE) = 3;
+check credito(GQUATTRO) = 3;
+check turno = GUNO;
+set dado := 1;
+
+step
+
+check gioca = true;
+check credito(GTRE) = 3;
+check credito(GUNO) = 2;
+check credito(GDUE) = 3;
+check credito(GQUATTRO) = 4;
+check turno = GDUE;
+set dado := 2;
+
+step
+
+check gioca = true;
+check credito(GTRE) = 3;
+check credito(GUNO) = 2;
+check credito(GDUE) = 3;
+check credito(GQUATTRO) = 4;
+check turno = GTRE;
+set dado := 2;
+
+step
+
+check gioca = true;
+check credito(GTRE) = 3;
+check credito(GUNO) = 2;
+check credito(GDUE) = 3;
+check credito(GQUATTRO) = 4;
+check turno = GQUATTRO;
+set dado := 3;
+
+step
+
+check gioca = true;
+check credito(GTRE) = 3;
+check credito(GUNO) = 1;
+check credito(GDUE) = 3;
+check credito(GQUATTRO) = 5;
+check turno = GUNO;
+set dado := 1;
+
+step
+
+check gioca = true;
+check credito(GTRE) = 3;
+check credito(GUNO) = 0;
+check credito(GDUE) = 3;
+check credito(GQUATTRO) = 6;
+check turno = GDUE;
+set dado := 1;
+
+step
+
+check gioca = false;
+check credito(GTRE) = 3;
+check credito(GUNO) = 0;
+check credito(GDUE) = 3;
+check credito(GQUATTRO) = 6;
+check turno = GDUE;
+
+step

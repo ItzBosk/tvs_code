@@ -1,7 +1,7 @@
 
 asm Forno
 
-import StandardLibrary 
+import StandardLibrary
 import LTLlibrary
 import CTLlibrary
 
@@ -11,6 +11,8 @@ signature:
 
 	enum domain Stato = {ACCESO, SPENTO}
 	enum domain StatoPorta = {APERTA, CHIUSA}
+
+	domain DCredito subsetof Integer
 	
 	// -------------------------- Functions --------------------------
 
@@ -24,7 +26,8 @@ signature:
 	
 definitions:
 	// -------------------------- Domain definitions --------------------------
-	// non serve se non ho dei subset di un dominio
+	// serve solo se ho dei subset di un dominio
+	domain DCredito = {0 : 12}
 
 	// -------------------------- Function definitions --------------------------
 	// solo funzioni derivate
@@ -68,11 +71,28 @@ definitions:
 
 	// in quasiasi istante, prima o poi potrebbe diventare verde
 	CTLSPEC ag(ef(statoSemaforo = VERDE))
+
+	// un giocatore può avere al massimo 12 euro
+	CTLSPEC (forall $g in DGiocatore with ag(credito($g) < 13))
+
+	// esiste un percorso in cui il secondo giocatore vince
+	CTLSPEC ef(credito(GDUE) > 0 and (exist $g in DomGiocatore with credito($g) = 0))
 	
 	// -------------------------- Main rule--------------------------
 
 	main rule r_main =
 		par
+			choose $b in Bevanda with $b != MILK do		// sceglie random ma non milk
+			// se variabile locale bevanda disponibile
+			if available($b) > 0 then
+				par
+					erogato := $b
+					available($b):= available($b) - 1
+				endpar
+			else
+				erogato := undef	// imposta a null
+			endif
+			
 			// gestine stato forno
 			if statoForno = SPENTO and statoPorta = CHIUSA and accendi then
 				// posso accendere il forno
@@ -109,3 +129,4 @@ definitions:
 default init s0:
 	function statoForno = SPENTO
 	function statoPorta = CHIUSA
+	function credito($g in DGiocatore) = 3
