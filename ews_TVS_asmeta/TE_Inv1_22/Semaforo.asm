@@ -24,9 +24,6 @@ definitions:
 
 	// -------------------------- Rule definitions --------------------------
 
-//	rule r_accendi =
-//		statoForno := ACCESO
-
 	// diventa giallo
 	rule r_giallo($s in Semaforo) =
 		coloreSemaforo($s) := GIALLO
@@ -83,28 +80,28 @@ definitions:
 				endif
 			endif
 			
-			// SA verde, comando su SB
+			// SA verde, comando su SB rosso
 			if coloreSemaforo(SA) = VERDE and coloreSemaforo(SB) = ROSSO then
 				if comando = SB then
 					r_giallo[SA]
 				endif
 			endif
 			
-			// SA giallo, comando su SB
+			// SA giallo, comando su SB rosso
 			if coloreSemaforo(SA) = GIALLO and coloreSemaforo(SB) = ROSSO then
 				if comando = SB then
 					r_rosso[SA]
 				endif
 			endif
 			
-			// SB verde, comando su SA
+			// SB verde, comando su SA rosso
 			if coloreSemaforo(SB) = VERDE and coloreSemaforo(SA) = ROSSO then
 				if comando = SA then
 					r_giallo[SB]
 				endif
 			endif
 			
-			// SB giallo, comando su SA
+			// SB giallo, comando su SA rosso
 			if coloreSemaforo(SB) = GIALLO and coloreSemaforo(SA) = ROSSO then
 				if comando = SA then
 					r_rosso[SB]
