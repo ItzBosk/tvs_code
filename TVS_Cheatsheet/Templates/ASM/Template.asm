@@ -8,125 +8,40 @@ import CTLlibrary
 
 signature:
 	// -------------------------- Domains -------------------------- 
-
-	enum domain Stato = {ACCESO, SPENTO}
-	enum domain StatoPorta = {APERTA, CHIUSA}
-
-	domain DCredito subsetof Integer
+	
+	
 	
 	// -------------------------- Functions --------------------------
 
 	// controllate
-	controlled statoForno : Stato
-	controlled statoPorta : StatoPorta
+	
 	
 	// monitorate
-	monitored comandoApertura : Boolean		// aperto = true, chiuso = false
-	monitored accendi : Boolean
+	
 	
 definitions:
 	// -------------------------- Domain definitions --------------------------
 	// serve solo se ho dei subset di un dominio
-	domain DCredito = {0 : 12}
 
 	// -------------------------- Function definitions --------------------------
 	// solo funzioni derivate
 
 	// -------------------------- Rule definitions --------------------------
 
-	rule r_accendi =
-		statoForno := ACCESO
-	
-	rule r_spegni =
-		statoForno := SPENTO
+
 
 	// -------------------------- Invariants --------------------------
 	
 	// -------------------------- LTL --------------------------
-	
+
 	// -------------------------- CTL --------------------------
-	
-	// se forno acceso la porta è sempre chiusa
-	CTLSPEC ag(statoForno = ACCESO implies statoPorta = CHIUSA)
-	
-	// prima o poi si può accendere in qualsiasi momento in futuro
-	CTLSPEC ef(statoForno = ACCESO)
-	
-	// la porta può essere aperta dopo che il forno viene acceso
-	CTLSPEC eg(statoForno = ACCESO implies ef(statoPorta = APERTA))
-	
-	// quando accceso, la porta rimane chiusa fino a quando rimane acceso (usa until)
-	CTLSPEC ag(statoForno = ACCESO implies a(statoPorta = CHIUSA, statoForno = ACCESO))
 
-	// non può mai passare a verde direttamente da rosso
-	CTLSPEC ag(statoSemaforo = ROSSO implies ax(statoSemaforo != VERDE))
-	// falsa, se riciesta deve succedere
-	
-	// se rosso resta sempre rosso, a meno che ci sia una riciesta
-	CTLSPEC ag(statoSemaforo = ROSSO implies aw(statoSemaforo = ROSSO, richiesta = true))
-	// aw() perché la richiesta potrebbe non avvenire mai
-	
-	// se c'è una richiesta, allora prima o poi diventa verde
-	CTLSPEC ag((statoSemaforo = ROSSO and richiesta = true) implies af(statoSemaforo = VERDE))
-
-	// in quasiasi istante, prima o poi potrebbe diventare verde
-	CTLSPEC ag(ef(statoSemaforo = VERDE))
-
-	// un giocatore può avere al massimo 12 euro
-	CTLSPEC (forall $g in DGiocatore with ag(credito($g) < 13))
-
-	// esiste un percorso in cui il secondo giocatore vince
-	CTLSPEC ef(credito(GDUE) > 0 and (exist $g in DomGiocatore with credito($g) = 0))
 	
 	// -------------------------- Main rule--------------------------
 
 	main rule r_main =
-		par
-			choose $b in Bevanda with $b != MILK do		// sceglie random ma non milk
-			// se variabile locale bevanda disponibile
-			if available($b) > 0 then
-				par
-					erogato := $b
-					available($b):= available($b) - 1
-				endpar
-			else
-				erogato := undef	// imposta a null
-			endif
-			
-			// gestine stato forno
-			if statoForno = SPENTO and statoPorta = CHIUSA and accendi then
-				// posso accendere il forno
-				r_accendi[]
-			else
-				if statoForno = ACCESO and spegni then
-				// forno acceso -> porta chiusa, spengo il forno
-					r_spegni[]
-				endif
-			endif
-			
-			// gestine stato porta
-			if statoForno = SPENTO then
-				// posso aprire solo se nel frattempo non lo sto anche accendendo
-				if comandoApertura and not accendi then
-					// posso aprire la porta perché il forno è spento
-					statoPorta := APERTA
-				else
-					// porta già aperta, la chiudo
-					statoPorta := CHIUSA
-				endif
-			else
-				// forno acceso, non potrei aprire la porta, se la apro il forno si spegne
-				if comandoApertura then
-					par
-						statoPorta := APERTA
-						r_spegni[]
-					endpar
-				endif
-			endif
-		endpar
+
 
 // -------------------------- Initial state --------------------------
 default init s0:
-	function statoForno = SPENTO
-	function statoPorta = CHIUSA
-	function credito($g in DGiocatore) = 3
+	

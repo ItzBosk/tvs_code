@@ -1,0 +1,44 @@
+scenario Scenario1
+
+load Semaforo.asm
+
+check coloreSemaforo(SB) = ROSSO;
+check coloreSemaforo(SA) = ROSSO;
+set comando := SA;
+
+step
+
+check coloreSemaforo(SB) = ROSSO;
+check coloreSemaforo(SA) = VERDE;
+set comando := SB;
+
+step
+
+check coloreSemaforo(SB) = ROSSO;
+check coloreSemaforo(SA) = GIALLO;
+set comando := SB;
+
+step
+
+check coloreSemaforo(SB) = ROSSO;
+check coloreSemaforo(SA) = ROSSO;
+set comando := SB;
+
+step
+
+check coloreSemaforo(SB) = VERDE;
+check coloreSemaforo(SA) = ROSSO;
+set comando := SA;
+
+step
+
+check coloreSemaforo(SB) = GIALLO;
+check coloreSemaforo(SA) = ROSSO;
+set comando := SA;
+
+step
+
+check coloreSemaforo(SB) = ROSSO;
+check coloreSemaforo(SA) = ROSSO;
+
+step
