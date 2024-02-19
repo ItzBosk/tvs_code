@@ -91,7 +91,7 @@ definitions:
 
 	//  se entrambi i semafori sono rossi e viene scelto il semaforo 1, 
 	// nello stato successivo il semaforo 1 è verde
-	CTLSPEC ag((forall $s in Semaforo with ag(coloreSemaforo($s) = ROSSO) and comando = SA) 
+	CTLSPEC ag( (forall $s in Semaforo with ag(coloreSemaforo($s) = ROSSO) and comando = SA) 
 		implies ax(coloreSemaforo(SA) = VERDE))
 
 	// ogni persona prima o poi può parlare
@@ -101,6 +101,8 @@ definitions:
 	CTLSPEC ag( (exist $p in Persone with microfono($p) = true) 
 		implies (forall $pers in Persone with ($pers != $p and microfono($pers) = false) )
 	)
+
+
 	
 	// -------------------------- Main rule--------------------------
 

@@ -630,3 +630,749 @@ default init s0:
 
 
 
+asm ArrayLuci
+
+import StandardLibrary
+import LTLlibrary
+import CTLlibrary
+
+
+signature:
+	// -------------------------- Domains -------------------------- 
+	
+	enum domain Stato = {ACCESO, SPENTO}
+	enum domain Comando = {NONE, TOGGLE, ALLOFF}
+	
+	domain Luci subsetof Integer
+	
+	// -------------------------- Functions --------------------------
+
+	// controllate
+	controlled statoLuce : Luci -> Stato
+	
+	// monitorate
+	monitored toggle: Luci
+	monitored comando: Comando
+	
+	derived allOff: Boolean
+	
+definitions:
+	// -------------------------- Domain definitions --------------------------
+	
+	domain Luci = {0 : 9}
+
+	// -------------------------- Function definitions --------------------------
+	
+	function allOff =
+		(forall $r in Luci with statoLuce($r) = SPENTO)
+
+	// -------------------------- Rule definitions --------------------------
+	
+	// cambia stato luce
+	rule r_toggle =
+		if statoLuce(toggle) = ACCESO then
+			statoLuce(toggle) := SPENTO
+		else
+			statoLuce(toggle) := ACCESO
+		endif
+	
+	rule r_allOff = 
+		forall $i in Luci do statoLuce($i) := SPENTO
+
+	// -------------------------- Invariants --------------------------
+	
+	// -------------------------- LTL --------------------------
+
+	// -------------------------- CTL --------------------------
+	
+	// è sempre possibile avere tutte le lampadine spente 
+	CTLSPEC ag( (forall $r in Luci with ag(statoLuce($r) = SPENTO)) )	// false a meno di essere allo start
+	
+	// se tutte spente, finché non toggle, restano tutte spente
+	CTLSPEC ag((forall $r in Luci with ag(statoLuce($r) = SPENTO) and comando != TOGGLE) 
+		implies ag(statoLuce($r) = SPENTO))
+	
+	// se toggle una luce, nello satto successivo questo cambia
+	CTLSPEC ag((forall $r in Luci with ag(statoLuce($r) = SPENTO) and comando = TOGGLE) 
+		implies ex(statoLuce($r) = ACCESO))
+	
+	// -------------------------- Main rule--------------------------
+
+	main rule r_main =
+		if comando = ALLOFF then
+			r_allOff[]
+		else
+			if comando = TOGGLE then
+				r_toggle[]
+			endif
+		endif
+
+// -------------------------- Initial state --------------------------
+default init s0:
+	function statoLuce($l in Luci) = ACCESO
+
+
+#########################################################################
+
+
+
+asm Silos
+
+import StandardLibrary
+import LTLlibrary
+import CTLlibrary
+
+
+signature:
+	// -------------------------- Domains -------------------------- 
+	
+	enum domain ActiveMachine = {GRU | NASTRO}
+	
+	domain Grano subsetof Integer
+	domain GranoGru subsetof Integer
+	domain Cilindro subsetof Integer
+	
+	// -------------------------- Functions --------------------------
+
+	// controllate
+	controlled grano: Cilindro -> Grano	// quanto grano in un cilindro
+	
+	// monitorate
+	monitored machine: ActiveMachine	// quale macchina è attiva
+	monitored granoGru: GranoGru		// quanto grano rilascia la gru
+	monitored cilindroGru: Cilindro		// in quale cilindro
+	
+definitions:
+	// -------------------------- Domain definitions --------------------------
+	
+	domain Grano = {0 : 12}
+	domain GranoGru = {1 : 5}
+	domain Cilindro = {1 : 3}
+
+	// -------------------------- Function definitions --------------------------
+	// solo funzioni derivate
+
+	// -------------------------- Rule definitions --------------------------
+
+	rule r_usaGru =
+		if (grano(cilindroGru) + granoGru) <= 10 then
+			grano(cilindroGru) := grano(cilindroGru) + granoGru
+		endif
+
+	rule r_usaNastro($c in Cilindro) =
+		if grano($c) <= 1 then
+			grano($c) := 0
+		else
+			grano($c) := grano($c) - 2
+		endif
+
+	// -------------------------- Invariants --------------------------
+	
+	// -------------------------- LTL --------------------------
+
+	// -------------------------- CTL --------------------------
+	
+	// Tutti i cilindri non hanno mai più di 10 quintali di grano 
+	CTLSPEC (forall $c in Cilindro with ag(grano($c) <= 10))
+	
+	// Se nastro attivo, nello stato successivo tutti i cilindri avranno max 8 quintali
+	CTLSPEC ag( machine = NASTRO
+		implies (forall $c in Cilindro with ax(grano($c) <= 8)) )
+	
+	// Se primo cilindro vuoto, finché non si attiva la gru, esso rimane vuoto (usa weak until)
+	CTLSPEC ag( grano(1) = 0 implies aw(grano(1) = 0, machine = GRU) )
+	
+	// -------------------------- Main rule--------------------------
+
+	main rule r_main =
+		if machine = GRU then
+			r_usaGru[]
+		else
+			par
+				r_usaNastro[1]
+				r_usaNastro[2]
+				r_usaNastro[3]
+			endpar
+		endif
+
+// -------------------------- Initial state --------------------------
+default init s0:
+	function grano($c in Cilindro) =  1
+
+
+#####################################################################################
+
+
+asm SemaforiWatchdog
+
+import StandardLibrary
+import LTLlibrary
+import CTLlibrary
+
+
+signature:
+	// -------------------------- Domains -------------------------- 
+	
+	enum domain Stato = {VERDE, ROSSO, LAMPEGGIA}
+	
+	domain Time subsetof Integer
+	domain Prob subsetof Integer
+	
+	// -------------------------- Functions --------------------------
+
+	// controllate
+	
+	controlled statoMacchine: Stato
+	controlled statoPedoni: Stato
+	controlled timerPedoni: Time
+	controlled timerMacchine: Time
+	
+	// monitorate
+	monitored pulsante: Boolean
+//	monitored guasto : Boolean
+	
+definitions:
+	// -------------------------- Domain definitions --------------------------
+	
+	domain Time = {0 : 3}
+	domain Prob = {0 : 1}
+
+	// -------------------------- Function definitions --------------------------
+	// solo funzioni derivate
+
+	// -------------------------- Rule definitions --------------------------
+
+	rule r_rosso = 
+		if statoMacchine = VERDE then
+			statoMacchine := ROSSO
+		else
+			if statoPedoni = VERDE then
+				statoPedoni := ROSSO
+			endif
+		endif
+		
+		
+	rule r_verde = 
+		if timerMacchine = 3 then
+			// verde per le macchine
+			par
+				statoMacchine := VERDE
+				timerMacchine := 0
+			endpar
+		else
+			if timerPedoni = 3 then
+				// verde per i pedoni
+				par
+					statoPedoni := VERDE
+					timerPedoni := 0
+				endpar
+			endif
+		endif
+	
+	// guasto si o no	
+//	rule r_guasto = 
+//		choose $scelta in Prob with ($scelta = 0 or $scelta = 1) do
+//			if $scelta = 0 then
+//				par
+//					guasto := true
+//					statoMacchine := LAMPEGGIA
+//					statoPedoni := LAMPEGGIA
+//				endpar	
+//			else
+//				guasto := false
+//			endif
+	
+
+	// -------------------------- Invariants --------------------------
+	
+	// -------------------------- LTL --------------------------
+
+	// -------------------------- CTL --------------------------
+
+	
+	// -------------------------- Main rule--------------------------
+
+	main rule r_main =
+		par
+			 if pulsante then
+			 	par
+				 	r_rosso[]			// semaforo auto rosso
+				 	timerPedoni := 1	// inizio attesa pedoni
+			 	endpar
+		 	else
+		 		if statoPedoni = VERDE then
+			 		par
+			 			r_rosso[]			// semaforo pedoni rosso
+					 	timerPedoni := 1	// inizio attesa macchine
+			 		endpar
+		 		endif
+			 endif
+			 
+			 if timerPedoni > 0 then
+			 	if timerPedoni = 3 then
+			 		r_verde[]		// verde per i pedoni
+		 		else
+		 			timerPedoni := timerPedoni + 1	// continua attesa pedoni
+			 	endif
+			 endif
+			 
+			 if timerMacchine > 0 then
+			 	if timerMacchine = 3 then
+			 		r_verde[]		// verde per le macchine
+		 		else
+		 			timerMacchine := timerMacchine + 1	// continua attesa macchine
+			 	endif
+			 endif
+			 
+			 // modello guasto
+//			 if guasto then
+//			 	r_guasto[]
+//			 endif
+		 endpar
+		
+
+// -------------------------- Initial state --------------------------
+default init s0:
+	function statoMacchine = VERDE
+	function statoPedoni = ROSSO
+	function timerPedoni = 0
+	function timerMacchine = 0
+
+
+
+####################################################################################
+
+
+
+asm Telecamere
+
+import StandardLibrary
+import LTLlibrary
+import CTLlibrary
+
+
+signature:
+	// -------------------------- Domains -------------------------- 
+	
+	enum domain Stato = {ACCESA, SPENTA}
+	enum domain Comando = {ACCENDI, SPEGNI}
+	
+	domain Telecamera subsetof Integer
+	
+	// -------------------------- Functions --------------------------
+
+	// controllate
+	controlled statoTelecamera : Telecamera -> Stato
+	
+	// monitorate
+	monitored toggle: Telecamera
+	monitored comando: Comando
+	
+definitions:
+	// -------------------------- Domain definitions --------------------------
+	
+	domain Telecamera = {0 : 2}
+
+	// -------------------------- Function definitions --------------------------
+	// solo funzioni derivate
+
+	// -------------------------- Rule definitions --------------------------
+
+	rule r_spegni =
+		if statoTelecamera(toggle) = ACCESA then
+			if (exist $t in Telecamera with statoTelecamera($t) = ACCESA and $t != toggle) then
+				// se resta un'eltra telecamera accesa
+				statoTelecamera(toggle) := SPENTA
+			endif
+		endif
+		
+	rule r_accendi =
+		if statoTelecamera(toggle) = SPENTA then
+			statoTelecamera(toggle) := ACCESA
+		endif
+	
+	// -------------------------- Invariants --------------------------
+	
+	// -------------------------- LTL --------------------------
+
+	// -------------------------- CTL --------------------------
+
+	
+	// -------------------------- Main rule--------------------------
+
+	main rule r_main =
+		if comando = SPEGNI then
+			r_spegni[]
+		else
+			if comando = ACCENDI then
+				r_accendi[]
+			endif
+		endif
+
+// -------------------------- Initial state --------------------------
+default init s0:
+	function statoTelecamera($t in Telecamera) = ACCESA
+
+
+##############################################################################
+
+
+// versione corretta da me
+
+asm talkshow
+
+import StandardLibrary
+import CTLlibrary
+
+signature:
+	// DOMAINS
+	enum domain Stato = {ASCOLTO | ATTESA | PARLA}
+	domain TempoParla subsetof Integer
+	domain TempoAttesa subsetof Integer
+	domain Persone subsetof Integer
+	
+	// faccio fuori la moderatirce controlled moderatrice: Stato
+	controlled stato: Persone -> Stato
+	controlled inAttesa : Persone -> TempoAttesa
+	controlled parla : TempoParla // tempo in cui chi sta parlando parla
+//	controlled microfono: Persone -> Boolean// chi parla 
+	controlled microfono: Persone 
+	monitored vuoleParlare: Persone // chi vuole intervanire
+	
+	derived nessunoParla : Boolean
+	
+	static maxTempoParla : TempoParla
+	
+definitions:
+	// DOMAIN DEFINITIONS
+	domain Persone = {1:3} // {1:6} 
+	domain TempoParla = {0:5}
+	domain TempoAttesa = {0:7}
+	
+	function maxTempoParla = 5
+	function nessunoParla = (forall $p in Persone with stato($p) != PARLA)	
+
+	rule r_scegliNextParla =	
+	    if nessunoParla then 
+	    	choose $p in Persone with stato($p) = ATTESA and inAttesa($p) != 0 do
+	    	par
+	    		stato($p) := PARLA
+				//microfono($p) := true
+				microfono := $p
+				parla := maxTempoParla //max parla 
+	    	endpar
+	    endif
+	
+	rule r_gestisciPersona($p in Persone) =	
+		par			
+			if stato($p) = PARLA then
+				if parla = 0 then par
+					stato($p) := ASCOLTO
+					//microfono($p) := false
+					microfono := undef
+				endpar
+				else
+				   parla := parla -1
+				endif				  
+			endif
+			if stato($p) = ATTESA then
+				if inAttesa($p) = 0 then 
+					stato($p) := ASCOLTO
+				else
+				   inAttesa($p) := inAttesa($p) -1
+				endif
+			endif				  			
+			if stato($p) = ASCOLTO and vuoleParlare = $p then // probability
+			  par
+			   stato($p) := ATTESA
+			   inAttesa($p) := 7
+			  endpar 
+			endif
+		endpar
+
+
+	// P1 una persona prima o poi può parlare
+	//CTLSPEC ef(stato(1) = PARLA)
+	CTLSPEC (forall $p in Persone with ef(stato($p) = PARLA))
+	// P2 solo una persona alla volta parla
+	//CTLSPEC (forall $p in Persone with ag(stato($p) = PARLA) implies forall ...)
+	CTLSPEC ag(stato(1) = PARLA implies  stato(2) != PARLA and stato(3) != PARLA) 
+	
+	// stato(microfono) non posso usarlo
+	// 
+	CTLSPEC (forall $p in Persone with ag(isDef(microfono) and microfono = $p implies stato($p) = PARLA))
+	
+	invariant inv_mic over microfono: (forall $p in Persone with microfono = $p implies stato($p) = PARLA)
+	
+	main rule r_Moderatore=
+	par
+		r_gestisciPersona[1]
+		r_gestisciPersona[2]
+		r_gestisciPersona[3]
+//		r_gestisciPersona[4]
+//		r_gestisciPersona[5]
+//		r_gestisciPersona[6]
+		r_scegliNextParla[]
+	endpar
+		
+		
+	
+// INITIAL STATE
+default init s0:
+	function stato($a in Persone) = ASCOLTO
+	//function microfono($a in Persone) = false
+	function microfono = undef
+
+
+#################################################################################################################
+
+
+asm mercoledi
+
+import StandardLibrary
+import LTLlibrary
+import CTLlibrary
+
+signature:
+
+enum domain DStatoSemaforo = {VERDE,ROSSO,LAMPEGGIO}
+enum domain DSemaforo = {AUTO,PEDONE}
+enum domain D5050 = {GUASTO,NOGUASTO}
+domain DSecondi subsetof Integer
+
+controlled statoSemaforo: DSemaforo -> DStatoSemaforo 
+controlled timer: DSemaforo -> DSecondi
+controlled conta: DSemaforo -> Boolean
+monitored pulsante: Boolean
+
+
+derived isSemaforiGuasti: Boolean
+
+definitions:
+	
+	domain DSecondi = {0:3}
+	
+	function isSemaforiGuasti = (forall $s in DSemaforo with statoSemaforo($s) != LAMPEGGIO )
+
+rule r_rottura =
+		par
+			statoSemaforo(PEDONE) := LAMPEGGIO
+			statoSemaforo(AUTO) := LAMPEGGIO
+			conta(PEDONE) := false
+			conta(AUTO) := false
+			timer(PEDONE) := 0
+			timer(AUTO) := 0
+		endpar
+		
+main rule r_main = 
+	par
+		if conta(PEDONE) and timer(PEDONE) < 3 then
+			timer(PEDONE):= timer(PEDONE) + 1
+		endif
+		
+		if conta(AUTO)  and timer(AUTO) < 3 then
+			timer(AUTO):= timer(AUTO) + 1
+		endif
+	
+		if pulsante and statoSemaforo(PEDONE) = ROSSO and statoSemaforo(AUTO) = VERDE then 
+			par
+				statoSemaforo(AUTO) := ROSSO
+				timer(AUTO) := 0
+				timer(PEDONE) := 0
+				conta(AUTO) := false
+				conta(PEDONE) := true
+			endpar
+		endif
+		
+		if conta(PEDONE) and timer(PEDONE) = 3 then
+			choose $p in D5050 with true do
+				if $p = NOGUASTO then
+					par
+						statoSemaforo(PEDONE) := VERDE
+						statoSemaforo(AUTO) := ROSSO
+						conta(PEDONE) := false
+						timer(PEDONE) := 0
+						conta(AUTO) := true
+						timer(AUTO) := 0
+					endpar
+				else
+					par
+						statoSemaforo(PEDONE) := LAMPEGGIO
+						statoSemaforo(AUTO) := LAMPEGGIO
+						conta(PEDONE) := false
+						conta(AUTO) := false
+						timer(PEDONE) := 0
+						timer(AUTO) := 0
+					endpar
+				endif
+		endif
+		
+		if conta(AUTO) and timer(AUTO) = 3 then
+			choose $f in D5050 with true do
+				if $f = NOGUASTO then
+				par
+					statoSemaforo(PEDONE) := ROSSO
+					statoSemaforo(AUTO) := VERDE
+					conta(AUTO) := false
+					conta(PEDONE) := false
+					timer(AUTO) := 0
+					timer(PEDONE) := 0
+				endpar
+			else
+				par
+					statoSemaforo(PEDONE) := LAMPEGGIO
+					statoSemaforo(AUTO) := LAMPEGGIO
+					conta(PEDONE) := false
+					conta(AUTO) := false
+					timer(PEDONE) := 0
+					timer(AUTO) := 0
+				endpar
+			endif
+		endif
+		
+		if statoSemaforo(AUTO) = ROSSO and statoSemaforo(PEDONE) = ROSSO and conta(AUTO) = false and conta(PEDONE) = false then
+			statoSemaforo(AUTO) := VERDE
+		endif
+		
+	endpar
+	
+	
+	
+default init s0:
+	 function statoSemaforo($s in DSemaforo) = ROSSO
+	 function conta($s in DSemaforo) = false
+	 function timer($s in DSemaforo) = 0
+	
+
+################################################################################################################################
+
+
+asm test
+
+import StandardLibrary
+import LTLlibrary
+import CTLlibrary
+
+signature:
+
+enum domain Pizza = {TONNO, CIPOLLE, QUATTROFORM}
+enum domain Soldi = {CINQUE, DIECI, CINQUANTA}
+domain Quantita subsetof Integer
+
+controlled disponibile: Pizza -> Quantita
+controlled erogato: Pizza
+monitored soldo: Soldi
+
+derived isTonnodisponibile: Boolean
+static maxSoldi: Soldi
+
+definitions:
+	
+	domain Quantita = {0:10}
+	
+	function maxSoldi = CINQUANTA
+	function isTonnodisponibile = (forall $p in Pizza with $p = TONNO and disponibile($p) > 0 )
+	
+//	LTLSPEC g(disponibile(TONNO) = 0 implies g(disponibile(TONNO) = 0))
+//  LTLSPEC g(disponibile(CIPOLLE) >= 7)
+  LTLSPEC (forall $p in Pizza with g(disponibile($p)>=0))
+
+//	CTLSPEC not ef(disponibile(QUATTROFORM) = 0)
+//	CTLSPEC a(disponibile(TONNO) >0 , disponibile(TONNO) = 0)
+//	CTLSPEC ag(disponibile(CIPOLLE) >= 0)
+    
+	
+//	invariant inv_soldoValido over soldo: soldo = CINQUE or soldo = DIECI or soldo = CINQUANTA 
+
+//rule r_coninput($p in Pizza) = .... 
+//poi vanno chiamate con r_coninput[...] oppure [] se non  li ha
+main rule r_main = 
+	if soldo = CINQUE then 
+		if disponibile(TONNO) > 0 then par
+			erogato := TONNO
+			disponibile(TONNO) := disponibile(TONNO) -1
+		endpar
+		endif
+	else 
+		if soldo = DIECI then 
+				if disponibile(CIPOLLE) > 0 then par
+					erogato := CIPOLLE
+					disponibile(CIPOLLE) := disponibile(CIPOLLE) -1
+					endpar
+				endif
+		else
+			choose $p in Pizza with $p != TONNO do
+				if disponibile($p) >0 then par
+					erogato := $p
+					disponibile($p) := disponibile($p) -1
+					endpar
+				endif
+		endif
+	endif
+
+//nel caso in cui io debba gestire due cose insieme (tipo stato forno e porta del forno)
+//devo fare main rule: par {if else endif} {if else endif} endpar
+//cosi da "separare" i due if 
+
+default init s0:
+	function disponibile($f in Pizza) = 10
+	
+/* NON PUO MAI PASSARE A VERDE DIRETTAMENTE DA ROSSO
+ * DA ROSSO NON PUOI PASSARE A VERDE DIRETTAMENTE
+ * CTLSPEC ag(semaforo=ROSSO implies ax(semaforo != VERDE))
+ * 
+ * QUANDO E' ROSSO RIMARRA SEMPRE ROSSO A MENO CHE CI SIA UNA RICHIESTA
+ * CTLSPEC ag(semaforo=ROSSO implies aw(semaforo = ROSSO,richiesta)
+ * /////e' un weak-until perche potrebbe anche non arrivare mai la richiesta
+ * /////l' until invece prima o poi deve essere "verificato"
+ * 
+ * SE C'E' UNA RICHIESTA ALLORA PRIMA O POI DIVENTA VERDE
+ * CTLSPEC ag((richiesta and semaforo=ROSSO) implies af(semaforo=GREEN))
+ * /////e' af e non ef perche il cambio e' certo, anche se non so quando lo fara
+ * ///// potrebbe essere ef se non fosse certo che prima o poi diventera verde
+ * 
+ * IN QUALSIASI ISTANTE PRIMA O POI POTREBBE DIVENTARE VERDE
+ * CTLSPEC ag(ef(semaforo=VERDE))
+ * ///// oppure anche solo ef(...), ma nel secondo caso potrei 
+ * ///// catturare un solo VERDE, mentre con ag dico che sempre potrei finire in un
+ * ///// verde
+ *
+ * LA PORTA RIMANE CHIUSA FINO A QUANDO RIMANE ACCESO
+ * CTLSPEC a(porta=chiusa,stato=acceso)
+ */
+
+ ########################################################################################################################
+
+
+ module MAPEpatterns
+
+import StandardLibrary
+import LTLlibrary
+
+export *
+
+signature:
+	derived correctStep: Prod(Boolean, Boolean, Powerset(Boolean)) -> Boolean
+	derived both: Prod(Boolean, Boolean) -> Boolean
+	derived requires: Prod(Boolean, Powerset(Boolean)) -> Boolean
+	derived ensures: Prod(Boolean, Powerset(Boolean)) -> Boolean
+
+definitions:
+	function correctStep($p in Boolean, $q in Boolean, $s in Powerset(Boolean)) =
+		$p implies u((forall $e in $s with not($e)), $q)
+
+	function both($p in Boolean, $q in Boolean) =
+		($p implies (f($q) or o($q))) and ($q implies (f($p) or o($p)))
+
+	function requires($p in Boolean, $s in Powerset(Boolean)) =
+		$p implies (forall $e in $s with o($e))
+
+	function ensures($p in Boolean, $s in Powerset(Boolean)) =
+		$p implies (forall $e in $s with f($e))
+
+
+#####################################################################################################################
+
+
+
+

@@ -7,6 +7,7 @@ public class GiocoTest {
 	@Test
 	public void c_istruzioni(){
 		Gioco g = new Gioco(3);
+		
 		// copertura costruttore
 
 

@@ -13,7 +13,7 @@ String.valueOf(variabile)
 
 // random
 Random rand = new Random();
-int p = rand.nextInt(5);
+int p = rand.nextInt(5);	// range 0-5
 
 // array
 int[] stato;
