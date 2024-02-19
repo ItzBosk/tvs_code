@@ -1,0 +1,180 @@
+scenario Scenario1
+
+load talkshow.asm
+
+check stato(3) = ASCOLTA;
+check stato(2) = ASCOLTA;
+check stato(1) = ASCOLTA;
+check inAttesa(1) = undef;
+check stato(6) = ASCOLTA;
+check stato(5) = ASCOLTA;
+check inAttesa(3) = undef;
+check stato(4) = ASCOLTA;
+check inAttesa(2) = undef;
+check inAttesa(5) = undef;
+check inAttesa(4) = undef;
+check inAttesa(6) = undef;
+set vuoleParlare := 1;
+
+step
+
+check stato(3) = ASCOLTA;
+check stato(2) = ASCOLTA;
+check stato(1) = ATTESA;
+check inAttesa(1) = 7;
+check stato(6) = ASCOLTA;
+check stato(5) = ASCOLTA;
+check inAttesa(3) = undef;
+check stato(4) = ASCOLTA;
+check inAttesa(2) = undef;
+check inAttesa(5) = undef;
+check inAttesa(4) = undef;
+check inAttesa(6) = undef;
+set vuoleParlare := 1;
+
+step
+
+check stato(3) = ASCOLTA;
+check stato(2) = ASCOLTA;
+check stato(1) = PARLA;
+check inAttesa(1) = 6;
+check stato(6) = ASCOLTA;
+check stato(5) = ASCOLTA;
+check inAttesa(3) = undef;
+check stato(4) = ASCOLTA;
+check inAttesa(2) = undef;
+check inAttesa(5) = undef;
+check inAttesa(4) = undef;
+check inAttesa(6) = undef;
+check microfono(1) = true;
+check parla = 5;
+set vuoleParlare := 1;
+
+step
+
+check stato(3) = ASCOLTA;
+check stato(2) = ASCOLTA;
+check stato(1) = PARLA;
+check inAttesa(1) = 6;
+check stato(6) = ASCOLTA;
+check stato(5) = ASCOLTA;
+check inAttesa(3) = undef;
+check stato(4) = ASCOLTA;
+check inAttesa(2) = undef;
+check inAttesa(5) = undef;
+check inAttesa(4) = undef;
+check inAttesa(6) = undef;
+check microfono(1) = true;
+check parla = 4;
+set vuoleParlare := 1;
+
+step
+
+check stato(3) = ASCOLTA;
+check stato(2) = ASCOLTA;
+check stato(1) = PARLA;
+check inAttesa(1) = 6;
+check stato(6) = ASCOLTA;
+check stato(5) = ASCOLTA;
+check inAttesa(3) = undef;
+check stato(4) = ASCOLTA;
+check inAttesa(2) = undef;
+check inAttesa(5) = undef;
+check inAttesa(4) = undef;
+check inAttesa(6) = undef;
+check microfono(1) = true;
+check parla = 3;
+set vuoleParlare := 1;
+
+step
+
+check stato(3) = ASCOLTA;
+check stato(2) = ASCOLTA;
+check stato(1) = PARLA;
+check inAttesa(1) = 6;
+check stato(6) = ASCOLTA;
+check stato(5) = ASCOLTA;
+check inAttesa(3) = undef;
+check stato(4) = ASCOLTA;
+check inAttesa(2) = undef;
+check inAttesa(5) = undef;
+check inAttesa(4) = undef;
+check inAttesa(6) = undef;
+check microfono(1) = true;
+check parla = 2;
+set vuoleParlare := 1;
+
+step
+
+check stato(3) = ASCOLTA;
+check stato(2) = ASCOLTA;
+check stato(1) = PARLA;
+check inAttesa(1) = 6;
+check stato(6) = ASCOLTA;
+check stato(5) = ASCOLTA;
+check inAttesa(3) = undef;
+check stato(4) = ASCOLTA;
+check inAttesa(2) = undef;
+check inAttesa(5) = undef;
+check inAttesa(4) = undef;
+check inAttesa(6) = undef;
+check microfono(1) = true;
+check parla = 1;
+set vuoleParlare := 1;
+
+step
+
+check stato(3) = ASCOLTA;
+check stato(2) = ASCOLTA;
+check stato(1) = PARLA;
+check inAttesa(1) = 6;
+check stato(6) = ASCOLTA;
+check stato(5) = ASCOLTA;
+check inAttesa(3) = undef;
+check stato(4) = ASCOLTA;
+check inAttesa(2) = undef;
+check inAttesa(5) = undef;
+check inAttesa(4) = undef;
+check inAttesa(6) = undef;
+check microfono(1) = true;
+check parla = 0;
+set vuoleParlare := 2;
+
+step
+
+check stato(3) = ASCOLTA;
+check stato(2) = ATTESA;
+check stato(1) = ASCOLTA;
+check inAttesa(1) = 6;
+check stato(6) = ASCOLTA;
+check stato(5) = ASCOLTA;
+check inAttesa(3) = undef;
+check stato(4) = ASCOLTA;
+check inAttesa(2) = 7;
+check inAttesa(5) = undef;
+check inAttesa(4) = undef;
+check inAttesa(6) = undef;
+check microfono(1) = false;
+check parla = 0;
+set vuoleParlare := 2;
+
+step
+
+check stato(3) = ASCOLTA;
+check stato(2) = PARLA;
+check stato(1) = ASCOLTA;
+check inAttesa(1) = 6;
+check stato(6) = ASCOLTA;
+check stato(5) = ASCOLTA;
+check inAttesa(3) = undef;
+check stato(4) = ASCOLTA;
+check inAttesa(2) = 6;
+check inAttesa(5) = undef;
+check inAttesa(4) = undef;
+check inAttesa(6) = undef;
+check microfono(1) = false;
+check parla = 5;
+check microfono(2) = true;
+
+
+step

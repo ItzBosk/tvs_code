@@ -1,0 +1,632 @@
+
+asm Semaforo
+
+import StandardLibrary
+import LTLlibrary
+import CTLlibrary
+
+
+signature:
+	// -------------------------- Domains -------------------------- 
+	
+	enum domain Semaforo = {SA, SB}
+	enum domain Colore = {VERDE, GIALLO, ROSSO}
+	
+	// -------------------------- Functions --------------------------
+
+	// controllate
+	controlled coloreSemaforo : Semaforo -> Colore
+	
+	// monitorate
+	monitored comando : Semaforo
+	
+definitions:
+
+	// -------------------------- Rule definitions --------------------------
+
+	// diventa giallo
+	rule r_giallo($s in Semaforo) =
+		coloreSemaforo($s) := GIALLO
+	
+	// diventa verde
+	rule r_verde($s in Semaforo) =
+		coloreSemaforo($s) := VERDE
+		
+	// diventa rosso
+	rule r_rosso($s in Semaforo) =
+		coloreSemaforo($s) := ROSSO
+
+	// -------------------------- CTL --------------------------
+	
+	// non accade mai che i semafori siano entrambi verdi -> false
+	CTLSPEC ag(coloreSemaforo(SA) = VERDE and coloreSemaforo(SB) = VERDE)
+	
+	// il semaforo 2 può diventare sempre verde (non solo allo stato iniziale) -> true
+	CTLSPEC ef(coloreSemaforo(SB) = VERDE)
+	
+	// se un semaforo è verde allora l’altro è rosso -> true
+	CTLSPEC ag((coloreSemaforo(SA) = VERDE implies coloreSemaforo(SB) = ROSSO) and
+		(coloreSemaforo(SB) = VERDE implies coloreSemaforo(SA) = ROSSO))
+	
+	//  se entrambi i semafori sono rossi e viene scelto il semaforo 1, 
+	// nello stato successivo il semaforo 1 è verde -> true
+	CTLSPEC ag((forall $s in Semaforo with ag(coloreSemaforo($s) = ROSSO) and comando = SA) 
+		implies ax(coloreSemaforo(SA) = VERDE))
+		
+	// il semaforo 1 non può mai essere verde - false
+	CTLSPEC ag(coloreSemaforo(SA) != VERDE)
+	
+	// se SA giallo allora SA sarà sempre rosso in futuro -> falsa
+	CTLSPEC ag(coloreSemaforo(SA) = GIALLO implies coloreSemaforo(SB) = VERDE)
+	
+	// non esiste mai un percorso in cui il SA diventa verde
+	CTLSPEC ag(not ef(coloreSemaforo(SA) = VERDE))
+	
+	
+	// -------------------------- Main rule--------------------------
+
+	main rule r_main =
+		par
+			// entrambi rossi
+			if coloreSemaforo(SA) = ROSSO and coloreSemaforo(SB) = ROSSO then
+				if comando = SA then
+					// comando su SA
+					r_verde[SA]
+				else
+					// comando su SB
+					if comando = SB then
+						r_verde[SB]
+					endif
+				endif
+			endif
+			
+			// SA verde, comando su SB rosso
+			if coloreSemaforo(SA) = VERDE and coloreSemaforo(SB) = ROSSO then
+				if comando = SB then
+					r_giallo[SA]
+				endif
+			endif
+			
+			// SA giallo, comando su SB rosso
+			if coloreSemaforo(SA) = GIALLO and coloreSemaforo(SB) = ROSSO then
+				if comando = SB then
+					r_rosso[SA]
+				endif
+			endif
+			
+			// SB verde, comando su SA rosso
+			if coloreSemaforo(SB) = VERDE and coloreSemaforo(SA) = ROSSO then
+				if comando = SA then
+					r_giallo[SB]
+				endif
+			endif
+			
+			// SB giallo, comando su SA rosso
+			if coloreSemaforo(SB) = GIALLO and coloreSemaforo(SA) = ROSSO then
+				if comando = SA then
+					r_rosso[SB]
+				endif
+			endif
+		endpar
+
+// -------------------------- Initial state --------------------------
+default init s0:
+	function coloreSemaforo($s in Semaforo) = ROSSO
+
+
+#############################################################################################
+
+
+
+asm talkshow
+
+import StandardLibrary
+import LTLlibrary
+import CTLlibrary
+
+
+signature:
+	// -------------------------- Domains -------------------------- 
+	
+	enum domain Stato = {ASCOLTA, ATTESA, PARLA}
+	
+	domain TempoParla subsetof Integer
+	domain TempoAttesa subsetof Integer
+	domain Persone subsetof Integer
+	
+	// -------------------------- Functions --------------------------
+
+	// controllate
+	controlled stato : Persone -> Stato
+	controlled inAttesa : Persone -> TempoAttesa
+	controlled parla : TempoParla
+	controlled microfono : Persone -> Boolean
+	
+	// monitorate
+	monitored vuoleParlare: Persone	
+	
+definitions:
+	// -------------------------- Domain definitions --------------------------
+	
+	domain Persone = {1 : 6} 
+	domain TempoParla = {0 : 5}
+	domain TempoAttesa = {0 : 7}
+
+	// -------------------------- Function definitions --------------------------
+	// solo funzioni derivate
+
+	// -------------------------- Rule definitions --------------------------
+
+	rule r_gestisciPersona($p in Persone) =
+		par
+			// sta parlando
+			if stato($p) = PARLA then
+				if parla = 0 then
+					par
+						stato($p) := ASCOLTA
+						microfono($p) := false
+					endpar
+				else
+					parla := parla -1	
+				endif
+			endif
+			// in attesa
+			if stato($p) = ATTESA then
+				if inAttesa($p) = 0 then
+					stato($p) := ASCOLTA
+				else
+					inAttesa($p) := inAttesa($p) - 1	
+				endif
+			endif
+			// in ascolto e vuole parlare
+			if stato($p) = ASCOLTA and vuoleParlare = $p then
+				par
+					stato($p) := ATTESA
+					inAttesa($p) := 7
+				endpar
+			endif
+		endpar
+	
+	rule r_scegliNextParla =
+		if (forall $p in Persone with stato($p) != PARLA) then
+			// nessuno parla
+			choose $pers in Persone with stato($pers) = ATTESA and inAttesa($pers) != 0 do
+				par
+					// in attesa e tempo non finito
+					stato($pers) := PARLA
+					microfono($pers) := true
+					parla := 5
+				endpar
+		endif
+		
+	// -------------------------- Invariants --------------------------
+	
+	// -------------------------- LTL --------------------------
+
+	// -------------------------- CTL --------------------------
+	
+	// ogni persona prima o poi può parlare
+	CTLSPEC (forall $p in Persone with ef(stato($p) = PARLA))
+	
+	// solo una persona alla volta parla
+	CTLSPEC ag( (exist $p in Persone with stato($p) = PARLA) 
+		implies (forall $pers in Persone with ($pers != $p and stato($pers) != PARLA))
+	)
+	
+	// solo la persona che parla ha il microfono attivato
+	CTLSPEC ag( (exist $p in Persone with microfono($p) = true) 
+		implies (forall $pers in Persone with ($pers != $p and microfono($pers) = false) )
+	)
+	
+	// inventate false
+	// se una persone parla allora ha il microfono spento
+	CTLSPEC ag( (exist $p in Persone with stato($p) = PARLA) 
+		implies (microfono($p) = false)
+	)
+	
+	// se una persona parla allora il tempo da cui parla è > 7
+	CTLSPEC ag( (exist $p in Persone with stato($p) = PARLA) 
+		implies parla > 7
+	)
+	
+	// -------------------------- Main rule--------------------------
+
+	main rule r_main =
+		par
+			r_gestisciPersona[1]
+			r_gestisciPersona[2]
+			r_gestisciPersona[3]
+			r_gestisciPersona[4]
+			r_gestisciPersona[5]
+			r_gestisciPersona[6]
+			
+			r_scegliNextParla[]
+		endpar
+
+// -------------------------- Initial state --------------------------
+default init s0:
+	function stato($p in Persone) = ASCOLTA
+	function microfono($a in Persone) = false
+
+
+#############################################################################################
+
+
+
+asm Dado
+
+import StandardLibrary
+import LTLlibrary
+import CTLlibrary
+
+
+signature:
+	// -------------------------- Domains -------------------------- 
+
+	enum domain DomGiocatore = {GUNO, GDUE, GTRE, GQUATTRO}
+	enum domain DomEsito = {VINCE, PERDE, PATTA}
+
+	domain DomFacciaDado subsetof Integer
+	domain DomCredito subsetof Integer
+	
+	// -------------------------- Functions --------------------------
+
+	// controllate
+	controlled turno : DomGiocatore
+	controlled credito : DomGiocatore -> DomCredito
+	controlled gioca: Boolean	// gioco inizia e continua, false se qualcuno vince/perde
+	
+	// monitorate
+	monitored dado : DomFacciaDado
+	
+definitions:
+	// -------------------------- Domain definitions --------------------------
+	domain DomFacciaDado = {1 : 3}
+	domain DomCredito = {0 : 12}
+
+	// -------------------------- Function definitions --------------------------
+	// solo funzioni derivate
+
+	// -------------------------- Rule definitions --------------------------
+	
+	// g1 perde e deve cedere il credito a sx
+	rule r_cedi($g1 in DomGiocatore, $g2 in DomGiocatore) =
+		par
+			credito($g1) := credito($g1) - 1
+			credito($g2) := credito($g2) + 1
+		endpar
+	
+	// g1 vince e ruba il credito a dx
+	rule r_ruba($g1 in DomGiocatore, $g2 in DomGiocatore) =
+		par
+			credito($g1) := credito($g1) + 1
+			credito($g2) := credito($g2) - 1
+		endpar
+	
+	// passaggio di turno
+	rule r_passa =
+		par
+			if turno = GUNO then
+				turno := GDUE
+			endif
+			if turno = GDUE then
+				turno := GTRE
+			endif
+			if turno = GTRE then
+				turno := GQUATTRO
+			endif
+			if turno = GQUATTRO then
+				turno := GUNO
+			endif
+		endpar
+		
+	// -------------------------- Invariants --------------------------
+	
+	// -------------------------- LTL --------------------------
+	
+	// -------------------------- CTL --------------------------
+	
+	// il massimo che qualsiasi giocatore puo avere è 12 euro
+	CTLSPEC (forall $g in DomGiocatore with ag(credito($g) < 13))
+	
+	// esiste un percorso in cui il primo giocatore perde
+	CTLSPEC ef(gioca = false and credito(GUNO) = 0)
+	
+	// il gioco può continuare all'infinito
+	CTLSPEC eg(gioca = true)
+	
+	// fino a che nessun giocatore ha credito nullo il gioco continua
+	CTLSPEC ag((forall $g in DomGiocatore with credito($g) > 0) implies gioca = true)
+	
+	// *********** inventate ************
+	
+	// esiste un percorso in cui il secondo giocatore vince
+	CTLSPEC ef(credito(GDUE) > 0 and (exist $g in DomGiocatore with credito($g) = 0))
+	
+	//FALSA: il giocatore due non può avere 5 monete
+	CTLSPEC ag(credito(GDUE) != 5)
+	
+	//un giocatore con credito a zero implica la fine del gioco (non giocare altri round)
+	CTLSPEC ag(((credito(GUNO) = 0) or (credito(GDUE) = 0) or (credito(GTRE) = 0) or (credito(GQUATTRO) = 0)) 
+			implies ax(not gioca)
+	)
+	
+	// -------------------------- Main rule--------------------------
+
+	main rule r_main =
+	// se gioco attivo
+		if gioca then
+			// se qualche giocatore ho credito nullo
+			if credito(GUNO) = 0 or credito(GDUE) = 0 or credito(GTRE) = 0 or credito(GQUATTRO) = 0 then
+				gioca := false
+			else
+				par
+					// perde, cede denaro
+					if dado = 1 then
+						par
+							// se GUNO perde cede a GQUATTRO
+							if turno = GUNO then
+								r_cedi[GUNO, GQUATTRO]
+							endif
+							// se GDUE perde cede a GUNO
+							if turno = GDUE then
+								r_cedi[GDUE, GUNO]
+							endif
+							// se GTRE perde cede a GDUE
+							if turno = GTRE then
+								r_cedi[GTRE, GDUE]
+							endif
+							// se GQUATTRO perde cede a GTRE
+							if turno = GQUATTRO then
+								r_cedi[GQUATTRO, GTRE]
+							endif
+						endpar
+					endif
+					
+					// patta
+	//				if dado = 2 then
+	//					// nulla
+	//				endif
+					
+					// vince, prende denaro
+					if dado = 3 then
+						par
+							// se GUNO vince ruba a GDUE
+							if turno = GUNO then
+								r_ruba[GUNO, GDUE]
+							endif
+							// se GDUE vince ruba a GUNOGTRE
+							if turno = GDUE then
+								r_ruba[GDUE, GTRE]
+							endif
+							// se GTRE vince ruba a GQUATTRO
+							if turno = GTRE then
+								r_ruba[GTRE, GQUATTRO]
+							endif
+							// se GQUATTRO vince ruba a GUNO
+							if turno = GQUATTRO then
+								r_ruba[GQUATTRO, GUNO]
+							endif
+						endpar
+					endif
+				
+				// passa ad ogni turno
+				r_passa[]
+				endpar
+			endif
+		endif
+			
+		
+// -------------------------- Initial state --------------------------
+default init s0:
+	function gioca = true
+	function credito($g in DomGiocatore) = 3
+	function turno = GUNO
+
+
+#############################################################################################
+
+
+
+/* Ciclo semaforo: rosso - verde - giallo - rosso
+ * Da rosso diventa verde solo se arriva una richiesta.
+ * Cambia stato solo se è passato il timer
+ */
+
+asm Semaforo
+
+import StandardLibrary 
+import LTLlibrary
+import CTLlibrary
+
+
+signature:
+	// -------------------------- Domains --------------------------
+
+	enum domain Stato = {ROSSO | VERDE | GIALLO}
+	
+	// -------------------------- Functions --------------------------
+
+	// controllate
+	controlled statoSemaforo : Stato
+	
+	// monitorate
+	monitored richiesta : Boolean		// richiedo = true, altrimenti false
+	monitored timerPassed : Boolean		// cambia stato solo se timer passato (extra)
+	
+definitions:
+	// -------------------------- Domain definitions --------------------------
+	// non serve se non ho dei subset di un dominio
+
+	// -------------------------- Function definitions --------------------------
+	// solo funzioni derivate
+
+	// -------------------------- Rule definitions --------------------------
+	rule r_verde =
+		statoSemaforo := VERDE
+	
+	rule r_rosso =
+		statoSemaforo := ROSSO
+
+	rule r_giallo =
+		statoSemaforo := GIALLO
+
+	// -------------------------- Invariants --------------------------
+	
+	// -------------------------- LTL --------------------------
+	
+	// -------------------------- CTL --------------------------
+	
+	// non può mai passare a verde direttamente da rosso
+	CTLSPEC ag(statoSemaforo = ROSSO implies ax(statoSemaforo != VERDE))
+	// falsa, se riciesta deve succedere
+	
+	// se rosso resta sempre rosso, a meno che ci sia una riciesta
+	CTLSPEC ag(statoSemaforo = ROSSO implies aw(statoSemaforo = ROSSO, richiesta = true))
+	// aw() perché la richiesta potrebbe non avvenire mai
+	
+	// se c'è una richiesta, allora prima o poi diventa verde
+	CTLSPEC ag((statoSemaforo = ROSSO and richiesta = true) implies af(statoSemaforo = VERDE))
+	// oppure: se giallo non controllo la richiesta, però dopo timer diventa rosso, se poi ho richiesta -> passa a verde (VERA)
+	CTLSPEC ag((richiesta = true) implies af(statoSemaforo = VERDE))
+	// oppure: se in giallo, poi rosso, poi richiesta -> diventa verde (TRUE)
+	CTLSPEC ag((richiesta = true) implies ef(statoSemaforo = VERDE))
+	
+	// in quasiasi istante, prima o poi potrebbe diventare verde
+	CTLSPEC ef(statoSemaforo = VERDE)
+	CTLSPEC ag(ef(statoSemaforo = VERDE))
+	
+	// -------------------------- Main rule--------------------------
+	
+	main rule r_main =
+			// se rosso e richiesta
+			if statoSemaforo = ROSSO and richiesta then
+					r_verde[]
+			else
+				// se verde e timer passato
+				if statoSemaforo = VERDE and timerPassed then
+					r_giallo[]
+				else
+					// se giallo e timer passato
+					if statoSemaforo = GIALLO and timerPassed then
+						r_rosso[]
+					endif
+				endif
+			endif
+
+// -------------------------- Initial state --------------------------
+
+default init s0:
+	function statoSemaforo = ROSSO
+
+
+#####################################################################################
+
+
+
+/* il forno può essere: 
+ * in stanby (chiuso e spento)
+ * con la porta aperta, ma spento
+ * oppure acceso, ma la porta deve essere chiusa.
+ * Se forno acceso, e la porta viene aperta, il forno si spegne
+ */
+
+asm Forno
+
+import StandardLibrary 
+import LTLlibrary
+import CTLlibrary
+
+
+signature:
+	// -------------------------- Domains -------------------------- 
+	enum domain Stato = {ACCESO | SPENTO}
+	enum domain StatoPorta = {APERTA| CHIUSA}
+	
+	// -------------------------- Functions --------------------------
+	// controllate
+	controlled statoForno : Stato
+	controlled statoPorta : StatoPorta
+	
+	// monitorate
+	monitored comandoApertura : Boolean		// aperto = true, chiuso = false
+	monitored accendi : Boolean
+	monitored spegni : Boolean
+	
+definitions:
+	// -------------------------- Domain definitions --------------------------
+	// non serve se non ho dei subset di un dominio
+
+	// -------------------------- Function definitions --------------------------
+	// solo funzioni derivate
+
+	// -------------------------- Rule definitions --------------------------
+	rule r_accendi =
+		statoForno := ACCESO
+	
+	rule r_spegni =
+		statoForno := SPENTO
+
+	// -------------------------- Invariants --------------------------
+	
+	// -------------------------- LTL --------------------------
+	
+	// -------------------------- CTL --------------------------
+	
+	// se forno acceso la porta è sempre chiusa
+	CTLSPEC ag(statoForno = ACCESO implies statoPorta = CHIUSA)
+	
+	// prima o poi si può accendere in qualsiasi momento in futuro
+	CTLSPEC ef(statoForno = ACCESO)
+	
+	// la porta può essere aperta dopo che il forno viene acceso
+	CTLSPEC eg(statoForno = ACCESO implies ef(statoPorta = APERTA))
+	
+	// quando accceso, la porta rimane chiusa fino a quando rimane acceso (usa until)
+	CTLSPEC ag(statoForno = ACCESO implies a(statoPorta = CHIUSA, statoForno = ACCESO))
+	
+	// -------------------------- Main rule--------------------------
+	main rule r_Main =
+		par
+			// gestine stato forno
+			if statoForno = SPENTO and statoPorta = CHIUSA and accendi then
+				// posso accendere il forno
+				r_accendi[]
+			else
+				if statoForno = ACCESO and spegni then
+				// forno acceso -> porta chiusa, spengo il forno
+					r_spegni[]
+				endif
+			endif
+			
+			// gestine stato porta
+			if statoForno = SPENTO then
+				// posso aprire solo se nel frattempo non lo sto anche accendendo
+				if comandoApertura and not accendi then
+					// posso aprire la porta perché il forno è spento
+					statoPorta := APERTA
+				else
+					// porta già aperta, la chiudo
+					statoPorta := CHIUSA
+				endif
+			else
+				// forno acceso, non potrei aprire la porta, se la apro il forno si spegne
+				if comandoApertura then
+					par
+						statoPorta := APERTA
+						r_spegni[]
+					endpar
+				endif
+			endif
+		endpar
+
+// -------------------------- Initial state --------------------------
+default init s0:
+	function statoForno = SPENTO
+	function statoPorta = CHIUSA
+
+
+################################################################################
+
+
+
