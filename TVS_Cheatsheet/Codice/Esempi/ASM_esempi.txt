@@ -1050,7 +1050,7 @@ definitions:
 	domain TempoAttesa = {0:7}
 	
 	function maxTempoParla = 5
-	function nessunoParla = (forall $p in Persone with stato($p) != PARLA)	
+	function nessunoParla = (forall $p in Persone with stato($p) != PARLA)
 
 	rule r_scegliNextParla =	
 	    if nessunoParla then 
