@@ -1,0 +1,63 @@
+scenario Scenario
+
+load Zoo.asm
+
+check statoMedicine = 3;
+check time = 3;
+check statoAnimale(ZEBRA) = AFFAMATO;
+check statoAnimale(ELEFANTE) = AFFAMATO;
+check statoAnimale(LEONE) = AFFAMATO;
+step
+check statoMedicine = 3;
+check time = 0;
+check statoAnimale(ZEBRA) = AFFAMATO;
+check statoAnimale(ELEFANTE) = AFFAMATO;
+check statoAnimale(LEONE) = AFFAMATO;
+set malato := false;
+step
+check statoMedicine = 3;
+check time = 1;
+check statoAnimale(ZEBRA) = SANO;
+check statoAnimale(ELEFANTE) = AFFAMATO;
+check statoAnimale(LEONE) = AFFAMATO;
+set malato := true;
+set animaleMalato := ELEFANTE;
+step
+check statoMedicine = 2;
+check time = 2;
+check statoAnimale(ZEBRA) = SANO;
+check statoAnimale(ELEFANTE) = MALATO;
+check statoAnimale(LEONE) = AFFAMATO;
+set malato := false;
+set animaleMalato := ELEFANTE;
+step
+check statoMedicine = 2;
+check time = 3;
+check statoAnimale(ZEBRA) = SANO;
+check statoAnimale(ELEFANTE) = SANO;
+check statoAnimale(LEONE) = AFFAMATO;
+set malato := false;
+set animaleMalato := ELEFANTE;
+step
+check statoMedicine = 2;
+check time = 0;
+check statoAnimale(ZEBRA) = AFFAMATO;
+check statoAnimale(ELEFANTE) = SANO;
+check statoAnimale(LEONE) = AFFAMATO;
+set malato := false;
+set animaleMalato := ELEFANTE;
+step
+check statoMedicine = 2;
+check time = 1;
+check statoAnimale(ZEBRA) = SANO;
+check statoAnimale(ELEFANTE) = SANO;
+check statoAnimale(LEONE) = AFFAMATO;
+set malato := false;
+set animaleMalato := ELEFANTE;
+step
+check statoMedicine = 2;
+check time = 2;
+check statoAnimale(ZEBRA) = SANO;
+check statoAnimale(ELEFANTE) = AFFAMATO;
+check statoAnimale(LEONE) = SANO;
+step
