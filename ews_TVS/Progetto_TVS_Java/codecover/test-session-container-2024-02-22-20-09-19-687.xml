@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1708628959687" TestSessionContainerId="7416d4a2-3126-4dd2-963a-c2ec5e941619" version="1.0">
+<SrcFileList/>
+<CritList>
+<CritListEntry Name="org.codecover.model.utils.criteria.BranchCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.StatementCoverage" PluginName="org.codecover"/>
+</CritList>
+<BoolOpList/>
+<HierarchyLvlTypeList>
+<HierarchyLvlType EnglishName="default package" IntrnlName="default package" Intrnl_Id="1"/>
+</HierarchyLvlTypeList>
+<MASTRoot>
+<HierarchyLvl HierarchyLvlId="89" HierarchyLvlTypeId="1" Intrnl_Id="2" Name="default package">
+<Header/>
+<LocList/>
+</HierarchyLvl>
+</MASTRoot>
+</TestSessionContainer>

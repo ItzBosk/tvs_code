@@ -83,10 +83,8 @@ public class Zoo {
 	
 	public void malato(int animale) {
 		// se animale malato
-		if (medicine != 0) {
-			statoAnimale[animale] = 1;
-			medicine -= 1;
-		}
+		statoAnimale[animale] = 1;
+		medicine -= 1;
 		time += 1;
 	}
 	
@@ -112,7 +110,7 @@ public class Zoo {
 		System.out.println("----------------------------------");
 	}
 	
-	String printStato(int stato) {
+	private String printStato(int stato) {
 		String result = "";
 		switch (stato) {
 		case 0:

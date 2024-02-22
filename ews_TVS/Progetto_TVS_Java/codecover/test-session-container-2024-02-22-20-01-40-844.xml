@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1708628500829" TestSessionContainerId="08fa1edb-d303-4695-9df7-fb8a8b7152b4" version="1.0">
+<SrcFileList>
+<SrcFile Content="package junit;&#13;&#10;&#13;&#10;public class Zoo {&#13;&#10;&#9;&#13;&#10;&#9;static int MAX_MEDICINE = 3; &#9;// stock max medicine  &#13;&#10;&#9;&#13;&#10;&#9;// array di 3 valori:&#13;&#10;&#9;// statoAnimale[0] = stato ZEBRA&#13;&#10;&#9;// statoAnimale[1] = stato LEONE&#13;&#10;&#9;// statoAnimale[2] = stato ELEFANTE&#13;&#10;&#9;&#13;&#10;&#9;// statoAnimale[i] :&#13;&#10;&#9;&#9;// = 0 -&gt; SANO&#13;&#10;&#9;&#9;// = 1 -&gt; MALATO&#13;&#10;&#9;&#9;// = 2 -&gt; AFFAMATO&#13;&#10;&#9;&#13;&#10;&#9;int[] statoAnimale;&#13;&#10;&#9;int medicine;&#13;&#10;&#9;int time;&#13;&#10;&#9;&#13;&#10;&#9;public Zoo() {&#13;&#10;&#9;&#9;statoAnimale = new int[3];&#13;&#10;&#9;&#9;medicine = MAX_MEDICINE;&#9;&#9;// full medicine&#13;&#10;&#9;&#9;time = 3;&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;for (int i = 0; i &lt; statoAnimale.length; i++) {&#13;&#10;&#9;&#9;&#9;statoAnimale[i] = 0;&#13;&#10;&#9;&#9;}&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;public void manageAnimali() {&#13;&#10;&#9;&#9;// check se ci sono medicine&#13;&#10;&#9;&#9;if (medicine == 1) {&#13;&#10;&#9;&#9;&#9;medicine = MAX_MEDICINE;&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;// se qualche animale malato viene curato&#13;&#10;&#9;&#9;for (int i = 0; i &lt; statoAnimale.length; i++) {&#13;&#10;&#9;&#9;&#9;if (statoAnimale[i] == 1) {&#13;&#10;&#9;&#9;&#9;&#9;statoAnimale[i] = 0;&#13;&#10;&#9;&#9;&#9;}&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;switch (time) {&#13;&#10;&#9;&#9;case 0:&#13;&#10;&#9;&#9;&#9;// se zebra non malata, viene sfamata&#13;&#10;&#9;&#9;&#9;if (statoAnimale[0] != 1) {&#13;&#10;&#9;&#9;&#9;&#9;statoAnimale[0] = 0;&#13;&#10;&#9;&#9;&#9;}&#13;&#10;&#9;&#9;&#9;// se leone non malato, avrà fame&#13;&#10;&#9;&#9;&#9;if (statoAnimale[1] != 1) {&#13;&#10;&#9;&#9;&#9;&#9;statoAnimale[1] = 2;&#13;&#10;&#9;&#9;&#9;}&#13;&#10;&#9;&#9;&#9;time += 1;&#9;// stato successivo&#13;&#10;&#9;&#9;&#9;break;&#13;&#10;&#9;&#9;case 1:&#13;&#10;&#9;&#9;&#9;// se leone non malato, viene sfamato&#13;&#10;&#9;&#9;&#9;if (statoAnimale[1] != 1) {&#13;&#10;&#9;&#9;&#9;&#9;statoAnimale[1] = 0;&#13;&#10;&#9;&#9;&#9;}&#13;&#10;&#9;&#9;&#9;// se elefante non malato, avrà fame&#13;&#10;&#9;&#9;&#9;if (statoAnimale[2] != 1) {&#13;&#10;&#9;&#9;&#9;&#9;statoAnimale[2] = 2;&#13;&#10;&#9;&#9;&#9;}&#13;&#10;&#9;&#9;&#9;time += 1;&#9;// stato successivo&#13;&#10;&#9;&#9;&#9;break;&#13;&#10;&#9;&#9;case 2:&#13;&#10;&#9;&#9;&#9;// se elefante non malato, viene sfamato&#13;&#10;&#9;&#9;&#9;if (statoAnimale[2] != 1) {&#13;&#10;&#9;&#9;&#9;&#9;statoAnimale[2] = 0;&#13;&#10;&#9;&#9;&#9;}&#13;&#10;&#9;&#9;&#9;time += 1;&#9;// stato successivo&#13;&#10;&#9;&#9;&#9;break;&#13;&#10;&#9;&#9;case 3:&#13;&#10;&#9;&#9;&#9;// se zebra non malata, avrà poi fame&#13;&#10;&#9;&#9;&#9;if (statoAnimale[0] != 1) {&#13;&#10;&#9;&#9;&#9;&#9;statoAnimale[0] = 2;&#13;&#10;&#9;&#9;&#9;}&#13;&#10;&#9;&#9;&#9;time = 0;&#13;&#10;&#9;&#9;&#9;break;&#13;&#10;&#9;&#9;}&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;public void malato(int animale) {&#13;&#10;&#9;&#9;// se animale malato&#13;&#10;&#9;&#9;if (medicine != 0) {&#13;&#10;&#9;&#9;&#9;statoAnimale[animale] = 1;&#13;&#10;&#9;&#9;&#9;medicine -= 1;&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;time += 1;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;void printZoo() {&#13;&#10;&#9;&#9;System.out.println(&quot;Stato zoo:&quot;);&#13;&#10;&#9;&#9;System.out.println(&quot;time = &quot; + time + &quot;, medicine = &quot; + medicine);&#13;&#10;&#9;&#9;for (int i = 0; i &lt; statoAnimale.length; i++) {&#13;&#10;&#9;&#9;&#9;switch (i) {&#13;&#10;&#9;&#9;&#9;case 0:&#13;&#10;&#9;&#9;&#9;&#9;// stampo zebra&#13;&#10;&#9;&#9;&#9;&#9;System.out.println(&quot;Zebra = &quot; + printStato(statoAnimale[i]));&#13;&#10;&#9;&#9;&#9;&#9;break;&#13;&#10;&#9;&#9;&#9;case 1:&#13;&#10;&#9;&#9;&#9;&#9;// stampo leone&#13;&#10;&#9;&#9;&#9;&#9;System.out.println(&quot;Leone = &quot; + printStato(statoAnimale[i]));&#13;&#10;&#9;&#9;&#9;&#9;break;&#13;&#10;&#9;&#9;&#9;case 2:&#13;&#10;&#9;&#9;&#9;&#9;// stampo elefante&#13;&#10;&#9;&#9;&#9;&#9;System.out.println(&quot;Elefante = &quot; + printStato(statoAnimale[i]));&#13;&#10;&#9;&#9;&#9;&#9;break;&#13;&#10;&#9;&#9;&#9;}&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;System.out.println(&quot;----------------------------------&quot;);&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;String printStato(int stato) {&#13;&#10;&#9;&#9;String result = &quot;&quot;;&#13;&#10;&#9;&#9;switch (stato) {&#13;&#10;&#9;&#9;case 0:&#13;&#10;&#9;&#9;&#9;result += &quot;SANO&quot;;&#13;&#10;&#9;&#9;&#9;break;&#13;&#10;&#9;&#9;case 1:&#13;&#10;&#9;&#9;&#9;result += &quot;MALATO&quot;;&#13;&#10;&#9;&#9;&#9;break;&#13;&#10;&#9;&#9;case 2:&#13;&#10;&#9;&#9;&#9;result += &quot;AFFAMATO&quot;;&#13;&#10;&#9;&#9;&#9;break;&#9;&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;return result;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;public static void main(String[] args) {&#13;&#10;&#9;&#9;Zoo z = new Zoo();&#13;&#10;&#9;&#9;z.printZoo();&#13;&#10;&#9;&#9;z.manageAnimali();&#13;&#10;//&#9;&#9;z.printZoo();&#13;&#10;//&#9;&#9;z.malato(0);&#13;&#10;//&#9;&#9;z.printZoo();&#13;&#10;//&#9;&#9;z.malato(1);&#13;&#10;//&#9;&#9;z.manageAnimali();&#13;&#10;//&#9;&#9;z.printZoo();&#13;&#10;&#9;}&#13;&#10;}&#13;&#10;" Filename="Zoo.java" Intrnl_Id="1"/>
+</SrcFileList>
+<CritList>
+<CritListEntry Name="org.codecover.model.utils.criteria.BranchCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.StatementCoverage" PluginName="org.codecover"/>
+</CritList>
+<BoolOpList/>
+<HierarchyLvlTypeList>
+<HierarchyLvlType EnglishName="package" IntrnlName="package" Intrnl_Id="2"/>
+<HierarchyLvlType EnglishName="method" IntrnlName="method" Intrnl_Id="3"/>
+<HierarchyLvlType EnglishName="class" IntrnlName="class" Intrnl_Id="4"/>
+<HierarchyLvlType EnglishName="default package" IntrnlName="default package" Intrnl_Id="5"/>
+</HierarchyLvlTypeList>
+<MASTRoot>
+<HierarchyLvl HierarchyLvlId="52" HierarchyLvlTypeId="5" Intrnl_Id="6" Name="default package">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="51" HierarchyLvlTypeId="2" Intrnl_Id="7" Name="junit">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="50" HierarchyLvlTypeId="4" Intrnl_Id="8" Name="Zoo">
+<Header>
+<Loc EndOffset="34" SrcFileId="1" StartOffset="18"/>
+</Header>
+<LocList>
+<Loc EndOffset="2986" SrcFileId="1" StartOffset="18"/>
+</LocList>
+<StmntSeq Intrnl_Id="9">
+<LocList>
+<Loc EndOffset="70" SrcFileId="1" StartOffset="42"/>
+</LocList>
+<BasicStmnt CovItemId="S1" CovItemPrefix="junit.Zoo.java" Intrnl_Id="10">
+<LocList>
+<Loc EndOffset="70" SrcFileId="1" StartOffset="42"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<HierarchyLvl HierarchyLvlId="44" HierarchyLvlTypeId="3" Intrnl_Id="11" Name="Zoo">
+<Header>
+<Loc EndOffset="387" SrcFileId="1" StartOffset="375"/>
+</Header>
+<LocList>
+<Loc EndOffset="567" SrcFileId="1" StartOffset="375"/>
+</LocList>
+<StmntSeq Intrnl_Id="12">
+<LocList>
+<Loc EndOffset="419" SrcFileId="1" StartOffset="393"/>
+<Loc EndOffset="447" SrcFileId="1" StartOffset="423"/>
+<Loc EndOffset="478" SrcFileId="1" StartOffset="469"/>
+<Loc EndOffset="563" SrcFileId="1" StartOffset="486"/>
+</LocList>
+<BasicStmnt CovItemId="S2" CovItemPrefix="junit.Zoo.java" Intrnl_Id="13">
+<LocList>
+<Loc EndOffset="419" SrcFileId="1" StartOffset="393"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S3" CovItemPrefix="junit.Zoo.java" Intrnl_Id="14">
+<LocList>
+<Loc EndOffset="447" SrcFileId="1" StartOffset="423"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S4" CovItemPrefix="junit.Zoo.java" Intrnl_Id="15">
+<LocList>
+<Loc EndOffset="478" SrcFileId="1" StartOffset="469"/>
+</LocList>
+</BasicStmnt>
+<LoopStmnt CovItemId="S5" CovItemPrefix="junit.Zoo.java" Intrnl_Id="16" MltplExecId="L1-2" MltplExecPrefix="junit.Zoo.java" NvrExecId="L1-0" NvrExecPrefix="junit.Zoo.java" OnceExecutedId="L1-1" OnceExecutedPrefix="junit.Zoo.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="17">
+<LocList>
+<Loc EndOffset="558" SrcFileId="1" StartOffset="538"/>
+</LocList>
+<BasicStmnt CovItemId="S6" CovItemPrefix="junit.Zoo.java" Intrnl_Id="18">
+<LocList>
+<Loc EndOffset="558" SrcFileId="1" StartOffset="538"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<Keyword EndOffset="489" SrcFileId="1" StartOffset="486"/>
+<LocList>
+<Loc EndOffset="563" SrcFileId="1" StartOffset="486"/>
+</LocList>
+</LoopStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="45" HierarchyLvlTypeId="3" Intrnl_Id="19" Name="manageAnimali">
+<Header>
+<Loc EndOffset="600" SrcFileId="1" StartOffset="573"/>
+</Header>
+<LocList>
+<Loc EndOffset="1734" SrcFileId="1" StartOffset="573"/>
+</LocList>
+<StmntSeq Intrnl_Id="20">
+<LocList>
+<Loc EndOffset="692" SrcFileId="1" StartOffset="638"/>
+<Loc EndOffset="861" SrcFileId="1" StartOffset="745"/>
+<Loc EndOffset="1730" SrcFileId="1" StartOffset="869"/>
+</LocList>
+<CondStmnt CovItemId="S7" CovItemPrefix="junit.Zoo.java" Intrnl_Id="21">
+<Branch CovItemId="B1" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="22">
+<Cond/>
+<LocList>
+<Loc EndOffset="692" SrcFileId="1" StartOffset="657"/>
+</LocList>
+<StmntSeq Intrnl_Id="23">
+<LocList>
+<Loc EndOffset="687" SrcFileId="1" StartOffset="663"/>
+</LocList>
+<BasicStmnt CovItemId="S8" CovItemPrefix="junit.Zoo.java" Intrnl_Id="24">
+<LocList>
+<Loc EndOffset="687" SrcFileId="1" StartOffset="663"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B2" CovItemPrefix="junit.Zoo.java" Implct="true" Intrnl_Id="25">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="26">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="640" SrcFileId="1" StartOffset="638"/>
+<LocList>
+<Loc EndOffset="692" SrcFileId="1" StartOffset="638"/>
+</LocList>
+</CondStmnt>
+<LoopStmnt CovItemId="S9" CovItemPrefix="junit.Zoo.java" Intrnl_Id="27" MltplExecId="L2-2" MltplExecPrefix="junit.Zoo.java" NvrExecId="L2-0" NvrExecPrefix="junit.Zoo.java" OnceExecutedId="L2-1" OnceExecutedPrefix="junit.Zoo.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="28">
+<LocList>
+<Loc EndOffset="856" SrcFileId="1" StartOffset="797"/>
+</LocList>
+<CondStmnt CovItemId="S10" CovItemPrefix="junit.Zoo.java" Intrnl_Id="29">
+<Branch CovItemId="B3" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="30">
+<Cond/>
+<LocList>
+<Loc EndOffset="856" SrcFileId="1" StartOffset="823"/>
+</LocList>
+<StmntSeq Intrnl_Id="31">
+<LocList>
+<Loc EndOffset="850" SrcFileId="1" StartOffset="830"/>
+</LocList>
+<BasicStmnt CovItemId="S11" CovItemPrefix="junit.Zoo.java" Intrnl_Id="32">
+<LocList>
+<Loc EndOffset="850" SrcFileId="1" StartOffset="830"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B4" CovItemPrefix="junit.Zoo.java" Implct="true" Intrnl_Id="33">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="34">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="799" SrcFileId="1" StartOffset="797"/>
+<LocList>
+<Loc EndOffset="856" SrcFileId="1" StartOffset="797"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+<Keyword EndOffset="748" SrcFileId="1" StartOffset="745"/>
+<LocList>
+<Loc EndOffset="861" SrcFileId="1" StartOffset="745"/>
+</LocList>
+</LoopStmnt>
+<CondStmnt CovItemId="S12" CovItemPrefix="junit.Zoo.java" Intrnl_Id="35">
+<Branch CovItemId="B5" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="36">
+<Cond>
+<Loc EndOffset="894" SrcFileId="1" StartOffset="888"/>
+</Cond>
+<LocList>
+<Loc EndOffset="1149" SrcFileId="1" StartOffset="942"/>
+</LocList>
+<StmntSeq Intrnl_Id="37">
+<LocList>
+<Loc EndOffset="1001" SrcFileId="1" StartOffset="942"/>
+<Loc EndOffset="1103" SrcFileId="1" StartOffset="1044"/>
+<Loc EndOffset="1118" SrcFileId="1" StartOffset="1108"/>
+<Loc EndOffset="1149" SrcFileId="1" StartOffset="1143"/>
+</LocList>
+<CondStmnt CovItemId="S13" CovItemPrefix="junit.Zoo.java" Intrnl_Id="38">
+<Branch CovItemId="B6" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="39">
+<Cond/>
+<LocList>
+<Loc EndOffset="1001" SrcFileId="1" StartOffset="968"/>
+</LocList>
+<StmntSeq Intrnl_Id="40">
+<LocList>
+<Loc EndOffset="995" SrcFileId="1" StartOffset="975"/>
+</LocList>
+<BasicStmnt CovItemId="S14" CovItemPrefix="junit.Zoo.java" Intrnl_Id="41">
+<LocList>
+<Loc EndOffset="995" SrcFileId="1" StartOffset="975"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B7" CovItemPrefix="junit.Zoo.java" Implct="true" Intrnl_Id="42">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="43">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="944" SrcFileId="1" StartOffset="942"/>
+<LocList>
+<Loc EndOffset="1001" SrcFileId="1" StartOffset="942"/>
+</LocList>
+</CondStmnt>
+<CondStmnt CovItemId="S15" CovItemPrefix="junit.Zoo.java" Intrnl_Id="44">
+<Branch CovItemId="B8" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="45">
+<Cond/>
+<LocList>
+<Loc EndOffset="1103" SrcFileId="1" StartOffset="1070"/>
+</LocList>
+<StmntSeq Intrnl_Id="46">
+<LocList>
+<Loc EndOffset="1097" SrcFileId="1" StartOffset="1077"/>
+</LocList>
+<BasicStmnt CovItemId="S16" CovItemPrefix="junit.Zoo.java" Intrnl_Id="47">
+<LocList>
+<Loc EndOffset="1097" SrcFileId="1" StartOffset="1077"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B9" CovItemPrefix="junit.Zoo.java" Implct="true" Intrnl_Id="48">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="49">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="1046" SrcFileId="1" StartOffset="1044"/>
+<LocList>
+<Loc EndOffset="1103" SrcFileId="1" StartOffset="1044"/>
+</LocList>
+</CondStmnt>
+<BasicStmnt CovItemId="S17" CovItemPrefix="junit.Zoo.java" Intrnl_Id="50">
+<LocList>
+<Loc EndOffset="1118" SrcFileId="1" StartOffset="1108"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S18" CovItemPrefix="junit.Zoo.java" Intrnl_Id="51">
+<LocList>
+<Loc EndOffset="1149" SrcFileId="1" StartOffset="1143"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B10" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="52">
+<Cond>
+<Loc EndOffset="1159" SrcFileId="1" StartOffset="1153"/>
+</Cond>
+<LocList>
+<Loc EndOffset="1417" SrcFileId="1" StartOffset="1207"/>
+</LocList>
+<StmntSeq Intrnl_Id="53">
+<LocList>
+<Loc EndOffset="1266" SrcFileId="1" StartOffset="1207"/>
+<Loc EndOffset="1371" SrcFileId="1" StartOffset="1312"/>
+<Loc EndOffset="1386" SrcFileId="1" StartOffset="1376"/>
+<Loc EndOffset="1417" SrcFileId="1" StartOffset="1411"/>
+</LocList>
+<CondStmnt CovItemId="S19" CovItemPrefix="junit.Zoo.java" Intrnl_Id="54">
+<Branch CovItemId="B11" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="55">
+<Cond/>
+<LocList>
+<Loc EndOffset="1266" SrcFileId="1" StartOffset="1233"/>
+</LocList>
+<StmntSeq Intrnl_Id="56">
+<LocList>
+<Loc EndOffset="1260" SrcFileId="1" StartOffset="1240"/>
+</LocList>
+<BasicStmnt CovItemId="S20" CovItemPrefix="junit.Zoo.java" Intrnl_Id="57">
+<LocList>
+<Loc EndOffset="1260" SrcFileId="1" StartOffset="1240"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B12" CovItemPrefix="junit.Zoo.java" Implct="true" Intrnl_Id="58">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="59">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="1209" SrcFileId="1" StartOffset="1207"/>
+<LocList>
+<Loc EndOffset="1266" SrcFileId="1" StartOffset="1207"/>
+</LocList>
+</CondStmnt>
+<CondStmnt CovItemId="S21" CovItemPrefix="junit.Zoo.java" Intrnl_Id="60">
+<Branch CovItemId="B13" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="61">
+<Cond/>
+<LocList>
+<Loc EndOffset="1371" SrcFileId="1" StartOffset="1338"/>
+</LocList>
+<StmntSeq Intrnl_Id="62">
+<LocList>
+<Loc EndOffset="1365" SrcFileId="1" StartOffset="1345"/>
+</LocList>
+<BasicStmnt CovItemId="S22" CovItemPrefix="junit.Zoo.java" Intrnl_Id="63">
+<LocList>
+<Loc EndOffset="1365" SrcFileId="1" StartOffset="1345"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B14" CovItemPrefix="junit.Zoo.java" Implct="true" Intrnl_Id="64">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="65">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="1314" SrcFileId="1" StartOffset="1312"/>
+<LocList>
+<Loc EndOffset="1371" SrcFileId="1" StartOffset="1312"/>
+</LocList>
+</CondStmnt>
+<BasicStmnt CovItemId="S23" CovItemPrefix="junit.Zoo.java" Intrnl_Id="66">
+<LocList>
+<Loc EndOffset="1386" SrcFileId="1" StartOffset="1376"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S24" CovItemPrefix="junit.Zoo.java" Intrnl_Id="67">
+<LocList>
+<Loc EndOffset="1417" SrcFileId="1" StartOffset="1411"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B15" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="68">
+<Cond>
+<Loc EndOffset="1427" SrcFileId="1" StartOffset="1421"/>
+</Cond>
+<LocList>
+<Loc EndOffset="1583" SrcFileId="1" StartOffset="1478"/>
+</LocList>
+<StmntSeq Intrnl_Id="69">
+<LocList>
+<Loc EndOffset="1537" SrcFileId="1" StartOffset="1478"/>
+<Loc EndOffset="1552" SrcFileId="1" StartOffset="1542"/>
+<Loc EndOffset="1583" SrcFileId="1" StartOffset="1577"/>
+</LocList>
+<CondStmnt CovItemId="S25" CovItemPrefix="junit.Zoo.java" Intrnl_Id="70">
+<Branch CovItemId="B16" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="71">
+<Cond/>
+<LocList>
+<Loc EndOffset="1537" SrcFileId="1" StartOffset="1504"/>
+</LocList>
+<StmntSeq Intrnl_Id="72">
+<LocList>
+<Loc EndOffset="1531" SrcFileId="1" StartOffset="1511"/>
+</LocList>
+<BasicStmnt CovItemId="S26" CovItemPrefix="junit.Zoo.java" Intrnl_Id="73">
+<LocList>
+<Loc EndOffset="1531" SrcFileId="1" StartOffset="1511"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B17" CovItemPrefix="junit.Zoo.java" Implct="true" Intrnl_Id="74">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="75">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="1480" SrcFileId="1" StartOffset="1478"/>
+<LocList>
+<Loc EndOffset="1537" SrcFileId="1" StartOffset="1478"/>
+</LocList>
+</CondStmnt>
+<BasicStmnt CovItemId="S27" CovItemPrefix="junit.Zoo.java" Intrnl_Id="76">
+<LocList>
+<Loc EndOffset="1552" SrcFileId="1" StartOffset="1542"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S28" CovItemPrefix="junit.Zoo.java" Intrnl_Id="77">
+<LocList>
+<Loc EndOffset="1583" SrcFileId="1" StartOffset="1577"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B18" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="78">
+<Cond>
+<Loc EndOffset="1593" SrcFileId="1" StartOffset="1587"/>
+</Cond>
+<LocList>
+<Loc EndOffset="1725" SrcFileId="1" StartOffset="1641"/>
+</LocList>
+<StmntSeq Intrnl_Id="79">
+<LocList>
+<Loc EndOffset="1700" SrcFileId="1" StartOffset="1641"/>
+<Loc EndOffset="1714" SrcFileId="1" StartOffset="1705"/>
+<Loc EndOffset="1725" SrcFileId="1" StartOffset="1719"/>
+</LocList>
+<CondStmnt CovItemId="S29" CovItemPrefix="junit.Zoo.java" Intrnl_Id="80">
+<Branch CovItemId="B19" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="81">
+<Cond/>
+<LocList>
+<Loc EndOffset="1700" SrcFileId="1" StartOffset="1667"/>
+</LocList>
+<StmntSeq Intrnl_Id="82">
+<LocList>
+<Loc EndOffset="1694" SrcFileId="1" StartOffset="1674"/>
+</LocList>
+<BasicStmnt CovItemId="S30" CovItemPrefix="junit.Zoo.java" Intrnl_Id="83">
+<LocList>
+<Loc EndOffset="1694" SrcFileId="1" StartOffset="1674"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B20" CovItemPrefix="junit.Zoo.java" Implct="true" Intrnl_Id="84">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="85">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="1643" SrcFileId="1" StartOffset="1641"/>
+<LocList>
+<Loc EndOffset="1700" SrcFileId="1" StartOffset="1641"/>
+</LocList>
+</CondStmnt>
+<BasicStmnt CovItemId="S31" CovItemPrefix="junit.Zoo.java" Intrnl_Id="86">
+<LocList>
+<Loc EndOffset="1714" SrcFileId="1" StartOffset="1705"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S32" CovItemPrefix="junit.Zoo.java" Intrnl_Id="87">
+<LocList>
+<Loc EndOffset="1725" SrcFileId="1" StartOffset="1719"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B21" CovItemPrefix="junit.Zoo.java" Implct="true" Intrnl_Id="88">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="89">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="875" SrcFileId="1" StartOffset="869"/>
+<LocList>
+<Loc EndOffset="1730" SrcFileId="1" StartOffset="869"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="46" HierarchyLvlTypeId="3" Intrnl_Id="90" Name="malato">
+<Header>
+<Loc EndOffset="1771" SrcFileId="1" StartOffset="1740"/>
+</Header>
+<LocList>
+<Loc EndOffset="1894" SrcFileId="1" StartOffset="1740"/>
+</LocList>
+<StmntSeq Intrnl_Id="91">
+<LocList>
+<Loc EndOffset="1876" SrcFileId="1" StartOffset="1801"/>
+<Loc EndOffset="1890" SrcFileId="1" StartOffset="1880"/>
+</LocList>
+<CondStmnt CovItemId="S33" CovItemPrefix="junit.Zoo.java" Intrnl_Id="92">
+<Branch CovItemId="B22" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="93">
+<Cond/>
+<LocList>
+<Loc EndOffset="1876" SrcFileId="1" StartOffset="1820"/>
+</LocList>
+<StmntSeq Intrnl_Id="94">
+<LocList>
+<Loc EndOffset="1852" SrcFileId="1" StartOffset="1826"/>
+<Loc EndOffset="1871" SrcFileId="1" StartOffset="1857"/>
+</LocList>
+<BasicStmnt CovItemId="S34" CovItemPrefix="junit.Zoo.java" Intrnl_Id="95">
+<LocList>
+<Loc EndOffset="1852" SrcFileId="1" StartOffset="1826"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S35" CovItemPrefix="junit.Zoo.java" Intrnl_Id="96">
+<LocList>
+<Loc EndOffset="1871" SrcFileId="1" StartOffset="1857"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B23" CovItemPrefix="junit.Zoo.java" Implct="true" Intrnl_Id="97">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="98">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="1803" SrcFileId="1" StartOffset="1801"/>
+<LocList>
+<Loc EndOffset="1876" SrcFileId="1" StartOffset="1801"/>
+</LocList>
+</CondStmnt>
+<BasicStmnt CovItemId="S36" CovItemPrefix="junit.Zoo.java" Intrnl_Id="99">
+<LocList>
+<Loc EndOffset="1890" SrcFileId="1" StartOffset="1880"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="47" HierarchyLvlTypeId="3" Intrnl_Id="100" Name="printZoo">
+<Header>
+<Loc EndOffset="1915" SrcFileId="1" StartOffset="1900"/>
+</Header>
+<LocList>
+<Loc EndOffset="2510" SrcFileId="1" StartOffset="1900"/>
+</LocList>
+<StmntSeq Intrnl_Id="101">
+<LocList>
+<Loc EndOffset="1954" SrcFileId="1" StartOffset="1921"/>
+<Loc EndOffset="2024" SrcFileId="1" StartOffset="1958"/>
+<Loc EndOffset="2445" SrcFileId="1" StartOffset="2028"/>
+<Loc EndOffset="2506" SrcFileId="1" StartOffset="2449"/>
+</LocList>
+<BasicStmnt CovItemId="S37" CovItemPrefix="junit.Zoo.java" Intrnl_Id="102">
+<LocList>
+<Loc EndOffset="1954" SrcFileId="1" StartOffset="1921"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S38" CovItemPrefix="junit.Zoo.java" Intrnl_Id="103">
+<LocList>
+<Loc EndOffset="2024" SrcFileId="1" StartOffset="1958"/>
+</LocList>
+</BasicStmnt>
+<LoopStmnt CovItemId="S39" CovItemPrefix="junit.Zoo.java" Intrnl_Id="104" MltplExecId="L3-2" MltplExecPrefix="junit.Zoo.java" NvrExecId="L3-0" NvrExecPrefix="junit.Zoo.java" OnceExecutedId="L3-1" OnceExecutedPrefix="junit.Zoo.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="105">
+<LocList>
+<Loc EndOffset="2440" SrcFileId="1" StartOffset="2080"/>
+</LocList>
+<CondStmnt CovItemId="S40" CovItemPrefix="junit.Zoo.java" Intrnl_Id="106">
+<Branch CovItemId="B24" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="107">
+<Cond>
+<Loc EndOffset="2103" SrcFileId="1" StartOffset="2097"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2204" SrcFileId="1" StartOffset="2131"/>
+</LocList>
+<StmntSeq Intrnl_Id="108">
+<LocList>
+<Loc EndOffset="2192" SrcFileId="1" StartOffset="2131"/>
+<Loc EndOffset="2204" SrcFileId="1" StartOffset="2198"/>
+</LocList>
+<BasicStmnt CovItemId="S41" CovItemPrefix="junit.Zoo.java" Intrnl_Id="109">
+<LocList>
+<Loc EndOffset="2192" SrcFileId="1" StartOffset="2131"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S42" CovItemPrefix="junit.Zoo.java" Intrnl_Id="110">
+<LocList>
+<Loc EndOffset="2204" SrcFileId="1" StartOffset="2198"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B25" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="111">
+<Cond>
+<Loc EndOffset="2215" SrcFileId="1" StartOffset="2209"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2316" SrcFileId="1" StartOffset="2243"/>
+</LocList>
+<StmntSeq Intrnl_Id="112">
+<LocList>
+<Loc EndOffset="2304" SrcFileId="1" StartOffset="2243"/>
+<Loc EndOffset="2316" SrcFileId="1" StartOffset="2310"/>
+</LocList>
+<BasicStmnt CovItemId="S43" CovItemPrefix="junit.Zoo.java" Intrnl_Id="113">
+<LocList>
+<Loc EndOffset="2304" SrcFileId="1" StartOffset="2243"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S44" CovItemPrefix="junit.Zoo.java" Intrnl_Id="114">
+<LocList>
+<Loc EndOffset="2316" SrcFileId="1" StartOffset="2310"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B26" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="115">
+<Cond>
+<Loc EndOffset="2327" SrcFileId="1" StartOffset="2321"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2434" SrcFileId="1" StartOffset="2358"/>
+</LocList>
+<StmntSeq Intrnl_Id="116">
+<LocList>
+<Loc EndOffset="2422" SrcFileId="1" StartOffset="2358"/>
+<Loc EndOffset="2434" SrcFileId="1" StartOffset="2428"/>
+</LocList>
+<BasicStmnt CovItemId="S45" CovItemPrefix="junit.Zoo.java" Intrnl_Id="117">
+<LocList>
+<Loc EndOffset="2422" SrcFileId="1" StartOffset="2358"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S46" CovItemPrefix="junit.Zoo.java" Intrnl_Id="118">
+<LocList>
+<Loc EndOffset="2434" SrcFileId="1" StartOffset="2428"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B27" CovItemPrefix="junit.Zoo.java" Implct="true" Intrnl_Id="119">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="120">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="2086" SrcFileId="1" StartOffset="2080"/>
+<LocList>
+<Loc EndOffset="2440" SrcFileId="1" StartOffset="2080"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+<Keyword EndOffset="2031" SrcFileId="1" StartOffset="2028"/>
+<LocList>
+<Loc EndOffset="2445" SrcFileId="1" StartOffset="2028"/>
+</LocList>
+</LoopStmnt>
+<BasicStmnt CovItemId="S47" CovItemPrefix="junit.Zoo.java" Intrnl_Id="121">
+<LocList>
+<Loc EndOffset="2506" SrcFileId="1" StartOffset="2449"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="48" HierarchyLvlTypeId="3" Intrnl_Id="122" Name="printStato">
+<Header>
+<Loc EndOffset="2544" SrcFileId="1" StartOffset="2516"/>
+</Header>
+<LocList>
+<Loc EndOffset="2755" SrcFileId="1" StartOffset="2516"/>
+</LocList>
+<StmntSeq Intrnl_Id="123">
+<LocList>
+<Loc EndOffset="2569" SrcFileId="1" StartOffset="2550"/>
+<Loc EndOffset="2733" SrcFileId="1" StartOffset="2573"/>
+<Loc EndOffset="2751" SrcFileId="1" StartOffset="2737"/>
+</LocList>
+<BasicStmnt CovItemId="S48" CovItemPrefix="junit.Zoo.java" Intrnl_Id="124">
+<LocList>
+<Loc EndOffset="2569" SrcFileId="1" StartOffset="2550"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S49" CovItemPrefix="junit.Zoo.java" Intrnl_Id="125">
+<Branch CovItemId="B28" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="126">
+<Cond>
+<Loc EndOffset="2599" SrcFileId="1" StartOffset="2593"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2633" SrcFileId="1" StartOffset="2605"/>
+</LocList>
+<StmntSeq Intrnl_Id="127">
+<LocList>
+<Loc EndOffset="2622" SrcFileId="1" StartOffset="2605"/>
+<Loc EndOffset="2633" SrcFileId="1" StartOffset="2627"/>
+</LocList>
+<BasicStmnt CovItemId="S50" CovItemPrefix="junit.Zoo.java" Intrnl_Id="128">
+<LocList>
+<Loc EndOffset="2622" SrcFileId="1" StartOffset="2605"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S51" CovItemPrefix="junit.Zoo.java" Intrnl_Id="129">
+<LocList>
+<Loc EndOffset="2633" SrcFileId="1" StartOffset="2627"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B29" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="130">
+<Cond>
+<Loc EndOffset="2643" SrcFileId="1" StartOffset="2637"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2679" SrcFileId="1" StartOffset="2649"/>
+</LocList>
+<StmntSeq Intrnl_Id="131">
+<LocList>
+<Loc EndOffset="2668" SrcFileId="1" StartOffset="2649"/>
+<Loc EndOffset="2679" SrcFileId="1" StartOffset="2673"/>
+</LocList>
+<BasicStmnt CovItemId="S52" CovItemPrefix="junit.Zoo.java" Intrnl_Id="132">
+<LocList>
+<Loc EndOffset="2668" SrcFileId="1" StartOffset="2649"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S53" CovItemPrefix="junit.Zoo.java" Intrnl_Id="133">
+<LocList>
+<Loc EndOffset="2679" SrcFileId="1" StartOffset="2673"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B30" CovItemPrefix="junit.Zoo.java" Implct="false" Intrnl_Id="134">
+<Cond>
+<Loc EndOffset="2689" SrcFileId="1" StartOffset="2683"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2727" SrcFileId="1" StartOffset="2695"/>
+</LocList>
+<StmntSeq Intrnl_Id="135">
+<LocList>
+<Loc EndOffset="2716" SrcFileId="1" StartOffset="2695"/>
+<Loc EndOffset="2727" SrcFileId="1" StartOffset="2721"/>
+</LocList>
+<BasicStmnt CovItemId="S54" CovItemPrefix="junit.Zoo.java" Intrnl_Id="136">
+<LocList>
+<Loc EndOffset="2716" SrcFileId="1" StartOffset="2695"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S55" CovItemPrefix="junit.Zoo.java" Intrnl_Id="137">
+<LocList>
+<Loc EndOffset="2727" SrcFileId="1" StartOffset="2721"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B31" CovItemPrefix="junit.Zoo.java" Implct="true" Intrnl_Id="138">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="139">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="2579" SrcFileId="1" StartOffset="2573"/>
+<LocList>
+<Loc EndOffset="2733" SrcFileId="1" StartOffset="2573"/>
+</LocList>
+</CondStmnt>
+<BasicStmnt CovItemId="S56" CovItemPrefix="junit.Zoo.java" Intrnl_Id="140">
+<LocList>
+<Loc EndOffset="2751" SrcFileId="1" StartOffset="2737"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="49" HierarchyLvlTypeId="3" Intrnl_Id="141" Name="main">
+<Header>
+<Loc EndOffset="2799" SrcFileId="1" StartOffset="2761"/>
+</Header>
+<LocList>
+<Loc EndOffset="2983" SrcFileId="1" StartOffset="2761"/>
+</LocList>
+<StmntSeq Intrnl_Id="142">
+<LocList>
+<Loc EndOffset="2823" SrcFileId="1" StartOffset="2805"/>
+<Loc EndOffset="2840" SrcFileId="1" StartOffset="2827"/>
+<Loc EndOffset="2862" SrcFileId="1" StartOffset="2844"/>
+</LocList>
+<BasicStmnt CovItemId="S57" CovItemPrefix="junit.Zoo.java" Intrnl_Id="143">
+<LocList>
+<Loc EndOffset="2823" SrcFileId="1" StartOffset="2805"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S58" CovItemPrefix="junit.Zoo.java" Intrnl_Id="144">
+<LocList>
+<Loc EndOffset="2840" SrcFileId="1" StartOffset="2827"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S59" CovItemPrefix="junit.Zoo.java" Intrnl_Id="145">
+<LocList>
+<Loc EndOffset="2862" SrcFileId="1" StartOffset="2844"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</MASTRoot>
+</TestSessionContainer>

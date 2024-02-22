@@ -40,12 +40,17 @@ public class Zoo {
 	
 	//@ requires statoAnimale != null && statoAnimale.length == 3;
 	//@ requires medicine != 0;
-	//@ requires (\forall int i; i >= 0 && i <= statoAnimale.length; statoAnimale[i] == 0 || statoAnimale[i] == 1 || statoAnimale[i] == 2 );
-	/* ensures (\exist int i; i >= 0 && i <= statoAnimale.length; statoAnimale[i] == 1)
+	//@ requires (\forall int i; i >= 0 && i < statoAnimale.length; statoAnimale[i] == 0 || statoAnimale[i] == 1 || statoAnimale[i] == 2 );
+	/* ensures (\exists int i; i >= 0 && i <= statoAnimale.length; statoAnimale[i] == 1)
 		==> (\forall int i; i >= 0 && i <= statoAnimale.length; statoAnimale[i] == 0);
 	@*/
 	/* ensures (time == 0 && statoAnimale[1] != 1)
-		==> statoAnimale[1] = 2;;
+		==> statoAnimale[1] == 2;;
+	@*/
+	/*@ 
+	  @ ensures time == (\old(time) + 1) % 4;
+	  @ ensures (\forall int i; i >= 0 && i < statoAnimale.length; 
+	  @          (\old(statoAnimale[i]) == 1) ==> (statoAnimale[i] == 0));
 	@*/
 	public void manageAnimali() {
 		// check se ci sono medicine
@@ -104,16 +109,13 @@ public class Zoo {
 		}
 	}
 	
-	/*@ public normal_behavior
+	/*@ 
 	  @ requires animale >= 0 && animale < 3;
 	  @ requires medicine != 0;
+	  @ ensures statoAnimale[animale] == 1;
 	  @ ensures statoAnimale != null && statoAnimale.length == 3;
-//	  @ also
-//	  @ public exceptional_behavior
-//	  @ signals (Exception e) e instanceof ArrayIndexOutOfBoundsException;
-	@*/
-	/* ensures (medicine != 0)
-		==> (statoAnimale[animale] = 1);
+	  @ ensures (medicine != 0) ==> (statoAnimale[animale] == 1);
+	  @ ensures time == (\old(time) + 1) % 4;
 	@*/
 	public void malato(int animale) {
 		// se animale malato

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1708628299370" TestSessionContainerId="96fe3719-71c6-4f0d-8be4-ae2eed1e6665" version="1.0">
+<SrcFileList>
+<SrcFile Content="package junit;&#13;&#10;&#13;&#10;import static org.junit.Assert.*;&#13;&#10;&#13;&#10;import org.junit.Test;&#13;&#10;&#13;&#10;public class ZooTest {&#13;&#10;&#13;&#10;&#9;@Test&#13;&#10;&#9;public void c_istruzioni(){&#13;&#10;&#9;&#9;Zoo z = new Zoo();&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;// Copertura costruttore&#13;&#10;        assertEquals(&quot;Dovrebbe esserci il massimo delle medicine&quot;, Zoo.MAX_MEDICINE, z.medicine);&#13;&#10;        assertEquals(&quot;Il tempo dovrebbe essere impostato a 3&quot;, 3, z.time);&#13;&#10;        for (int stato : z.statoAnimale) {&#13;&#10;            assertEquals(&quot;Ogni animale dovrebbe iniziare sano&quot;, 0, stato);&#13;&#10;        }&#13;&#10;        &#13;&#10;        // Copertura manageAnimali&#13;&#10;        z.manageAnimali(); // Controllo che gli animali siano gestiti correttamente senza cambiamenti&#13;&#10;        assertEquals(&quot;Dopo manageAnimali senza malati, le medicine restano invariate&quot;, Zoo.MAX_MEDICINE, z.medicine);&#13;&#10;        &#13;&#10;        // Test malato senza medicine&#13;&#10;        z.medicine = 0;&#13;&#10;        z.malato(0);&#13;&#10;        assertEquals(&quot;Se non ci sono medicine, lo stato non cambia&quot;, 0, z.statoAnimale[0]);&#13;&#10;        &#13;&#10;        // Test rifornimento medicine&#13;&#10;        z.medicine = 1;&#13;&#10;        z.manageAnimali();&#13;&#10;        assertEquals(&quot;Le medicine dovrebbero essere rifornite a MAX_MEDICINE&quot;, Zoo.MAX_MEDICINE, z.medicine);&#13;&#10;&#9;}&#13;&#10;&#13;&#10;&#9;@Test&#13;&#10;&#9;public void c_branch(){&#13;&#10;&#9;&#9;Zoo z = new Zoo();&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;// Copro branch di manageAnimali con animali malati&#13;&#10;        z.malato(0); // Rendo malata la zebra&#13;&#10;        z.manageAnimali();&#13;&#10;        assertEquals(&quot;La zebra malata dovrebbe essere curata&quot;, 0, z.statoAnimale[0]);&#13;&#10;&#9;&#9;&#13;&#10;        // Copro branch di manageAnimali senza animali malati ma con variazioni di time&#13;&#10;        z.time = 0;&#13;&#10;        z.manageAnimali(); // Avanzo il ciclo per vedere l'effetto su animali non malati&#13;&#10;        assertEquals(&quot;Il leone dovrebbe diventare affamato&quot;, 2, z.statoAnimale[1]);&#13;&#10;        &#13;&#10;        // Test malato con medicine&#13;&#10;        z.medicine = Zoo.MAX_MEDICINE;&#13;&#10;        z.malato(1); // Rendo malato il leone&#13;&#10;        assertEquals(&quot;Il leone dovrebbe essere malato&quot;, 1, z.statoAnimale[1]);&#13;&#10;        assertEquals(&quot;Le medicine dovrebbero diminuire&quot;, Zoo.MAX_MEDICINE - 1, z.medicine);&#13;&#10;        &#13;&#10;        // Test manageAnimali per varie fasi di time&#13;&#10;        for (int i = 0; i &lt; 4; i++) {&#13;&#10;            z.manageAnimali();&#13;&#10;        }&#13;&#10;        assertEquals(&quot;Dopo un ciclo completo, il tempo ritorna a 0&quot;, 0, z.time);&#13;&#10;        assertEquals(&quot;La zebra dovrebbe essere affamata dopo un ciclo completo&quot;, 2, z.statoAnimale[0]);&#13;&#10;        &#13;&#10;&#9;}&#13;&#10;&#13;&#10;//&#9;@Test&#13;&#10;//&#9;public void c_MCDC(){&#13;&#10;//&#9;&#9;Zoo z = new Zoo();&#13;&#10;//&#9;&#9;&#13;&#10;//&#9;}&#13;&#10;&#13;&#10;}&#13;&#10;" Filename="ZooTest.java" Intrnl_Id="1"/>
+</SrcFileList>
+<CritList>
+<CritListEntry Name="org.codecover.model.utils.criteria.BranchCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.StatementCoverage" PluginName="org.codecover"/>
+</CritList>
+<BoolOpList/>
+<HierarchyLvlTypeList>
+<HierarchyLvlType EnglishName="package" IntrnlName="package" Intrnl_Id="2"/>
+<HierarchyLvlType EnglishName="method" IntrnlName="method" Intrnl_Id="3"/>
+<HierarchyLvlType EnglishName="class" IntrnlName="class" Intrnl_Id="4"/>
+<HierarchyLvlType EnglishName="default package" IntrnlName="default package" Intrnl_Id="5"/>
+</HierarchyLvlTypeList>
+<MASTRoot>
+<HierarchyLvl HierarchyLvlId="27" HierarchyLvlTypeId="5" Intrnl_Id="6" Name="default package">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="26" HierarchyLvlTypeId="2" Intrnl_Id="7" Name="junit">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="25" HierarchyLvlTypeId="4" Intrnl_Id="8" Name="ZooTest">
+<Header>
+<Loc EndOffset="101" SrcFileId="1" StartOffset="81"/>
+</Header>
+<LocList>
+<Loc EndOffset="2478" SrcFileId="1" StartOffset="81"/>
+</LocList>
+<HierarchyLvl HierarchyLvlId="23" HierarchyLvlTypeId="3" Intrnl_Id="9" Name="c_istruzioni">
+<Header>
+<Loc EndOffset="142" SrcFileId="1" StartOffset="108"/>
+</Header>
+<LocList>
+<Loc EndOffset="1177" SrcFileId="1" StartOffset="108"/>
+</LocList>
+<StmntSeq Intrnl_Id="10">
+<LocList>
+<Loc EndOffset="165" SrcFileId="1" StartOffset="147"/>
+<Loc EndOffset="296" SrcFileId="1" StartOffset="207"/>
+<Loc EndOffset="372" SrcFileId="1" StartOffset="306"/>
+<Loc EndOffset="503" SrcFileId="1" StartOffset="382"/>
+<Loc EndOffset="577" SrcFileId="1" StartOffset="559"/>
+<Loc EndOffset="771" SrcFileId="1" StartOffset="662"/>
+<Loc EndOffset="845" SrcFileId="1" StartOffset="830"/>
+<Loc EndOffset="867" SrcFileId="1" StartOffset="855"/>
+<Loc EndOffset="960" SrcFileId="1" StartOffset="877"/>
+<Loc EndOffset="1034" SrcFileId="1" StartOffset="1019"/>
+<Loc EndOffset="1062" SrcFileId="1" StartOffset="1044"/>
+<Loc EndOffset="1173" SrcFileId="1" StartOffset="1072"/>
+</LocList>
+<BasicStmnt CovItemId="S1" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="11">
+<LocList>
+<Loc EndOffset="165" SrcFileId="1" StartOffset="147"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S2" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="12">
+<LocList>
+<Loc EndOffset="296" SrcFileId="1" StartOffset="207"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S3" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="13">
+<LocList>
+<Loc EndOffset="372" SrcFileId="1" StartOffset="306"/>
+</LocList>
+</BasicStmnt>
+<LoopStmnt CovItemId="S4" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="14" MltplExecId="L1-2" MltplExecPrefix="junit.ZooTest.java" NvrExecId="L1-0" NvrExecPrefix="junit.ZooTest.java" OnceExecutedId="L1-1" OnceExecutedPrefix="junit.ZooTest.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="15">
+<LocList>
+<Loc EndOffset="492" SrcFileId="1" StartOffset="430"/>
+</LocList>
+<BasicStmnt CovItemId="S5" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="16">
+<LocList>
+<Loc EndOffset="492" SrcFileId="1" StartOffset="430"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<Keyword EndOffset="385" SrcFileId="1" StartOffset="382"/>
+<LocList>
+<Loc EndOffset="503" SrcFileId="1" StartOffset="382"/>
+</LocList>
+</LoopStmnt>
+<BasicStmnt CovItemId="S6" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="17">
+<LocList>
+<Loc EndOffset="577" SrcFileId="1" StartOffset="559"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S7" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="18">
+<LocList>
+<Loc EndOffset="771" SrcFileId="1" StartOffset="662"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S8" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="19">
+<LocList>
+<Loc EndOffset="845" SrcFileId="1" StartOffset="830"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S9" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="20">
+<LocList>
+<Loc EndOffset="867" SrcFileId="1" StartOffset="855"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S10" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="21">
+<LocList>
+<Loc EndOffset="960" SrcFileId="1" StartOffset="877"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S11" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="22">
+<LocList>
+<Loc EndOffset="1034" SrcFileId="1" StartOffset="1019"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S12" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="23">
+<LocList>
+<Loc EndOffset="1062" SrcFileId="1" StartOffset="1044"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S13" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="24">
+<LocList>
+<Loc EndOffset="1173" SrcFileId="1" StartOffset="1072"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="24" HierarchyLvlTypeId="3" Intrnl_Id="25" Name="c_branch">
+<Header>
+<Loc EndOffset="1212" SrcFileId="1" StartOffset="1182"/>
+</Header>
+<LocList>
+<Loc EndOffset="2399" SrcFileId="1" StartOffset="1182"/>
+</LocList>
+<StmntSeq Intrnl_Id="26">
+<LocList>
+<Loc EndOffset="1235" SrcFileId="1" StartOffset="1217"/>
+<Loc EndOffset="1316" SrcFileId="1" StartOffset="1304"/>
+<Loc EndOffset="1369" SrcFileId="1" StartOffset="1351"/>
+<Loc EndOffset="1456" SrcFileId="1" StartOffset="1379"/>
+<Loc EndOffset="1570" SrcFileId="1" StartOffset="1559"/>
+<Loc EndOffset="1598" SrcFileId="1" StartOffset="1580"/>
+<Loc EndOffset="1745" SrcFileId="1" StartOffset="1670"/>
+<Loc EndOffset="1832" SrcFileId="1" StartOffset="1802"/>
+<Loc EndOffset="1854" SrcFileId="1" StartOffset="1842"/>
+<Loc EndOffset="1959" SrcFileId="1" StartOffset="1889"/>
+<Loc EndOffset="2052" SrcFileId="1" StartOffset="1969"/>
+<Loc EndOffset="2198" SrcFileId="1" StartOffset="2126"/>
+<Loc EndOffset="2280" SrcFileId="1" StartOffset="2208"/>
+<Loc EndOffset="2385" SrcFileId="1" StartOffset="2290"/>
+</LocList>
+<BasicStmnt CovItemId="S14" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="27">
+<LocList>
+<Loc EndOffset="1235" SrcFileId="1" StartOffset="1217"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S15" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="28">
+<LocList>
+<Loc EndOffset="1316" SrcFileId="1" StartOffset="1304"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S16" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="29">
+<LocList>
+<Loc EndOffset="1369" SrcFileId="1" StartOffset="1351"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S17" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="30">
+<LocList>
+<Loc EndOffset="1456" SrcFileId="1" StartOffset="1379"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S18" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="31">
+<LocList>
+<Loc EndOffset="1570" SrcFileId="1" StartOffset="1559"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S19" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="32">
+<LocList>
+<Loc EndOffset="1598" SrcFileId="1" StartOffset="1580"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S20" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="33">
+<LocList>
+<Loc EndOffset="1745" SrcFileId="1" StartOffset="1670"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S21" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="34">
+<LocList>
+<Loc EndOffset="1832" SrcFileId="1" StartOffset="1802"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S22" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="35">
+<LocList>
+<Loc EndOffset="1854" SrcFileId="1" StartOffset="1842"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S23" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="36">
+<LocList>
+<Loc EndOffset="1959" SrcFileId="1" StartOffset="1889"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S24" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="37">
+<LocList>
+<Loc EndOffset="2052" SrcFileId="1" StartOffset="1969"/>
+</LocList>
+</BasicStmnt>
+<LoopStmnt CovItemId="S25" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="38" MltplExecId="L2-2" MltplExecPrefix="junit.ZooTest.java" NvrExecId="L2-0" NvrExecPrefix="junit.ZooTest.java" OnceExecutedId="L2-1" OnceExecutedPrefix="junit.ZooTest.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="39">
+<LocList>
+<Loc EndOffset="2187" SrcFileId="1" StartOffset="2169"/>
+</LocList>
+<BasicStmnt CovItemId="S26" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="40">
+<LocList>
+<Loc EndOffset="2187" SrcFileId="1" StartOffset="2169"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<Keyword EndOffset="2129" SrcFileId="1" StartOffset="2126"/>
+<LocList>
+<Loc EndOffset="2198" SrcFileId="1" StartOffset="2126"/>
+</LocList>
+</LoopStmnt>
+<BasicStmnt CovItemId="S27" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="41">
+<LocList>
+<Loc EndOffset="2280" SrcFileId="1" StartOffset="2208"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S28" CovItemPrefix="junit.ZooTest.java" Intrnl_Id="42">
+<LocList>
+<Loc EndOffset="2385" SrcFileId="1" StartOffset="2290"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</MASTRoot>
+<TestSession Comment="" Date="1708628306653" Name="22-feb-2024 19.58.26">
+<TestCase Comment="Failure&#10;java.lang.AssertionError: Se non ci sono medicine, lo stato non cambia expected:&lt;0&gt; but was:&lt;2&gt;&#13;&#10;&#9;at org.junit.Assert.fail(Assert.java:88)&#13;&#10;&#9;at org.junit.Assert.failNotEquals(Assert.java:834)&#13;&#10;&#9;at org.junit.Assert.assertEquals(Assert.java:645)&#13;&#10;&#9;at junit.ZooTest.c_istruzioni(ZooTest.java:41)&#13;&#10;&#9;at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)&#13;&#10;&#9;at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)&#13;&#10;&#9;at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)&#13;&#10;&#9;at java.lang.reflect.Method.invoke(Method.java:498)&#13;&#10;&#9;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)&#13;&#10;&#9;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#13;&#10;&#9;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)&#13;&#10;&#9;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#13;&#10;&#9;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)&#13;&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)&#13;&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)&#13;&#10;&#9;at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)&#13;&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)&#13;&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)&#13;&#10;&#9;at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)&#13;&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)&#13;&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:363)&#13;&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)&#13;&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:115)&#13;&#10;&#9;at org.junit.vintage.engine.execution.RunnerExecutor.execute(RunnerExecutor.java:40)&#13;&#10;&#9;at java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)&#13;&#10;&#9;at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)&#13;&#10;&#9;at java.util.Iterator.forEachRemaining(Iterator.java:116)&#13;&#10;&#9;at java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1801)&#13;&#10;&#9;at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:481)&#13;&#10;&#9;at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471)&#13;&#10;&#9;at java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)&#13;&#10;&#9;at java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)&#13;&#10;&#9;at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)&#13;&#10;&#9;at java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:418)&#13;&#10;&#9;at org.junit.vintage.engine.VintageTestEngine.executeAllChildren(VintageTestEngine.java:80)&#13;&#10;&#9;at org.junit.vintage.engine.VintageTestEngine.execute(VintageTestEngine.java:71)&#13;&#10;&#9;at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:229)&#13;&#10;&#9;at org.junit.platform.launcher.core.DefaultLauncher.lambda$execute$6(DefaultLauncher.java:197)&#13;&#10;&#9;at org.junit.platform.launcher.core.DefaultLauncher.withInterceptedStreams(DefaultLauncher.java:211)&#13;&#10;&#9;at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:191)&#13;&#10;&#9;at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:137)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit5.runner.JUnit5TestReference.run(JUnit5TestReference.java:89)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:41)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:542)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:770)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:464)&#13;&#10;&#9;at org.codecover.juniteclipse.runner.EclipseTestRunner.main(EclipseTestRunner.java:40)" Date="1708628306497" Name="junit.ZooTest:c_istruzioni">
+<CovList>
+<CovPrefix CovItemPrefix="junit.ZooTest.java">
+<Cov CovItemId="S1" Value="1"/>
+<Cov CovItemId="S10" Value="1"/>
+<Cov CovItemId="S2" Value="1"/>
+<Cov CovItemId="S3" Value="1"/>
+<Cov CovItemId="S4" Value="1"/>
+<Cov CovItemId="S5" Value="3"/>
+<Cov CovItemId="S6" Value="1"/>
+<Cov CovItemId="S7" Value="1"/>
+<Cov CovItemId="S8" Value="1"/>
+<Cov CovItemId="S9" Value="1"/>
+</CovPrefix>
+</CovList>
+<AssgnmntList/>
+<ObjMetaDataList/>
+<MetaDataList/>
+</TestCase>
+<TestCase Comment="Failure&#10;java.lang.AssertionError: Dopo un ciclo completo, il tempo ritorna a 0 expected:&lt;0&gt; but was:&lt;2&gt;&#13;&#10;&#9;at org.junit.Assert.fail(Assert.java:88)&#13;&#10;&#9;at org.junit.Assert.failNotEquals(Assert.java:834)&#13;&#10;&#9;at org.junit.Assert.assertEquals(Assert.java:645)&#13;&#10;&#9;at junit.ZooTest.c_branch(ZooTest.java:90)&#13;&#10;&#9;at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)&#13;&#10;&#9;at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)&#13;&#10;&#9;at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)&#13;&#10;&#9;at java.lang.reflect.Method.invoke(Method.java:498)&#13;&#10;&#9;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)&#13;&#10;&#9;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#13;&#10;&#9;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)&#13;&#10;&#9;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#13;&#10;&#9;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)&#13;&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)&#13;&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)&#13;&#10;&#9;at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)&#13;&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)&#13;&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)&#13;&#10;&#9;at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)&#13;&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)&#13;&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:363)&#13;&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)&#13;&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:115)&#13;&#10;&#9;at org.junit.vintage.engine.execution.RunnerExecutor.execute(RunnerExecutor.java:40)&#13;&#10;&#9;at java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)&#13;&#10;&#9;at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)&#13;&#10;&#9;at java.util.Iterator.forEachRemaining(Iterator.java:116)&#13;&#10;&#9;at java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1801)&#13;&#10;&#9;at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:481)&#13;&#10;&#9;at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471)&#13;&#10;&#9;at java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)&#13;&#10;&#9;at java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)&#13;&#10;&#9;at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)&#13;&#10;&#9;at java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:418)&#13;&#10;&#9;at org.junit.vintage.engine.VintageTestEngine.executeAllChildren(VintageTestEngine.java:80)&#13;&#10;&#9;at org.junit.vintage.engine.VintageTestEngine.execute(VintageTestEngine.java:71)&#13;&#10;&#9;at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:229)&#13;&#10;&#9;at org.junit.platform.launcher.core.DefaultLauncher.lambda$execute$6(DefaultLauncher.java:197)&#13;&#10;&#9;at org.junit.platform.launcher.core.DefaultLauncher.withInterceptedStreams(DefaultLauncher.java:211)&#13;&#10;&#9;at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:191)&#13;&#10;&#9;at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:137)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit5.runner.JUnit5TestReference.run(JUnit5TestReference.java:89)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:41)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:542)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:770)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:464)&#13;&#10;&#9;at org.codecover.juniteclipse.runner.EclipseTestRunner.main(EclipseTestRunner.java:40)" Date="1708628306512" Name="junit.ZooTest:c_branch">
+<CovList>
+<CovPrefix CovItemPrefix="junit.ZooTest.java">
+<Cov CovItemId="S14" Value="1"/>
+<Cov CovItemId="S15" Value="1"/>
+<Cov CovItemId="S16" Value="1"/>
+<Cov CovItemId="S17" Value="1"/>
+<Cov CovItemId="S18" Value="1"/>
+<Cov CovItemId="S19" Value="1"/>
+<Cov CovItemId="S20" Value="1"/>
+<Cov CovItemId="S21" Value="1"/>
+<Cov CovItemId="S22" Value="1"/>
+<Cov CovItemId="S23" Value="1"/>
+<Cov CovItemId="S24" Value="1"/>
+<Cov CovItemId="S25" Value="1"/>
+<Cov CovItemId="S26" Value="4"/>
+<Cov CovItemId="S27" Value="1"/>
+</CovPrefix>
+</CovList>
+<AssgnmntList/>
+<ObjMetaDataList/>
+<MetaDataList/>
+</TestCase>
+<MetaDataList/>
+</TestSession>
+</TestSessionContainer>
