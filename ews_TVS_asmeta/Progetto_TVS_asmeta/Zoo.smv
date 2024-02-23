@@ -1,0 +1,52 @@
+--file C:\Users\kevin\Documents\GitHub\tvs_code\ews_TVS_asmeta\Progetto_TVS_asmeta\Zoo.smv
+-- options: flatten? false
+MODULE main
+	VAR
+		animaleMalato: {ANIMALE_UNDEF, ELEFANTE, LEONE, ZEBRA}; --monitored
+		malato: boolean; --monitored
+		statoAnimale_ELEFANTE: {AFFAMATO, MALATO, SANO, STATO_UNDEF}; --controlled
+		statoAnimale_LEONE: {AFFAMATO, MALATO, SANO, STATO_UNDEF}; --controlled
+		statoAnimale_ZEBRA: {AFFAMATO, MALATO, SANO, STATO_UNDEF}; --controlled
+		statoMedicine: {-2147483647, 0, 1, 2, 3}; --controlled
+		time: {-2147483647, 0, 1, 2, 3}; --controlled
+	DEFINE
+		maxMedicine := 3;
+	CONSTANTS STATO_UNDEF, AFFAMATO, MALATO, SANO, ANIMALE_UNDEF, ELEFANTE, LEONE, ZEBRA;
+	ASSIGN
+		init(statoAnimale_ELEFANTE) := AFFAMATO;
+		init(statoAnimale_LEONE) := AFFAMATO;
+		init(statoAnimale_ZEBRA) := AFFAMATO;
+		init(statoMedicine) := maxMedicine;
+		init(time) := 3;
+		next(statoAnimale_ELEFANTE) :=
+			case
+				(((!(malato) & !(time = 3) & (statoAnimale_ELEFANTE = MALATO)) | (((time = 3) & (statoAnimale_ELEFANTE = MALATO)) | ((time = 2) & (time = 3) & !(time = 1) & (statoAnimale_ELEFANTE != MALATO) & !(time = 0)))) | (!(malato) & (time = 2) & !(time = 1) & (statoAnimale_ELEFANTE != MALATO) & !(time = 3) & !(time = 0))): SANO;
+				(((time = 1) & (time = 3) & (statoAnimale_ELEFANTE != MALATO) & !(time = 0)) | (!(malato) & (time = 1) & (statoAnimale_ELEFANTE != MALATO) & !(time = 3) & !(time = 0))): AFFAMATO;
+				TRUE: statoAnimale_ELEFANTE;
+			esac;
+		next(statoAnimale_LEONE) :=
+			case
+				(((time = 0) & (statoAnimale_LEONE != MALATO) & (time = 3)) | (!(malato) & (time = 0) & (statoAnimale_LEONE != MALATO) & !(time = 3))): AFFAMATO;
+				(((((time = 3) & (statoAnimale_LEONE = MALATO)) | ((statoAnimale_LEONE != MALATO) & (time = 1) & (time = 3) & !(time = 0))) | (!(malato) & (statoAnimale_LEONE = MALATO) & !(time = 3))) | (!(malato) & (statoAnimale_LEONE != MALATO) & (time = 1) & !(time = 3) & !(time = 0))): SANO;
+				TRUE: statoAnimale_LEONE;
+			esac;
+		next(statoAnimale_ZEBRA) :=
+			case
+				((time = 3) & !(time = 2) & !(time = 1) & !(time = 0) & (statoAnimale_ZEBRA != MALATO)): AFFAMATO;
+				(((((statoAnimale_ZEBRA = MALATO) & (time = 3)) | ((time = 0) & (time = 3) & (statoAnimale_ZEBRA != MALATO))) | (!(malato) & (statoAnimale_ZEBRA = MALATO) & !(time = 3))) | (!(malato) & (time = 0) & !(time = 3) & (statoAnimale_ZEBRA != MALATO))): SANO;
+				TRUE: statoAnimale_ZEBRA;
+			esac;
+		next(statoMedicine) :=
+			case
+				(statoMedicine = 1) & maxMedicine in {-2147483647, 0, 1, 2, 3}: maxMedicine;
+				(!(time = 3) & (statoMedicine != 0) & malato) & (statoMedicine - 1) in {-2147483647, 0, 1, 2, 3}: (statoMedicine - 1);
+				TRUE: statoMedicine;
+			esac;
+		next(time) :=
+			case
+				(time = 3) & 0 in {-2147483647, 0, 1, 2, 3}: 0;
+				(!(time = 3)) & (time + 1) in {-2147483647, 0, 1, 2, 3}: (time + 1);
+				TRUE: time;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG(!(statoMedicine = 1));

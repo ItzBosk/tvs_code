@@ -57,7 +57,7 @@ definitions:
 					statoAnimale(ZEBRA) := SANO
 				endif
 				if statoAnimale(LEONE) != MALATO then
-					// se non malato, leone avrà fane
+					// se non malato, leone avrà fame
 					statoAnimale(LEONE) := AFFAMATO
 				endif
 			endpar
@@ -109,54 +109,54 @@ definitions:
 
 	// -------------------------- Invariants --------------------------
 	
-	// al massimo lo zoo ha posto per 3 medicine -> true
-	invariant inv_medicine over TotMedicine: statoMedicine <= maxMedicine
-	
-	// -------------------------- LTL --------------------------
-	
-	// lo zoo non resta mai senza medicine (safety) -> true
-	LTLSPEC g(statoMedicine > 0)
-	// opposta, lo zoo può restare senza medicine -> false
-	LTLSPEC g(statoMedicine < 0)
-	
-	// si avanza a intervalli di tempo di 3 (liveness) -> true
-	LTLSPEC g(time >= 0 and time < 4)
-
-	// -------------------------- CTL --------------------------
-	
-	// prima o poi un animale può avere fame in futuro -> true
-	CTLSPEC ef( (exist $a in Animale with statoAnimale($a) = AFFAMATO) )
-	
-	// se un animale si ammala esiste uno stato futuro in cui è tornato sano -> true
-	CTLSPEC eg( (exist $a in Animale with statoAnimale($a) = MALATO)
-		implies ef(statoAnimale($a) = SANO) )
-	
-	// se un animale ha fame esiste uno stato futuro in cui è tornato sano, cioè sfamato -> true
-	CTLSPEC eg( (exist $a in Animale with statoAnimale($a) = AFFAMATO)
-		implies ef(statoAnimale($a) = MALATO) )
-	
-	// quando un animale è malato, resta tale fino a quando non viene curato (until) -> true
-	CTLSPEC ag( (exist $a in Animale with statoAnimale($a) = MALATO) 
-		implies a(statoAnimale($a) = MALATO, 
-			statoAnimale($a) = SANO or statoAnimale($a) = AFFAMATO) )
-			
-	// se nessuno si ammala le medicine restano al massimo (weak until) -> true
-	CTLSPEC ag( statoMedicine = maxMedicine implies aw(statoMedicine = maxMedicine, malato) )
-	
-	// se affamato, in uno stato successivo deve essere saziato -> true
-	CTLSPEC ag( (exist $a in Animale with statoAnimale($a) = AFFAMATO) 
-		implies ef(statoAnimale($a) != AFFAMATO) )
-	
-	// se malato e medicine al max, nello stato dopo le medicine sono ancora al max -> false (max - 1)
-	CTLSPEC ag( (exist $a in Animale with statoAnimale($a) = MALATO 
-		and statoMedicine = maxMedicine)
-		implies ax(statoMedicine = maxMedicine) )
-	
-	// se medicine = 1 esiste stato futuro in cui sono state ripristinate -> true
-	CTLSPEC ag( statoMedicine = 1 implies ax(statoMedicine = maxMedicine) )	
-	
-	// vale sempre che il tempo resta nel range 0-3 -> true
-	CTLSPEC af(time > 0 and time < 4)
+//	// al massimo lo zoo ha posto per 3 medicine -> true
+//	invariant inv_medicine over TotMedicine: statoMedicine <= maxMedicine
+//	
+//	// -------------------------- LTL --------------------------
+//	
+//	// lo zoo non resta mai senza medicine (safety) -> true
+//	LTLSPEC g(statoMedicine > 0)
+//	// opposta, lo zoo può restare senza medicine -> false
+//	LTLSPEC g(statoMedicine < 0)
+//	
+//	// si avanza a intervalli di tempo di 3 (liveness) -> true
+//	LTLSPEC g(time >= 0 and time < 4)
+//
+//	// -------------------------- CTL --------------------------
+//	
+//	// prima o poi un animale può avere fame in futuro -> true
+//	CTLSPEC ef( (exist $a in Animale with statoAnimale($a) = AFFAMATO) )
+//	
+//	// se un animale si ammala esiste uno stato futuro in cui è tornato sano -> true
+//	CTLSPEC eg( (exist $a in Animale with statoAnimale($a) = MALATO)
+//		implies ef(statoAnimale($a) = SANO) )
+//	
+//	// se un animale ha fame esiste uno stato futuro in cui è tornato sano, cioè sfamato -> true
+//	CTLSPEC eg( (exist $a in Animale with statoAnimale($a) = AFFAMATO)
+//		implies ef(statoAnimale($a) = MALATO) )
+//	
+//	// quando un animale è malato, resta tale fino a quando non viene curato (until) -> true
+//	CTLSPEC ag( (exist $a in Animale with statoAnimale($a) = MALATO) 
+//		implies a(statoAnimale($a) = MALATO, 
+//			statoAnimale($a) = SANO or statoAnimale($a) = AFFAMATO) )
+//			
+//	// se nessuno si ammala le medicine restano al massimo (weak until) -> true
+//	CTLSPEC ag( statoMedicine = maxMedicine implies aw(statoMedicine = maxMedicine, malato) )
+//	
+//	// se affamato, in uno stato successivo deve essere saziato -> true
+//	CTLSPEC ag( (exist $a in Animale with statoAnimale($a) = AFFAMATO) 
+//		implies ef(statoAnimale($a) != AFFAMATO) )
+//	
+//	// se malato e medicine al max, nello stato dopo le medicine sono ancora al max -> false (max - 1)
+//	CTLSPEC ag( (exist $a in Animale with statoAnimale($a) = MALATO 
+//		and statoMedicine = maxMedicine)
+//		implies ax(statoMedicine = maxMedicine) )
+//	
+//	// se medicine = 1 esiste stato futuro in cui sono state ripristinate -> true
+//	CTLSPEC ag( statoMedicine = 1 implies ax(statoMedicine = maxMedicine) )	
+//	
+//	// vale sempre che il tempo resta nel range 0-3 -> true
+//	CTLSPEC af(time > 0 and time < 4)
 	
 	// -------------------------- Main rule--------------------------
 

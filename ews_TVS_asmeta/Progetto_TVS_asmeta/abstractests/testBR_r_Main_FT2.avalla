@@ -1,0 +1,20 @@
+scenario testBR_r_Main_FT2
+
+load ./..\Forno.asm
+
+//// test name test@BR_r_Main_FT2
+//// generated for (test goal): BR_r_Main_FT2: (statoForno != SPENTO) and comandoApertura
+check statoForno = SPENTO;
+check statoPorta = CHIUSA;
+set comandoApertura := false;
+set accendi := false;
+set spegni := false;
+step
+set comandoApertura := false;
+set accendi := true;
+step
+check statoForno = ACCESO;
+set comandoApertura := true;
+set accendi := false;
+set spegni := false;
+step

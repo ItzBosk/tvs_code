@@ -1,0 +1,27 @@
+--file C:\Users\kevin\Documents\GitHub\tvs_code\ews_TVS_asmeta\Giugno2021\Forno.smv
+-- options: flatten? false
+MODULE main
+	VAR
+		accendi: boolean; --monitored
+		comandoApertura: boolean; --monitored
+		spegni: boolean; --monitored
+		statoForno: {ACCESO, SPENTO, STATO_UNDEF}; --controlled
+		statoPorta: {APERTA, CHIUSA, STATOPORTA_UNDEF}; --controlled
+	CONSTANTS STATO_UNDEF, ACCESO, SPENTO, STATOPORTA_UNDEF, APERTA, CHIUSA;
+	ASSIGN
+		init(statoForno) := SPENTO;
+		init(statoPorta) := CHIUSA;
+		next(statoForno) :=
+			case
+				(((statoPorta = CHIUSA) & (statoForno = SPENTO)) & accendi): ACCESO;
+				((((statoForno = ACCESO) & spegni) & !(((statoPorta = CHIUSA) & (statoForno = SPENTO)) & accendi)) | (!(statoForno = SPENTO) & comandoApertura)): SPENTO;
+				TRUE: statoForno;
+			esac;
+		next(statoPorta) :=
+			case
+				(!(!(accendi) & comandoApertura) & (statoForno = SPENTO)): CHIUSA;
+				(((statoForno = SPENTO) & (!(accendi) & comandoApertura)) | (!(statoForno = SPENTO) & comandoApertura)): APERTA;
+				TRUE: statoPorta;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG(!((statoForno = SPENTO) & (!(comandoApertura & ! accendi) & (statoPorta != CHIUSA))));

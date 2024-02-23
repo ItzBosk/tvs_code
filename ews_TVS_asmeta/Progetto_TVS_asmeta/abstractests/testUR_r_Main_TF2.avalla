@@ -1,0 +1,21 @@
+scenario testUR_r_Main_TF2
+
+load ./..\Forno.asm
+
+//// test name test@UR_r_Main_TF2
+//// generated for (test goal): UR_r_Main_TF2: (statoForno = SPENTO) and (not(comandoApertura and not accendi) and (statoPorta != CHIUSA))
+check statoForno = SPENTO;
+check statoPorta = CHIUSA;
+set comandoApertura := false;
+set accendi := false;
+set spegni := false;
+step
+set comandoApertura := true;
+set accendi := false;
+set spegni := false;
+step
+check statoPorta = APERTA;
+set comandoApertura := false;
+set accendi := true;
+set spegni := false;
+step

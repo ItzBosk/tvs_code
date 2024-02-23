@@ -1,0 +1,15 @@
+scenario testBR_r_Main_T1
+
+load ./..\Forno.asm
+
+//// test name test@BR_r_Main_T1
+//// generated for (test goal): BR_r_Main_T1: ((statoForno = SPENTO) and (statoPorta = CHIUSA)) and accendi
+check statoForno = SPENTO;
+check statoPorta = CHIUSA;
+set comandoApertura := false;
+set accendi := false;
+set spegni := false;
+step
+set comandoApertura := false;
+set accendi := true;
+step
