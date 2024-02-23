@@ -1,0 +1,19 @@
+Model Zoo
+
+Parameters:
+  medicine 		:	[ 0 .. 3 ]
+  time			: 	[ 0 .. 3 ]
+  animale 		: 	{ZEBRA, LEONE, ELEFANTE}
+  statoAnimale 	: 	{SANO, MALATO, AFFAMATO}
+  malato		: 	[ 0 .. 2 ]
+
+Constraints:
+  # (malato = 0) => (statoAnimale = MALATO && animale = ZEBRA) #
+  # (malato = 1) => (statoAnimale = MALATO && animale = LEONE) #
+  # (malato = 2) => (statoAnimale = MALATO && animale = ELEFANTE) #
+  
+  # medicine > 0 #
+  
+  
+  
+  
