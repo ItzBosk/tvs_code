@@ -23,7 +23,7 @@ public class Zoo {
 		medicine = MAX_MEDICINE; // full medicine
 		time = 3;
 
-		// inizialmente ogni animale è sano
+		// inizialmente animali sani
 		for (int i = 0; i < statoAnimale.length; i++) {
 			statoAnimale[i] = 0;
 		}
@@ -49,7 +49,7 @@ public class Zoo {
 			if (statoAnimale[0] != 1) {
 				statoAnimale[0] = 0;
 			}
-			// se leone non malato, avrà fame
+			// se leone non malato, nel prossimo stato ha fame
 			if (statoAnimale[1] != 1) {
 				statoAnimale[1] = 2;
 			}
@@ -60,7 +60,7 @@ public class Zoo {
 			if (statoAnimale[1] != 1) {
 				statoAnimale[1] = 0;
 			}
-			// se elefante non malato, avrà fame
+			// se elefante non malato, nel prossimo stato ha fame
 			if (statoAnimale[2] != 1) {
 				statoAnimale[2] = 2;
 			}
@@ -74,7 +74,7 @@ public class Zoo {
 			time += 1; // stato successivo
 			break;
 		case 3:
-			// se zebra non malata, avrà poi fame
+			// se zebra non malata, nel prossimo stato ha fame
 			if (statoAnimale[0] != 1) {
 				statoAnimale[0] = 2;
 			}
