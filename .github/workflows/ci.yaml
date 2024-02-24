@@ -15,7 +15,7 @@ jobs:
         distribution: 'adopt'
     - name: Compile Java code
       run: |
-        cd ews_TVS/Progetto_TVS/Java/src/junit
+        cd ews_TVS/Progetto_TVS_Java/src/junit
         javac Zoo.java
     - name: Run tests
       run: |
