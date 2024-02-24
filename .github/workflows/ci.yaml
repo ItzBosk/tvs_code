@@ -16,7 +16,7 @@ jobs:
     - name: Compile Java code
       run: |
         cd ews_TVS/Progetto_TVS_Java/src/junit
-        javac Zoo.java
+        javac -encoding utf8 Zoo.java
     - name: Run tests
       run: |
         cd ews_TVS/Progetto_TVS_Java/src/junit
