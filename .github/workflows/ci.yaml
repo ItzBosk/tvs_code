@@ -19,5 +19,5 @@ jobs:
         javac Zoo.java
     - name: Run tests
       run: |
-        cd ews_TVS/Progetto_TVS/Java/src/junit
+        cd ews_TVS/Progetto_TVS_Java/src/junit
         java ZooTest
