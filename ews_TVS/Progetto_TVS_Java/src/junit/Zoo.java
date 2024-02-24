@@ -136,6 +136,16 @@ public class Zoo {
 		System.out.println("Test GitHub Actions passato con successo");
 	}
 
+	// test SpotBugs
+//	public void checkAnimalStatus() {
+//		Object ref = null;
+//		if (Math.random() > 0.5) {
+//			ref = new Object();
+//		}
+//		// possibile NullPointerException se ref è null
+//		System.out.println(ref.toString());
+//	}
+
 	public static void main(String[] args) {
 		Zoo z = new Zoo();
 		z.printZoo();
@@ -146,6 +156,8 @@ public class Zoo {
 //		z.malato(1);
 //		z.manageAnimali();
 //		z.printZoo();
-		testCI();
+
+//		testCI();
+//		z.checkAnimalStatus();
 	}
 }
