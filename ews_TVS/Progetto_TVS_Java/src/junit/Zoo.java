@@ -131,7 +131,7 @@ public class Zoo {
 		return result;
 	}
 
-	// metodo di test per verificare la Continuous Integration delle Github Actions
+	// test per verificare la Continuous Integration delle Github Actions
 	static void testCI(){
 		System.out.println("Test GitHub Actions passato con successo");
 	}
