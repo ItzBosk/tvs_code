@@ -1,5 +1,0 @@
-asm prova
-
-signature:
-
-definitions:

@@ -1,9 +1,0 @@
-MODULE main
-
-VAR
- aa: array 0..5 of boolean;
-  i: 0..5;
-  
-ASSIGN
-init(aa[0]):= FALSE;
-init(aa[i]) := TRUE;-- sbagliato

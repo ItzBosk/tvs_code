@@ -1,9 +1,0 @@
-Model internet
-
-Parameters:
-	Enumerative OS { XP OS_X RHL };
-	Enumerative Browser { IE Firefox };
-	Enumerative Protocol { IPv4 IPv6 };
-	Enumerative CPU { Intel AMD };
-	Enumerative DBMS { MySQL Sybase Oracle };
-end
